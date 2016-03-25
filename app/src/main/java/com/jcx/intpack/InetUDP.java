@@ -1,4 +1,6 @@
 package com.jcx.intpack;
+import android.graphics.drawable.Drawable;
+
 import java.io.File;
 /**
  * @author churongShaw
