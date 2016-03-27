@@ -27,6 +27,7 @@ public class BlueToothImp implements BlueTooth {
 	@Override
 	public Drawable getQRCode() {
 		// TODO Auto-generated method stub
+		// DONE ON 2016/3/27
 		return null;
 	}
 	
