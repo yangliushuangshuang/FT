@@ -44,7 +44,7 @@ public class FileOper {
                     else file.createNewFile();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Log.i("FileOper","创建文件或目录失败");
+                    Log.d("FileOper","创建文件或目录失败");
                 }
             }
         }
@@ -84,7 +84,7 @@ public class FileOper {
         File srcFile = new File(srcPath);
         File destFile = new File(destPath);
         if(!destFile.isDirectory()){
-            Log.i("copy file","destPath不是个目录");
+            Log.d("copy file","destPath不是个目录");
             return false;
         }
         if(srcFile.isDirectory()){
@@ -111,7 +111,7 @@ public class FileOper {
         if(this.copy(srcPath,destPath)){
             this.delete(srcPath);
         }
-        Log.i("FileOper","复制不成功。");
+        Log.d("FileOper","复制不成功。");
         return false;
      }
 }

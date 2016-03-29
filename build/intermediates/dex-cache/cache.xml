@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\lenovo\AndroidStudioProjects\FT\app\libs\core-2.2.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="cba0b93b0072105d808ef7a00a107a4eb97874e7">
+        <dex dex="C:\Users\lenovo\AndroidStudioProjects\FT\app\build\intermediates\pre-dexed\debug\core-2.2-c0ffb27ba2dc8f084ac60248f3d44c88b1186973.jar" />
+    </item>
+    <item
+        jar="C:\Users\lenovo\AndroidStudioProjects\FT\app\libs\dom4j-1.6.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="5d3ccc056b6f056dbf0dddfdf43894b9065a8f94">
+        <dex dex="C:\Users\lenovo\AndroidStudioProjects\FT\app\build\intermediates\pre-dexed\debug\dom4j-1.6.1-e32cc8fadbe66d712fed932bd0abb9716a3edab7.jar" />
+    </item>
+
+</items>

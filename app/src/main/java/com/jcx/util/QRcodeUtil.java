@@ -5,17 +5,24 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
+import com.google.zxing.ChecksumException;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.EncodeHintType;
+import com.google.zxing.FormatException;
 import com.google.zxing.LuminanceSource;
 import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.NotFoundException;
 import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Reader;
 import com.google.zxing.Result;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.datamatrix.DataMatrixReader;
+import com.google.zxing.qrcode.QRCodeReader;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Hashtable;
 /**
  * Created by lenovo on 2016/3/27.
@@ -45,7 +52,7 @@ public class QRcodeUtil {
                     pixel[y*width+x] = bitMatrix.get(x,y)? 0xff000000:0xffffffff;
         }catch (Exception e){
             e.printStackTrace();
-            Log.i("QRCode","encoding failure");
+            Log.d("QRCode","encoding failure");
         }
         Bitmap bitmap = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
         bitmap.setPixels(pixel,0,width,0,0,width,height);
@@ -67,14 +74,20 @@ public class QRcodeUtil {
             Result result;
             Hashtable hints = new Hashtable();
             hints.put(DecodeHintType.CHARACTER_SET, CHARSET);
-            Reader reader = new DataMatrixReader();
+            Reader reader = new QRCodeReader();
             result = reader.decode(binaryBitmap,hints);
             //result = new MultiFormatReader().decode(binaryBitmap,hints);
             return result.getText();
-        } catch (Exception e) {
+        }catch (NotFoundException e){
             e.printStackTrace();
-            Log.i("二维码解码", "二维码图片无法打开或不存在");
-            return null;
+            Log.d("二维码解析","notfound");
+        }catch (FormatException e){
+            e.printStackTrace();
+            Log.d("二维码解析","format");
+        }catch (ChecksumException e){
+            e.printStackTrace();
+            Log.d("二维码解析","checksum");
         }
+        return null;
     }
 }

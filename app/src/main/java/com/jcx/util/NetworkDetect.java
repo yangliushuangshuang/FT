@@ -31,8 +31,8 @@ public class NetworkDetect {
     /**
      * 得到当前的手机网络类型
      * 仅限安卓。
-     * @param context
-     * @return
+     * @param context 当前的界面
+     * @return 获得网络类型
      */
     public static String getCurrentNetType(Context context) {
         String type = "";
@@ -60,7 +60,7 @@ public class NetworkDetect {
     /**
      * 通过访问网络，获得外网IP地址<br/>
      * 当连接WIFI处于内网中时调用该方法。
-     * @return
+     * @return 返回外网IP
      */
     public static String GetNetIp() {
         URL infoUrl = null;
@@ -108,34 +108,20 @@ public class NetworkDetect {
      * 当使用GPRS网络时可以使用改方法获得IP。
      * @return 非回路的IP地址
      */
-    public static String getLocalIpAddress()
-    {
-        try
-        {
-            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();)
-            {
+    public static String getLocalIpAddress() {
+        try {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
                 NetworkInterface intf = en.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();)
-                {
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
                     InetAddress inetAddress = enumIpAddr.nextElement();
-                    if (!inetAddress.isLoopbackAddress())
-                    {
+                    if (!inetAddress.isLoopbackAddress()) {
                         return inetAddress.getHostAddress().toString();
                     }
                 }
             }
-        }
-        catch (SocketException ex)
-        {
-            Log.i("IpAddress", ex.toString());
+        } catch (SocketException ex) {
+            Log.d("IpAddress", ex.toString());
         }
         return null;
-    }
-    private static String intToIp(int i) {
-
-        return (i & 0xFF ) + "." +
-                ((i >> 8 ) & 0xFF) + "." +
-                ((i >> 16 ) & 0xFF) + "." +
-                ( i >> 24 & 0xFF) ;
     }
 }
