@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable;
 
 import java.io.File;
 
-import com.jcx.intpack.BlueTooth;
 public class BlueToothImp implements BlueTooth {
 
 	@Override

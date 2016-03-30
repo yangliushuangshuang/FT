@@ -1,7 +1,6 @@
-package com.jcx.intpack;
+package com.jcx.communication;
 import android.graphics.drawable.Drawable;
 
-import java.io.File;
 /**
  * @author lenovo
  * @version 1.0

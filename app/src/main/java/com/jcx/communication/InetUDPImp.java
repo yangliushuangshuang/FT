@@ -4,8 +4,6 @@ import android.graphics.drawable.Drawable;
 
 import java.io.File;
 
-import com.jcx.intpack.InetUDP;
-
 public class InetUDPImp implements InetUDP {
 
 	@Override

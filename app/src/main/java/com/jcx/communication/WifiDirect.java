@@ -1,4 +1,4 @@
-package com.jcx.intpack;
+package com.jcx.communication;
 
 public interface WifiDirect  extends TransBasic{
 
