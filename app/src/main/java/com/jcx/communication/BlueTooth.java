@@ -1,4 +1,5 @@
 package com.jcx.communication;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 /**
@@ -22,5 +23,5 @@ public interface BlueTooth extends TransBasic{
 	 * 作为从设备（接收文件），调用该方法，并返回该设备的蓝牙地址和设备名称，还有口令（如需）。
 	 * @return 返回设备的蓝牙地址和设备名称（和口令）的二维码，出错则返回null
 	 */
-	public Drawable getQRCode();
+	public Bitmap getQRCode();
 }

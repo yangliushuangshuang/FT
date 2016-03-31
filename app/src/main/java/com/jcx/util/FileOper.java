@@ -62,15 +62,14 @@ public class FileOper {
     }
 
     /**
-     * 修改名字
+     * 修改名字,//建议直接使用File实例化对象的方法renameTo
      * @param oldFile 旧文件或目录名
      * @param newFile 新文件或目录名
      */
-    public void modify(String oldFile,String newFile){
-        File file = new File(oldFile);
+    public void modify(String dir,String oldFile,String newFile){
+        File file = new File(dir,oldFile);
         if(!file.exists())return;
-        String parentPath=file.getParent();
-        File filex=new File(parentPath,newFile);//File filex=new File(parentPaht+newName)
+        File filex=new File(dir,newFile);//File filex=new File(parentPaht+newName)
         file.renameTo(filex);
     }
 

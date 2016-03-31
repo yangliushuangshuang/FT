@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
  * 工具类，解析并查看、修改配置文档。<br/>
  * 在版本1.0中，配置有：服务器IP地址，端口号。
  */
+//TODO 配置文件的加密
 public class Configuration {
     private final static String NAME="ft.conf";
     private final static String NETWORK="[NETWORK_CONFIG]";
@@ -30,10 +31,11 @@ public class Configuration {
     private final static String IPADDRESS_KEY="IpAddress";
     private final static String P2P_PORT_KEY="P2P_Port";
     private final static String SERVER_PORT_KEY="Server_Port";
+    private final static String BLUE_PSW_KEY="Bluetooth_Psw";
     private final static String IPV4_PATTERN="((?:(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d))))";
     private final static String PORT_PATTERN="(\\d+)";
     public Configuration(){
-        File files = new File(Util.DATA_DIRECTORY,Util.FILES);
+        File files = new File(Util.DATA_DIRECTORY);
         if(files.exists()&&!files.isDirectory()){
             files.delete();files.mkdir();
         }
@@ -83,8 +85,8 @@ public class Configuration {
     }
     private void init(){
         //TODO 设置默认的服务器IP地址和端口号
-        String defaultServerIP="";
-        String defaultP2PPort="9899";//端到端传输
+        String defaultServerIP="127.0.0.1";//127.0.0.1 for test
+        String defaultP2PPort="9888";//端到端传输
         String defaultServerPort="9888";
         List<HashMap<String,String>> list = new ArrayList<HashMap<String, String>>();
         HashMap<String,String> hashMap = new HashMap<String ,String>();
@@ -100,9 +102,17 @@ public class Configuration {
         list.add(hashMap1);
         insertSeg(NETWORK, list);
     }
+    public void insertBluePsw(String value){
+        List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
+        HashMap<String,String> hashMap = new HashMap<String,String>();
+        hashMap.put("key",BLUE_PSW_KEY);
+        hashMap.put("value",value);
+        list.add(hashMap);
+        insertSeg(OTHER,list);
+    }
     private void insertSeg(String segment,List<HashMap<String,String>> list){
         //配置文件插入配置段
-        File conf = new File(Util.DATA_DIRECTORY.getAbsolutePath()+File.separator+Util.FILES,NAME);
+        File conf = new File(Util.DATA_DIRECTORY,NAME);
 /*        try {
             conf.createNewFile();
         } catch (IOException e) {
@@ -145,14 +155,25 @@ public class Configuration {
      * @return 返回IP地址
      */
     public String getIpAddress(){
-        return getValue(NETWORK, IPADDRESS_KEY,IPV4_PATTERN);
+        return getValue(NETWORK, IPADDRESS_KEY,IPV4_PATTERN).trim();
     }
 
     /**
-     * 获得网络端口
+     * 获得端到端通信端口
      * @return 返回端口号
      */
     public String getP2PPort(){
-        return getValue(NETWORK, P2P_PORT_KEY,PORT_PATTERN);
+        return getValue(NETWORK, P2P_PORT_KEY,PORT_PATTERN).trim();
+    }
+
+    /**
+     * 获得与服务器通信端口号
+     * @return 返回与服务器相连端口号
+     */
+    public String getServerPort(){
+        return getValue(NETWORK,SERVER_PORT_KEY,PORT_PATTERN).trim();
+    }
+    public String getBluePsw(){
+        return getValue(OTHER,BLUE_PSW_KEY,PORT_PATTERN).trim();
     }
 }

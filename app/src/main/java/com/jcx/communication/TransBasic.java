@@ -1,4 +1,5 @@
 package com.jcx.communication;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 import java.io.File;
@@ -30,5 +31,5 @@ public interface TransBasic {
 	 * 根据连接方式获得连接标识信息生成二维码。
 	 * @return 具有连接信息的二维码。
 	 */
-	public Drawable getQRCode();
+	public Bitmap getQRCode();
 }

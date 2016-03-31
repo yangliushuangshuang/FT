@@ -1,5 +1,6 @@
 package com.jcx.communication;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 import java.io.File;
@@ -13,7 +14,7 @@ public class InetUDPImp implements InetUDP {
 	}
 
 	@Override
-	public Drawable getQRCode() {
+	public Bitmap getQRCode() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -2,6 +2,8 @@ package com.jcx.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
@@ -60,13 +62,13 @@ public class QRcodeUtil {
     }
     /**
      * 解码
-     * @param imgPath 二维码图片的路径
+     * @param bitmap 二维码图片的位图
      * @return 解析二维码的字符串结果
      */
-    public static String decode(String imgPath){
+    public static String decode(Bitmap bitmap){
 
         try {
-            Bitmap bitmap = BitmapFactory.decodeFile(imgPath);
+
             int pixel[]=new int[bitmap.getHeight()*bitmap.getWidth()];
             bitmap.getPixels(pixel,0,bitmap.getWidth(),0,0,bitmap.getWidth(),bitmap.getHeight());
             LuminanceSource source = new RGBLuminanceSource(bitmap.getWidth(),bitmap.getHeight(),pixel);
@@ -88,6 +90,10 @@ public class QRcodeUtil {
             e.printStackTrace();
             Log.d("二维码解析","checksum");
         }
-        return null;
+        return "";
+    }
+    public static String decode(String imagPath){
+        Bitmap bitmap = BitmapFactory.decodeFile(imagPath);
+        return decode(bitmap);
     }
 }

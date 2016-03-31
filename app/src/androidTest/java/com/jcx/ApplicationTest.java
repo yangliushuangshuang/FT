@@ -2,14 +2,19 @@ package com.jcx;
 
 import android.app.Application;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.test.ApplicationTestCase;
 import android.util.Log;
 
+import com.jcx.util.Configuration;
+import com.jcx.util.FileOper;
+import com.jcx.util.NetworkDetect;
 import com.jcx.util.QRcodeUtil;
+import com.jcx.util.Util;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 /**
@@ -39,12 +44,56 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         FileOutputStream out = new FileOutputStream(imag);
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);//位图保存到本地
         String actual_mesg = QRcodeUtil.decode(imag.getAbsolutePath());//二维码解码过程
-       imag.delete();
+        if(imag.exists())imag.delete();
         assertEquals("testQRcode" + "1", mesg, actual_mesg);//单元测试结果
         //2016/3/29 测试结果通过。
     }
     public void testFileOper(){
         File path  = Environment.getExternalStorageDirectory();//对外部SD卡有写入权限
+        FileOper fileOper = new FileOper();
+        //测试创建文件和目录
+        fileOper.touch(path.getAbsolutePath(), "testFileDir", true);
+        String testPath = path.getAbsolutePath()+File.separator+"testFileDir";
+        fileOper.touch(testPath, "testTouch", false);
+        assertTrue("创建文件touch", new File(testPath, "testTouch").exists());
+        fileOper.touch(testPath, "_testTouch", true);
+        //测试查看目录下的所有文件
+        File[] list;
+        assertTrue("查看目录下文件select",(list=fileOper.select(new File(testPath)))!=null&&list.length==2);
+        //测试移动和复制
+        File src,dest;
+        if(!list[0].isDirectory()){
+            src=list[0];
+            dest=list[1];
+        }else {
+            src=list[1];
+            dest=list[0];
+        }
+        fileOper.copy(src.getAbsolutePath(), dest.getAbsolutePath());
+        assertTrue("复制文件copy", new File(dest, "testTouch").exists());
 
+        new File(testPath,"testMoveDir").mkdir();
+        fileOper.move(dest.getAbsolutePath(), testPath + File.separator + "testMoveDir");
+        assertTrue("移动目录或文件move",new File(testPath+File.separator+"testMoveDir","_testTouch").exists());
+        //测试modify
+        //File file = new File(path,"testFileDir_Modify");
+        fileOper.modify(path.getAbsolutePath(),"testFileDir","testFileDir_Modify");
+        assertTrue("测试修改文件",new File(path,"testFileDir_Modify").exists());
+        //测试删除目
+        fileOper.delete(testPath);
+        assertTrue("删除目录delete",!new File(testPath).exists());
+    }
+    public void testNetwork(){
+        assertTrue("测试获取本地ip",NetworkDetect.getLocalIpAddress()!=null);
+        assertTrue("测试获取网络状态",true);
+        assertTrue("测试获取网络Ip", NetworkDetect.getNetIp()!=null);
+    }
+    public void testConf(){
+        Configuration conf  = new Configuration();
+        File file = new File(Util.DATA_DIRECTORY,"ft.conf");
+        assertTrue("测试配置文件是否创建",file.exists());
+        assertEquals("测试配置ip地址","127.0.0.1",conf.getIpAddress());
+        assertEquals("测试配置器端口","9888", conf.getServerPort());
+        assertEquals("测试配置p2p端口","9888",conf.getP2PPort());
     }
 }

@@ -62,7 +62,7 @@ public class NetworkDetect {
      * 当连接WIFI处于内网中时调用该方法。
      * @return 返回外网IP
      */
-    public static String GetNetIp() {
+    public static String getNetIp() {
         URL infoUrl = null;
         InputStream inStream = null;
         String ipLine = "";
