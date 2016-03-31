@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class Util {
     //private final static String FILES="ftFiles";//数据文件夹名
-    public final static String DATA_DIRECTORY= Environment.getDataDirectory().getAbsolutePath()+File.separator+"ftFiles";
+    public final static String DATA_DIRECTORY= Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"ftFiles";
     public final static String SPLITER="/_/";
     public static String intToIp(int i) {
 

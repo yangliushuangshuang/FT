@@ -9,9 +9,11 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.security.AlgorithmParameterGenerator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.jar.Attributes;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,8 +34,11 @@ public class Configuration {
     private final static String P2P_PORT_KEY="P2P_Port";
     private final static String SERVER_PORT_KEY="Server_Port";
     private final static String BLUE_PSW_KEY="Bluetooth_Psw";
-    private final static String IPV4_PATTERN="((?:(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d))))";
-    private final static String PORT_PATTERN="(\\d+)";
+/*    private final static String IPV4_PATTERN="^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."
+            +"(00?\\d|1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
+            +"(00?\\d|1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
+            +"(00?\\d|1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$";
+    private final static String PORT_PATTERN="(\\d+)";*/
     public Configuration(){
         File files = new File(Util.DATA_DIRECTORY);
         if(files.exists()&&!files.isDirectory()){
@@ -45,45 +50,60 @@ public class Configuration {
             new FileOper().delete(conf.getAbsolutePath());
             init();
         }
-        if(!conf.exists())init();
+        if(!conf.exists())
+            init();
     }
     //返回配置段的在文件中的偏移量
     private long locate(String segment) throws IOException {
-        RandomAccessFile file=new RandomAccessFile(NAME,"r");
+        RandomAccessFile file=new RandomAccessFile(Util.DATA_DIRECTORY+File.separator+NAME,"r");
         String aLine=file.readLine();
         while(aLine!=null&&!aLine.equals(segment))aLine=file.readLine();
         long res= file.getFilePointer();
         file.close();
         return res;
     }
-    private String findConfig(String key,RandomAccessFile file,String strPattern) throws IOException {
-        String value=null;
+    private String findConfig(String key,RandomAccessFile file) throws IOException {
         String line=file.readLine();
-        while (!line.startsWith(key)&&!line.equals(END_SEG)){
+        do{
             //Pattern pattern = Pattern.compile("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$");
-            Pattern pattern = Pattern.compile(strPattern);
-            Matcher matcher = pattern.matcher(line);
-            if(matcher.find())value=matcher.group();
-        }
-        return value;
+            /*Pattern pattern = Pattern.compile(strPattern);*/
+            if(line!=null){
+                String[] tmps = line.split("=");
+                String currentKey = tmps[0];
+                String currentValue = tmps[1];
+                if(currentKey.equals(key)){
+                    return currentValue;
+                }
+                line=file.readLine();
+            }
+        }while (line!=null&&!line.equals(END_SEG));
+        return null;
     }
-    private String getValue(String segment,String key,String strPattern){
+    private String getValue(String segment,String key){
         String res=null;
         try {
-            RandomAccessFile file = new RandomAccessFile(NAME,"wr");
+            Log.i("getValue", "开始");
+            RandomAccessFile file = new RandomAccessFile(Util.DATA_DIRECTORY+File.separator+NAME,"rw");
             file.seek(locate(segment));//配置段偏移量
-            res=findConfig(key, file,strPattern);//在配置段下根据key找到对应value
+            res=findConfig(key, file);//在配置段下根据key找到对应value
             file.close();
+            Log.i("getValue","结束");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            Log.d("配置文件","打开配置文件失败");
+            Log.v("配置文件","打开配置文件失败");
         }catch (IOException e){
             e.printStackTrace();
-            Log.d("配置文件","定位配置段出错");
+            Log.v("配置文件","定位配置段出错");
         }
         return res;
     }
     private void init(){
+        try {
+            new File(Util.DATA_DIRECTORY, NAME).createNewFile();
+        } catch (IOException e) {
+            Log.d("配置初始化","创建配置文件失败");
+            e.printStackTrace();
+        }
         //TODO 设置默认的服务器IP地址和端口号
         String defaultServerIP="127.0.0.1";//127.0.0.1 for test
         String defaultP2PPort="9888";//端到端传输
@@ -93,13 +113,14 @@ public class Configuration {
         hashMap.put("key", IPADDRESS_KEY);
         hashMap.put("value", defaultServerIP);
         list.add(hashMap);
-        HashMap<String,String> hashMap1 = new HashMap<String,String>();
-        hashMap.put("key", P2P_PORT_KEY);
-        hashMap.put("value", defaultP2PPort);
+        HashMap<String, String> hashMap1 = new HashMap<String,String>();
+        hashMap1.put("key", P2P_PORT_KEY);
+        hashMap1.put("value", defaultP2PPort);
+        list.add(hashMap1);
         HashMap<String,String> hashMap2 = new HashMap<String,String>();
         hashMap2.put("key",SERVER_PORT_KEY);
         hashMap2.put("value",defaultServerPort);
-        list.add(hashMap1);
+        list.add(hashMap2);
         insertSeg(NETWORK, list);
     }
     public void insertBluePsw(String value){
@@ -155,7 +176,7 @@ public class Configuration {
      * @return 返回IP地址
      */
     public String getIpAddress(){
-        return getValue(NETWORK, IPADDRESS_KEY,IPV4_PATTERN).trim();
+        return getValue(NETWORK, IPADDRESS_KEY).trim();
     }
 
     /**
@@ -163,7 +184,7 @@ public class Configuration {
      * @return 返回端口号
      */
     public String getP2PPort(){
-        return getValue(NETWORK, P2P_PORT_KEY,PORT_PATTERN).trim();
+        return getValue(NETWORK, P2P_PORT_KEY).trim();
     }
 
     /**
@@ -171,9 +192,9 @@ public class Configuration {
      * @return 返回与服务器相连端口号
      */
     public String getServerPort(){
-        return getValue(NETWORK,SERVER_PORT_KEY,PORT_PATTERN).trim();
+        return getValue(NETWORK,SERVER_PORT_KEY).trim();
     }
     public String getBluePsw(){
-        return getValue(OTHER,BLUE_PSW_KEY,PORT_PATTERN).trim();
+        return getValue(OTHER,BLUE_PSW_KEY).trim();
     }
 }
