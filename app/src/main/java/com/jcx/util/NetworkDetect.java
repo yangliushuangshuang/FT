@@ -68,7 +68,7 @@ public class NetworkDetect {
         String ipLine = "";
         HttpURLConnection httpConnection = null;
         try {
-            infoUrl = new URL("http://ip168.com/");
+            infoUrl = new URL("http://www.ip138.com");
             URLConnection connection = infoUrl.openConnection();
             httpConnection = (HttpURLConnection) connection;
             int responseCode = httpConnection.getResponseCode();
@@ -87,19 +87,13 @@ public class NetworkDetect {
                 if (matcher.find()) {
                     ipLine = matcher.group();
                 }
+                inStream.close();
             }
-
+            httpConnection.disconnect();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                inStream.close();
-                httpConnection.disconnect();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
         return ipLine;
     }
@@ -115,7 +109,7 @@ public class NetworkDetect {
                 for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
                     InetAddress inetAddress = enumIpAddr.nextElement();
                     if (!inetAddress.isLoopbackAddress()) {
-                        return inetAddress.getHostAddress().toString();
+                        return inetAddress.getHostAddress();
                     }
                 }
             }

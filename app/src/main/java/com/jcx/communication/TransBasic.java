@@ -15,12 +15,20 @@ public interface TransBasic {
 	public final static int TRANS_FAIL=2;
 	public final static int CONNECT_OK=3;
 	public final static int CONNECT_FAIL=4;
+	public final static int RECI_OK=5;
+	public final static int RECI_FAIL=6;
 	/**
 	 * 传输文件。
 	 * @param file 
 	 * @return 传输成功则返回TRANS_OK,反之则 返回TRANS_FAIL。
 	 */
 	public int transFile(File file);
+
+	/**
+	 * 接收文件
+	 * @return
+	 */
+	public int receiFile();
 	/**
 	 * 设备连接。
 	 * @param qrCode 扫描得到的二维码，进行连接。 
