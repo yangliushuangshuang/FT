@@ -194,7 +194,7 @@ public class Configuration {
     public String getServerPort(){
         return getValue(NETWORK,SERVER_PORT_KEY).trim();
     }
-    public String getBluePsw(){
+    /*public String getBluePsw(){
         return getValue(OTHER,BLUE_PSW_KEY).trim();
-    }
+    }*/
 }

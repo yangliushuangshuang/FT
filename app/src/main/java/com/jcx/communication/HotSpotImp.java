@@ -14,6 +14,11 @@ public class HotSpotImp implements HotSpot {
 	}
 
 	@Override
+	public int receiFile() {
+		return 0;
+	}
+
+	@Override
 	public int connect(Drawable qrCode) {
 		// TODO Auto-generated method stub
 		return 0;

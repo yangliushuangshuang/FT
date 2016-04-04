@@ -84,9 +84,12 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         assertTrue("删除目录delete",!new File(testPath).exists());
     }
     public void testNetwork(){
-        assertTrue("测试获取本地ip",NetworkDetect.getLocalIpAddress()!=null);
+        String localIp=NetworkDetect.getLocalIpAddress();
+        //String state =NetworkDetect.getCurrentNetType();
+        String netIp=NetworkDetect.getNetIp();
+        assertTrue("测试获取本地ip",localIp!=null);
         assertTrue("测试获取网络状态",true);
-        assertTrue("测试获取网络Ip", NetworkDetect.getNetIp()!=null);
+        assertTrue("测试获取网络Ip", netIp!=null);
     }
     public void testConf(){
         Configuration conf  = new Configuration();

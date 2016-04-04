@@ -43,6 +43,7 @@ public class QRcodeUtil {
      * @return 二维码图片的bitmap
      */
     public static Bitmap encode(String contents,int width,int height){
+        if(contents==null||contents.equals(""))return null;
         Hashtable hints = new Hashtable();
         hints.put(EncodeHintType.CHARACTER_SET,CHARSET);
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);

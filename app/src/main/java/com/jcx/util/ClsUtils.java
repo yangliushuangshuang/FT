@@ -49,6 +49,7 @@ public class ClsUtils
                     new Object[]
                             {str.getBytes()});
             Log.e("returnValue", "" + returnValue);
+            return returnValue;
         }
         catch (SecurityException e)
         {
@@ -65,7 +66,7 @@ public class ClsUtils
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return true;
+        return false;
 
     }
 

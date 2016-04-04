@@ -11,10 +11,18 @@ import com.jcx.util.Util;
 
 /**
  * Created by churongShaw on 2016/3/31.
- * 接收蓝牙匹配请求的广播监听类
+ * 接收蓝牙匹配请求的广播监听类，静态注册
  */
 public class BlueTReceiver extends BroadcastReceiver {
-    String strPsw = new Configuration().getBluePsw();
+    String strPsw;
+
+    /**
+     * 在动态注册接收器时，需要给出密码（PIN码），密码可以通过BlueToothImp的getPsw()方法获得。
+     * @param strPsw
+     */
+    public BlueTReceiver(String strPsw){
+        this.strPsw = strPsw;
+    }
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(
