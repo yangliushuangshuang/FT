@@ -1,4 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.jcx"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.jcx"
     android:versionCode="1"
     android:versionName="1.0">
 
@@ -17,12 +19,17 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <!--2016/3/27-->
 
-    <application android:allowBackup="true" android:label="@string/app_name"
-        android:icon="@mipmap/ic_launcher" android:theme="@style/AppTheme">
+    <application android:allowBackup="true"
+        tools:replace="android:icon"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:theme="@style/AppTheme">
         <!--2016/3/31 churongShaw 静态注册蓝牙广播监听接收器-->
-        <receiver android:name=".BlueTReceiver" >
+        <receiver android:name="com.jcx.bcreceiver.BlueTReceiver" >
             <intent-filter>
                 <action android:name="android.bluetooth.device.action.PAIRING_REQUEST" />
             </intent-filter>
@@ -30,6 +37,26 @@
         <!--2016/2/27 churongShaw 用于测试-->
         <uses-library android:name="android.test.runner"/>
         <!--2016/3/27-->
+        <activity
+            android:name=".view.MainActivity"
+            android:label="@string/app_name">
+            <!--android:theme="@style/Theme.Appcompat" >-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.zxing.activity.CaptureActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <activity android:name=".view.CreateQRCodeActivity"
+            android:theme="@style/AppTheme"
+            android:label="@string/activity_actionBar_label"></activity>
     </application>
 
     <!--2016/3/27 churongShaw 用于测试-->

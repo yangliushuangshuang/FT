@@ -14,7 +14,6 @@ import com.google.zxing.FormatException;
 import com.google.zxing.LuminanceSource;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.NotFoundException;
-import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Reader;
 import com.google.zxing.Result;
 import com.google.zxing.common.BitMatrix;
@@ -68,29 +67,29 @@ public class QRcodeUtil {
      */
     public static String decode(Bitmap bitmap){
 
-        try {
-
-            int pixel[]=new int[bitmap.getHeight()*bitmap.getWidth()];
-            bitmap.getPixels(pixel,0,bitmap.getWidth(),0,0,bitmap.getWidth(),bitmap.getHeight());
-            LuminanceSource source = new RGBLuminanceSource(bitmap.getWidth(),bitmap.getHeight(),pixel);
-            BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(source));
-            Result result;
-            Hashtable hints = new Hashtable();
-            hints.put(DecodeHintType.CHARACTER_SET, CHARSET);
-            Reader reader = new QRCodeReader();
-            result = reader.decode(binaryBitmap,hints);
-            //result = new MultiFormatReader().decode(binaryBitmap,hints);
-            return result.getText();
-        }catch (NotFoundException e){
-            e.printStackTrace();
-            Log.d("二维码解析","notfound");
-        }catch (FormatException e){
-            e.printStackTrace();
-            Log.d("二维码解析","format");
-        }catch (ChecksumException e){
-            e.printStackTrace();
-            Log.d("二维码解析","checksum");
-        }
+//        try {
+//
+//            int pixel[]=new int[bitmap.getHeight()*bitmap.getWidth()];
+//            bitmap.getPixels(pixel,0,bitmap.getWidth(),0,0,bitmap.getWidth(),bitmap.getHeight());
+//            LuminanceSource source = new RGBLuminanceSource(bitmap.getWidth(),bitmap.getHeight(),pixel);
+//            BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(source));
+//            Result result;
+//            Hashtable hints = new Hashtable();
+//            hints.put(DecodeHintType.CHARACTER_SET, CHARSET);
+//            Reader reader = new QRCodeReader();
+//            result = reader.decode(binaryBitmap,hints);
+//            //result = new MultiFormatReader().decode(binaryBitmap,hints);
+//            return result.getText();
+//        }catch (NotFoundException e){
+//            e.printStackTrace();
+//            Log.d("二维码解析","notfound");
+//        }catch (FormatException e){
+//            e.printStackTrace();
+//            Log.d("二维码解析","format");
+//        }catch (ChecksumException e){
+//            e.printStackTrace();
+//            Log.d("二维码解析","checksum");
+//        }
         return "";
     }
     public static String decode(String imagPath){

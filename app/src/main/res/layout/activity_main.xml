@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity">
+
+    <include layout="@layout/content_main" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        >
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/float_confirm"
+            app:backgroundTint="@color/colorTitleBackground"
+            app:rippleColor="@color/rippleColor"
+            app:elevation="3dp"
+            app:pressedTranslationZ="4dp"
+            />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_cancel"
+            android:layout_below="@+id/fab_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/float_cancel"
+            app:backgroundTint="@color/colorTitleBackground"
+            app:rippleColor="@color/rippleColor"
+            app:elevation="3dp"
+            app:pressedTranslationZ="4dp"/>
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
