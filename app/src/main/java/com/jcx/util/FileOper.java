@@ -17,8 +17,12 @@ public class FileOper {
      * 删除文件或目录
      * @param path 要删除的文件的路径(绝对路径)
      */
-    public void delete(String path){
+    public boolean delete(String path){
         File file = new File(path);
+        if (!file.exists()||file==null)
+        {
+            return false;
+        }
         if(file.isDirectory()){//如果是目录，要递归删除。
             for(File son:file.listFiles()){//逐个删除目录下所有的文件（包括目录）
                 this.delete(son.getAbsolutePath());
@@ -26,6 +30,7 @@ public class FileOper {
         }
         //不是目录或者文件已经是空的就直接删除
         file.delete();
+        return true;
     }
 
     /**
