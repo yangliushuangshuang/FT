@@ -22,7 +22,7 @@ public class ClsUtils
     {
         Method createBondMethod = btClass.getMethod("createBond");
         Boolean returnValue = (Boolean) createBondMethod.invoke(btDevice);
-        return returnValue.booleanValue();
+        return returnValue;
     }
 
     /**
@@ -34,7 +34,7 @@ public class ClsUtils
     {
         Method removeBondMethod = btClass.getMethod("removeBond");
         Boolean returnValue = (Boolean) removeBondMethod.invoke(btDevice);
-        return returnValue.booleanValue();
+        return returnValue;
     }
 
     static public boolean setPin(Class btClass, BluetoothDevice btDevice,
@@ -63,7 +63,6 @@ public class ClsUtils
         }
         catch (Exception e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return false;
@@ -128,7 +127,6 @@ public class ClsUtils
         }
         catch (Exception e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

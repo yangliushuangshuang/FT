@@ -34,8 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WifiDirectImp implements WifiDirect{
-	private static final int SOCKET_TIMEOUT = 5000;
-
 	private WifiP2pManager.Channel mChannel;
 	private WifiP2pManager mManager;
 	private	List peers = new ArrayList();
@@ -48,7 +46,6 @@ public class WifiDirectImp implements WifiDirect{
 		this.activity = activity;
 		mManager=(WifiP2pManager)activity.getSystemService(Activity.WIFI_P2P_SERVICE);
 		mChannel=mManager.initialize(activity,activity.getMainLooper(),null);
-		//启动了发现对等设备的线程
 
 		//获取列表
 		peerListListener = new WifiP2pManager.PeerListListener() {
@@ -62,6 +59,7 @@ public class WifiDirectImp implements WifiDirect{
 				}
 			}
 		};
+		//启动了发现对等设备的线程
 		mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
 			@Override
 			public void onSuccess() {
@@ -116,48 +114,56 @@ public class WifiDirectImp implements WifiDirect{
 	}
 
 	/**
-	 * 发送文件，由
+	 * 发送文件
 	 * @param file
 	 * @return
 	 */
 	@Override
 	public int transFile(File file) {
 		if(!file.exists()||file.isDirectory())return TRANS_FAIL;
+		String content = file.getName()+Util.SPLITER+file.getTotalSpace();
 		if(canTrans()){
 			Socket socket = new Socket();
 			String host = info.groupOwnerAddress.getHostAddress();
-			int port = Integer.parseInt(new Configuration().getP2PPort());
-
+			int port = new Configuration().getP2PPort();
+			if(!Util.sendInfo(host,port,content))return TRANS_FAIL;//发送文件信息失败
 			try {
 				socket.bind(null);
-				socket.connect(new InetSocketAddress(host, port), SOCKET_TIMEOUT);
-				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file),"utf-8"));
+				socket.connect(new InetSocketAddress(host, port),Util.SOCKET_TIMEOUT);
+				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-				if(!Util.copyFile(br,bw))return TRANS_FAIL;
+				if(Util.copyFile(br,bw))return TRANS_OK;
 			} catch (IOException e) {
 				e.printStackTrace();
 				Log.d("transFile","传输出现I/O错误");
-				return TRANS_FAIL;
 			}
 		}
-		return TRANS_OK;
+		return TRANS_FAIL;
 	}
 
 	@Override
 	public int receiFile() {
+		int port = new Configuration().getP2PPort();
 		try {
-			ServerSocket socket = new ServerSocket(Integer.parseInt(new Configuration().getP2PPort()));
+			String[] fileInfo = Util.receiveInfo(port).split(Util.SPLITER);
+			String name = fileInfo[0];
+			//TODO
+			long length = Long.parseLong(fileInfo[1]);
+			ServerSocket socket = new ServerSocket(port);
 			Socket client = socket.accept();
 			Log.d("reciFile","通过了阻塞，即socket通信开始");
-			File file = new File(Util.RECEIVE_DIR+File.separator+System.currentTimeMillis());
-			if(!file.getParentFile().exists())file.getParentFile().mkdirs();
+			File file = new File(Util.RECEIVE_DIR+File.separator+name);
+			if(!file.getParentFile().exists())if(!file.getParentFile().mkdirs())return RECI_FAIL;
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
-			BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream(),"utf-8"));
+			BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			if(!Util.copyFile(br,bw))return RECI_FAIL;
 			client.close();
 			socket.close();
 			if(file.exists())return RECI_OK;
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e){
+			//获取文件信息失败
 			e.printStackTrace();
 		}
 		return RECI_FAIL;
@@ -170,7 +176,7 @@ public class WifiDirectImp implements WifiDirect{
 	 */
 	@Override
 	public int connect(Drawable qrCode) {
-		String addr = QRcodeUtil.decode(((BitmapDrawable)qrCode).getBitmap());
+		String addr = QRcodeUtil.decode(((BitmapDrawable) qrCode).getBitmap());
 		return connect(addr);
 	}
 	public int connect(String addr){

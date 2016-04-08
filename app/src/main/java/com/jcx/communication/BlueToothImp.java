@@ -1,14 +1,17 @@
 package com.jcx.communication;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import com.jcx.bcreceiver.BlueTReceiver;
 import com.jcx.util.ClsUtils;
 import com.jcx.util.Configuration;
 import com.jcx.util.QRcodeUtil;
@@ -30,7 +33,11 @@ public class BlueToothImp implements BlueTooth {
 	private BluetoothDevice remote;
 	public final static String CONNECT_UUID = "00001101-0000-1000-8000-00805F9B34FB";//串口服务
 	private String psw;
-
+	private Activity activity;
+	public BlueToothImp(Activity activity){
+		psw = Util.randPsw(6);
+		this.activity = activity;
+	}
 	public String getPsw(){
 		return psw;
 	}
@@ -61,7 +68,7 @@ public class BlueToothImp implements BlueTooth {
 		BluetoothAdapter bta = BluetoothAdapter.getDefaultAdapter();
 		try {
 			Log.i("接收文件", "开始");
-			BluetoothServerSocket bluetoothServerSocket = bta.listenUsingRfcommWithServiceRecord("BluetoothServer",uuid);
+			BluetoothServerSocket bluetoothServerSocket = bta.listenUsingRfcommWithServiceRecord("BluetoothServer", uuid);
 			BluetoothSocket bluetoothSocket = bluetoothServerSocket.accept();//等待"客户端"连接
 			Log.d("reciFile","通过了阻塞，即socket通信开始");
 			if(bluetoothSocket!=null){
@@ -105,7 +112,6 @@ public class BlueToothImp implements BlueTooth {
 		if(bta.isEnabled())bta.enable();
 		contens.append(bta.getAddress());
 		contens.append(Util.SPLITER);
-		psw = Util.randPsw(6);
 		contens.append(psw);
 		//new Configuration().insertBluePsw(psw);//将随机生成的密码（用于蓝牙连接的PIN）插入到配置文件中。
 		//TODO 高度和宽度应该优化。
@@ -124,7 +130,7 @@ public class BlueToothImp implements BlueTooth {
 		String temp = QRcodeUtil.decode(bitmap);
 		String[] list = temp.split(Util.SPLITER);
 		String address = list[0],psw=list[1];
-		return connect(address,psw);
+		return connect(address, psw);
 	}
 
 	/**
@@ -132,13 +138,16 @@ public class BlueToothImp implements BlueTooth {
 	 * @param imagPath 二维码路径
 	 * @return 连接成功则返回CONNECT_OK，反之则CONNECT_FAIL
 	 */
-	public int connect(String imagPath){
-		String temp = QRcodeUtil.decode(imagPath);
+	public int connect(File imagPath){
+		String temp = QRcodeUtil.decode(imagPath.getAbsolutePath());
 		String[] list = temp.split(Util.SPLITER);
 		String address = list[0],psw=list[1];
 		return connect(address,psw);
 	}
-
+	public int connect(String content){
+		String[] info = content.split(Util.SPLITER);
+		return connect(info[0],info[1]);
+	}
 	/**
 	 * 从设备扫描了主设备生成二维码后进行连接
 	 * @param addr 扫描二维码得到的设备地址
@@ -183,5 +192,20 @@ public class BlueToothImp implements BlueTooth {
 			}
 		}
 	}
-
+	/**
+	 * 在当前Activity中的onResume()生命周期中调用该方法。注册广播监听的接收器。
+	 */
+	private BlueTReceiver receiver;
+	public void registerBluetoothReceiver(){
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);
+		receiver = new BlueTReceiver(psw);
+		activity.registerReceiver(receiver,filter);
+	}
+	/**
+	 * 在onPause()生命周期中进行注销
+	 */
+	public void unregisterBluetoothReceiver(){
+		activity.unregisterReceiver(receiver);
+	}
 }

@@ -22,5 +22,4 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/core-2.2.jar')
-    //compile files('libs/dom4j-1.6.1.jar')
 }
