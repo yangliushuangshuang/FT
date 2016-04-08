@@ -183,16 +183,16 @@ public class Configuration {
      * 获得端到端通信端口
      * @return 返回端口号
      */
-    public String getP2PPort(){
-        return getValue(NETWORK, P2P_PORT_KEY).trim();
+    public int getP2PPort(){
+        return Integer.parseInt(getValue(NETWORK, P2P_PORT_KEY).trim());
     }
 
     /**
      * 获得与服务器通信端口号
      * @return 返回与服务器相连端口号
      */
-    public String getServerPort(){
-        return getValue(NETWORK,SERVER_PORT_KEY).trim();
+    public int getServerPort(){
+        return Integer.parseInt(getValue(NETWORK,SERVER_PORT_KEY).trim());
     }
     /*public String getBluePsw(){
         return getValue(OTHER,BLUE_PSW_KEY).trim();

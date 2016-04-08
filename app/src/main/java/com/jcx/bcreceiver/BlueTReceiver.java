@@ -42,7 +42,6 @@ public class BlueTReceiver extends BroadcastReceiver {
             }
             catch (Exception e)
             {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

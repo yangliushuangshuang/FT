@@ -46,7 +46,7 @@ public class DecisionHelper {
             case NET_TYPE_3G:
                 //fall through
             case NET_TYPE_4G:reason="当前网络3G/4G";if(size<MAX_GPRS_SIZE){ways.add(INETUDP);reason+="文件较小，适合互联网传输";}else{ways.add(BLUETOOTH);ways.add(HOTSPOT);reason+="文件较大，不适合使用GPRS流量传输";} break;
-            // TODO
+            // TODO 优化连接WIFI的情况。当WIFI网速有限，或者双方连接同一WIFI时。
             //优化连接WIFI的情况。当WIFI网速有限，或者双方连接同一WIFI时。
             case NET_TYPE_WIFI:reason="当前连接WIFI";ways.add(2);ways.add(3);break;
             default:reason="无网络";break;
