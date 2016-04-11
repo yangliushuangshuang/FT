@@ -39,7 +39,8 @@
         <!--2016/3/27-->
         <activity
             android:name=".view.MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            >
             <!--android:theme="@style/Theme.Appcompat" >-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

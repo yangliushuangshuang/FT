@@ -27,6 +27,7 @@ import com.jcx.communication.BlueToothImp;
 import com.jcx.util.FileFilter;
 import com.jcx.util.FileOper;
 import com.jcx.util.FileUtil;
+import com.jcx.util.ZipUtil;
 import com.jcx.view.adapter.AsynLoadImg;
 import com.jcx.view.adapter.MyAdapter;
 import com.zxing.activity.CaptureActivity;
@@ -39,6 +40,7 @@ import java.lang.reflect.Method;
  * Created by Cui on 16-4-6.
  */
 public class MainActivity extends AppCompatActivity{
+    private String rootDictionary=null;
     private ListView file_list;
     private TextView path_info,tv_title;
     private Context context;
@@ -57,6 +59,8 @@ public class MainActivity extends AppCompatActivity{
     private String currentFilePath=null;
     private FloatingActionButton fab_confirm,fab_cancel;
     private CharSequence[] items;
+
+    private String appFolder=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +82,6 @@ public class MainActivity extends AppCompatActivity{
      */
     private File[] getListfiles(File getFileLists){
         File file=getFileLists;
-//        File file=Environment.getExternalStorageDirectory();
         listfiles=file.listFiles(new FileFilter());
         listfiles= FileUtil.sort(listfiles);
         return listfiles;
@@ -96,6 +99,18 @@ public class MainActivity extends AppCompatActivity{
         //获得文件的名称然后显示到listview中
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
             currentFilePath=Environment.getExternalStorageDirectory().getPath();
+
+            appFolder=currentFilePath+"/FT/files";
+            File fileTemp0=new File(appFolder);
+            if (!fileTemp0.exists()) {
+                newFolder("/FT/files");
+            }
+
+            int indexOf=currentFilePath.lastIndexOf("/");
+            rootDictionary=currentFilePath.substring(0,indexOf);
+            File fileTemp=new File(rootDictionary);
+            rootDictionary=fileTemp.getName();
+            System.out.println("rootDictionary:"+rootDictionary);
             listfiles=getListfiles(Environment.getExternalStorageDirectory());
             adapter=new MyAdapter(context,listfiles,file_list);
             file_list.setAdapter(adapter);
@@ -127,9 +142,15 @@ public class MainActivity extends AppCompatActivity{
                     Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
                     m.setAccessible(true);
                     m.invoke(menu, true);
+                    System.out.println("setOverFlowItemIcon successed");
                 } catch (Exception e) {
                 }
             }
+            else {
+                System.out.println("setOverFlowItemIcon failed");
+            }
+        }else {
+            System.out.println("setOverFlowItemIcon failed2");
         }
         return super.onMenuOpened(featureId, menu);
     }
@@ -257,13 +278,13 @@ public class MainActivity extends AppCompatActivity{
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(
                         MainActivity.this);
-                builder.setTitle(R.string.acceptFile_title);
+                builder.setTitle(R.string.sendFile_title);
                 //items使用全局的finalCharSequenece数组声明
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String select_item = items[which].toString();
-                        if (select_item.equals(getString(R.string.fileAccept_bluetooth))) {
+                        if (select_item.equals(getString(R.string.fileSend_bluetooth))) {
                             //TODO -------->通过蓝牙发送文件
                         }else if (select_item.equals(getString(R.string.fileAccept_hotspot))) {
                             //TODO---------->通过开热点发送文件
@@ -298,7 +319,25 @@ public class MainActivity extends AppCompatActivity{
                     Toast.makeText(context, R.string.fileDelete_fail, Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.action_cancel:
+            case R.id.menu_file_zip:
+                srcFilePath=listfiles[position].getAbsolutePath();
+                ZipUtil zipUtil=new ZipUtil();
+                String zipFileName=srcFilePath+".zip";
+                try {
+                    zipUtil.zip(srcFilePath, zipFileName);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.menu_file_unzip:
+                srcFilePath=listfiles[position].getAbsolutePath();
+                ZipUtil zipUtil1=new ZipUtil();
+                String destFilePath=currentFilePath+"/"+"FT"+"/files";
+                try {
+                    zipUtil1.unZip(srcFilePath, destFilePath);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             default:
                 break;
@@ -462,7 +501,7 @@ public class MainActivity extends AppCompatActivity{
             if(parentFilePath==null){
                 finish();
             }else
-            if (!parentFilePath.getName().equals("")&&!parentFilePath.getName().equals("storage")) {
+            if (!parentFilePath.getName().equals("")&&!parentFilePath.getName().equals(rootDictionary)) {
                 listfiles = parentFilePath.listFiles(new FileFilter());
                 listfiles = FileUtil.sort(listfiles);
                 adapter.upDate(listfiles);
