@@ -16,9 +16,6 @@
 
 package com.zxing.view;
 
-import java.util.Collection;
-import java.util.HashSet;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -32,10 +29,12 @@ import com.ericssonlabs.R;
 import com.google.zxing.ResultPoint;
 import com.zxing.camera.CameraManager;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 /**
  * This view is overlaid on top of the camera preview. It adds the viewfinder rectangle and partial
  * transparency outside it, as well as the laser scanner animation and result points.
- * �Զ����View������ʱ�м���ʾ��
  */
 public final class ViewfinderView extends View {
 

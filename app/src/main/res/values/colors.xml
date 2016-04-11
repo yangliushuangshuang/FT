@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="holo_light_primary">#4758b7</color>
-    <color name="holo_light_primary_dark">#3746a3</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorListViewBackground">#ffffff</color>
+    <color name="colorTitleBackground">#FF3F51B5</color>
+    <color name="rippleColor">#33728dff</color>
 </resources>

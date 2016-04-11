@@ -1,9 +1,5 @@
 package com.ericssonlabs;
 
-import com.google.zxing.WriterException;
-import com.zxing.activity.CaptureActivity;
-import com.zxing.encoding.EncodingHandler;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,6 +11,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.zxing.WriterException;
+import com.zxing.activity.CaptureActivity;
+import com.zxing.encoding.EncodingHandler;
 
 public class BarCodeTestActivity extends Activity {
     /** Called when the activity is first created. */

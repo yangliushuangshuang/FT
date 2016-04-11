@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BarCodeTest 2/BarCodeTest 2.iml" filepath="$PROJECT_DIR$/BarCodeTest 2/BarCodeTest 2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/FT-master.iml" filepath="$PROJECT_DIR$/FT-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FT.iml" filepath="$PROJECT_DIR$/FT.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
