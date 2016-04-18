@@ -11,7 +11,7 @@
     <string name="fileSend_bluetooth">蓝牙发送</string>
     <string name="fileSend_hotspot">开热点</string>
     <string name="fileSend_network">2G/3G/WIFI发送</string>
-    <string name="fileAccept_bluetooth">蓝牙接受</string>
+    <string name="fileAccept_bluetooth">蓝牙接收</string>
     <string name="fileAccept_hotspot">热点</string>
     <string name="fileAccept_network">2G/3G/WIFI</string>
     <string name="rename">重命名</string>

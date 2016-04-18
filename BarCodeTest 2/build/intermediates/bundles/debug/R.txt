@@ -53,3 +53,5 @@ int raw beep 0x7f040000
 int raw realm_properties 0x7f040001
 int string app_name 0x7f070000
 int string hello 0x7f070001
+int string scan_cancel 0x7f070002
+int string scan_qrCode 0x7f070003

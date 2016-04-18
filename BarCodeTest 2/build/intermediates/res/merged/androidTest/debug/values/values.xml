@@ -43,4 +43,6 @@
     <item name="search_book_contents_succeeded" type="id"/>
     <string name="app_name">BarCodeTest</string>
     <string name="hello">Hello World, BarCodeTestActivity!</string>
+    <string name="scan_cancel">取消</string>
+    <string name="scan_qrCode">扫描二维码</string>
 </resources>

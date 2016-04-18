@@ -116,6 +116,6 @@ public class FileOper {
             this.delete(srcPath);
         }
         Log.d("FileOper","复制不成功。");
-        return false;
+        return true;
      }
 }
