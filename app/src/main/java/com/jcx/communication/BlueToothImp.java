@@ -149,7 +149,7 @@ public class BlueToothImp implements BlueTooth {
 		return connect(info[0],info[1]);
 	}
 	/**
-	 * 从设备扫描了主设备生成二维码后进行连接
+	 * 主设备扫描了主设备生成二维码后进行连接
 	 * @param addr 扫描二维码得到的设备地址
 	 * @param psw 扫描二维码得到的密码
 	 * @return 返回结果码

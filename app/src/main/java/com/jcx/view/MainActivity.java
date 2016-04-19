@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity{
             file_list.setAdapter(adapter);
         }else {
 
-            Toast.makeText(context, getString(R.string.sd_readerror), Toast.LENGTH_SHORT);
+            Toast.makeText(context, getString(R.string.sd_readerror), Toast.LENGTH_SHORT).show();
         }
     }
     /**

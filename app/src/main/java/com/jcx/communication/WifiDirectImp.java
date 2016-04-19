@@ -220,6 +220,7 @@ public class WifiDirectImp implements WifiDirect{
 	 */
 	@Override
 	public Bitmap getQRCode() {
+		//开启WIFI
 		WifiManager wifiManager =(WifiManager)activity.getSystemService(Activity.WIFI_SERVICE);
 		int state = wifiManager.getWifiState();
 		if(state!=WifiManager.WIFI_STATE_ENABLED&&state!=WifiManager.WIFI_STATE_ENABLING){
@@ -228,6 +229,7 @@ public class WifiDirectImp implements WifiDirect{
 		WifiInfo wifiInfo = wifiManager.getConnectionInfo();
 		String addr;
 		if(wifiInfo==null)return null;
+		//获得MAC地址并生成二维码
 		addr = wifiInfo.getMacAddress().toLowerCase();
 		return QRcodeUtil.encode(addr,300,300);
 	}

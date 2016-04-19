@@ -14,6 +14,7 @@ import com.google.zxing.qrcode.encoder.QRCode;
 import com.jcx.hotspot.WifiAdmin;
 import com.jcx.hotspot.WifiApAdmin;
 import com.jcx.util.Configuration;
+import com.jcx.util.NetworkDetect;
 import com.jcx.util.QRcodeUtil;
 import com.jcx.util.Util;
 
@@ -34,8 +35,10 @@ public class HotSpotImp implements HotSpot {
 	private String wifiName;
 	private String psw;
 	private WifiAdmin wifiAdmin;
+	private String rmAddr;
 	private String addr;
 	private int port;
+	private int rmPort;
 	public HotSpotImp(Activity context){
 		this.context = context;
 		wifiName = "TP";
@@ -44,10 +47,10 @@ public class HotSpotImp implements HotSpot {
 	@Override
 	public int transFile(File file) {
 		if(!file.exists()||file.isDirectory())return TRANS_FAIL;
-		if(!Util.sendInfo(addr,port,file.getName()+Util.SPLITER+file.getTotalSpace()))return TRANS_FAIL;
+		if(!Util.sendInfo(rmAddr,rmPort,file.getName()+Util.SPLITER+file.getTotalSpace()))return TRANS_FAIL;
 		Socket socket = new Socket();
 		try {
-			socket.connect(new InetSocketAddress(addr,port),Util.SOCKET_TIMEOUT);
+			socket.connect(new InetSocketAddress(rmAddr,rmPort),Util.SOCKET_TIMEOUT);
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 			if(Util.copyFile(br,bw))return TRANS_OK;
@@ -97,7 +100,8 @@ public class HotSpotImp implements HotSpot {
 	public int connect(final String content){
 		String[] info = content.split(Util.SPLITER);
 		String wifiName = info[0],psw=info[1];
-		addr = info[2];
+		rmAddr = info[2];
+		rmPort = Integer.parseInt(info[3]);
 		wifiAdmin = new WifiAdmin(context) {
 			@Override
 			public Intent myRegisterReceiver(BroadcastReceiver receiver, IntentFilter filter) {
@@ -138,7 +142,8 @@ public class HotSpotImp implements HotSpot {
 		WifiApAdmin wifiApAdmin = new WifiApAdmin(context);
 		psw = Util.randPsw(10);
 		wifiApAdmin.startWifiAp("\""+wifiName+"\"",psw);
-		String content = wifiName+Util.SPLITER+psw;
+		addr = NetworkDetect.getLocalIpAddress();
+		String content = wifiName+Util.SPLITER+psw+Util.SPLITER+addr+Util.SPLITER+port;
 		return QRcodeUtil.encode(content,300,300);
 	}
 
