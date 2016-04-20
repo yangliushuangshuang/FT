@@ -2,12 +2,16 @@ package com.jcx;
 
 import android.app.Application;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.test.ApplicationTestCase;
 import android.util.Log;
 
+import com.jcx.communication.BlueTooth;
+import com.jcx.communication.BlueToothImp;
+import com.jcx.communication.HotSpotImp;
+import com.jcx.communication.InetUDPImp;
+import com.jcx.communication.TransBasic;
+import com.jcx.communication.WifiDirectImp;
 import com.jcx.util.Configuration;
 import com.jcx.util.FileOper;
 import com.jcx.util.NetworkDetect;
@@ -29,6 +33,99 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         super.setUp();
     }
 
+    /**
+     * 蓝牙测试
+     */
+    public void testBlue(){
+        Runnable send = new Runnable() {
+            @Override
+            public void run() {
+                /*BlueToothImp blueToothImp = new BlueToothImp(this);//Activity
+                blueToothImp.registerBluetoothReceiver();
+                blueToothImp.ready();
+                assertTrue(blueToothImp.connect("", "") == TransBasic.CONNECT_OK);
+                assertTrue(blueToothImp.transFile(new File(Util.DATA_DIRECTORY,"ft.conf"))==TransBasic.TRANS_OK);
+                blueToothImp.unregisterBluetoothReceiver();*/
+            }
+        };
+        Runnable rcv = new Runnable() {
+            @Override
+            public void run() {
+                /*BlueToothImp blueToothImp = new BlueToothImp(this);//Activity
+                blueToothImp.registerBluetoothReceiver();
+                assertTrue(blueToothImp.getQRCode()!=null);
+                assertTrue(blueToothImp.receiFile()==TransBasic.RECI_OK);
+                blueToothImp.unregisterBluetoothReceiver();*/
+            }
+        };
+        new Thread(send).start();
+        new Thread(rcv).start();
+    }
+    public void testUDP(){
+        Runnable send = new Runnable() {
+            @Override
+            public void run() {
+                InetUDPImp inetUDPImp = new InetUDPImp("127.0.0.1");
+                assertTrue("udpSender connect",(inetUDPImp.connect("127.0.0.1"+Util.SPLITER+"9888")== TransBasic.CONNECT_OK));
+                assertTrue("udpSender send", inetUDPImp.transFile(new File(Util.DATA_DIRECTORY, "ft.conf")) == TransBasic.TRANS_OK);
+            }
+        };
+        Runnable rcv = new Runnable() {
+            @Override
+            public void run() {
+                InetUDPImp inetUDPImp = new InetUDPImp("127.0.0.1");
+                inetUDPImp.getQRCode();
+                assertEquals(inetUDPImp.connect(), TransBasic.CONNECT_OK);
+                assertTrue(inetUDPImp.receiFile() == TransBasic.RECI_OK);
+            }
+        };
+        new Thread(send).start();
+        new Thread(rcv).start();
+    }
+    public void testHotSpot(){
+        Runnable send = new Runnable() {
+            @Override
+            public void run() {
+                /*HotSpotImp hotSpotImp = new HotSpotImp(this);//Activity
+                assertEquals(TransBasic.CONNECT_OK,hotSpotImp.connect("TP" + Util.SPLITER + "123456"));
+                assertEquals(TransBasic.TRANS_OK, hotSpotImp.transFile(new File(Util.DATA_DIRECTORY, "ft.conf")));*/
+            }
+        };
+        Runnable rcv = new Runnable() {
+            @Override
+            public void run() {
+                /*HotSpotImp hotSpotImp = new HotSpotImp(this);//Activity
+                hotSpotImp.getQRCode();
+                assertEquals(TransBasic.RECI_OK,hotSpotImp.receiFile());*/
+            }
+        };
+        new Thread(send).start();
+        new Thread(rcv).start();
+    }
+    public void testWifiDirect(){
+        Runnable send = new Runnable() {
+            @Override
+            public void run() {
+                /*WifiDirectImp wdi = new WifiDirectImp(this);//Activity
+                wdi.registerWifiDirectReceiver();//在当前Activity中的onResume()生命周期中调用该方法。注册广播监听的接收器。
+                assertEquals(TransBasic.CONNECT_OK, wdi.connect(""));
+                assertEquals(TransBasic.TRANS_OK,wdi.transFile(new File(Util.DATA_DIRECTORY,"ft.conf")));
+                wdi.unregister()//在onPause()生命周期中进行注销*/
+            }
+        };
+        Runnable rcv = new Runnable() {
+            @Override
+            public void run() {
+                /*WifiDirectImp wdi = new WifiDirectImp(this);//Activity
+                wdi.registerWifiDirectReceiver();//在当前Activity中的onResume()生命周期中调用该方法。注册广播监听的接收器。
+                assertTrue("WifiDirect rcv getQRCode", wdi.getQRCode() != null);
+                assertEquals(TransBasic.RECI_OK,wdi.receiFile());
+                wdi.unregister();//在onPause()生命周期中进行注销*/
+            }
+        };
+        new Thread(send).start();
+        new Thread(rcv).start();
+    }
     /**
      * 二维码单元测试方法，将字符串生成二维码图像后，再对图像进行解析，得到结果与初始化字符串对比。
      * @throws Exception
@@ -90,13 +187,16 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         assertTrue("测试获取本地ip",localIp!=null);
         assertTrue("测试获取网络状态",true);
         assertTrue("测试获取网络Ip", netIp!=null);
+
+        //String a = NetworkDetect.getCurrentNetType(this);
+        //assertTrue(a!=null&&!a.equals(""));
     }
     public void testConf(){
         Configuration conf  = new Configuration();
         File file = new File(Util.DATA_DIRECTORY,"ft.conf");
         assertTrue("测试配置文件是否创建",file.exists());
         assertEquals("测试配置ip地址","127.0.0.1",conf.getIpAddress());
-        assertEquals("测试配置器端口","9888", conf.getServerPort());
-        assertEquals("测试配置p2p端口","9888",conf.getP2PPort());
+        assertEquals("测试配置器端口",9888, conf.getServerPort());
+        assertEquals("测试配置p2p端口",9888,conf.getP2PPort());
     }
 }

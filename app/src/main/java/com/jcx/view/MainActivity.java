@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity{
 
         }else {
 
-            Toast.makeText(context, getString(R.string.sd_readerror), Toast.LENGTH_SHORT);
+            Toast.makeText(context, getString(R.string.sd_readerror), Toast.LENGTH_SHORT).show();
         }
     }
     ListViewSwipeGesture.TouchCallbacks swipeListener = new ListViewSwipeGesture.TouchCallbacks() {
