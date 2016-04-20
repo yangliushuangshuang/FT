@@ -27,6 +27,7 @@ import com.jcx.communication.BlueToothImp;
 import com.jcx.util.FileFilter;
 import com.jcx.util.FileOper;
 import com.jcx.util.FileUtil;
+import com.jcx.util.ListViewSwipeGesture;
 import com.jcx.util.ZipUtil;
 import com.jcx.view.adapter.AsynLoadImg;
 import com.jcx.view.adapter.MyAdapter;
@@ -114,11 +115,25 @@ public class MainActivity extends AppCompatActivity{
             listfiles=getListfiles(Environment.getExternalStorageDirectory());
             adapter=new MyAdapter(context,listfiles,file_list);
             file_list.setAdapter(adapter);
+
+            ListViewSwipeGesture touchListener = new ListViewSwipeGesture(file_list, swipeListener, this);
+            touchListener.SwipeType	=	ListViewSwipeGesture.Item_swipe_firstInvoked;    //设置两个选项列表项的背景
+            file_list.setOnTouchListener(touchListener);
+
         }else {
 
             Toast.makeText(context, getString(R.string.sd_readerror), Toast.LENGTH_SHORT);
         }
     }
+    ListViewSwipeGesture.TouchCallbacks swipeListener = new ListViewSwipeGesture.TouchCallbacks() {
+
+        @Override
+        public void HalfSwipeListView(int position) {
+            adapter.notifyDataSetChanged();
+            Toast.makeText(MainActivity.this,"发送", Toast.LENGTH_SHORT).show();
+        }
+
+    };
     /**
      * 设置点击菜单时menu显示在actionbar下面
      */
