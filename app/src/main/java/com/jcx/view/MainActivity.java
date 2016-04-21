@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
@@ -23,11 +24,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jcx.R;
+import com.jcx.communication.BlueTooth;
 import com.jcx.communication.BlueToothImp;
+import com.jcx.communication.HotSpotImp;
+import com.jcx.communication.InetUDPImp;
+import com.jcx.communication.TransBasic;
+import com.jcx.communication.WifiDirectImp;
 import com.jcx.util.FileFilter;
 import com.jcx.util.FileOper;
 import com.jcx.util.FileUtil;
 import com.jcx.util.ListViewSwipeGesture;
+import com.jcx.util.Util;
 import com.jcx.util.ZipUtil;
 import com.jcx.view.adapter.AsynLoadImg;
 import com.jcx.view.adapter.MyAdapter;
@@ -63,10 +70,24 @@ public class MainActivity extends AppCompatActivity{
 
     private String appFolder=null;
 
+    private BlueToothImp blueToothImp;
+    private HotSpotImp hotSpotImp;
+    private InetUDPImp inetUDPImp;
+    private WifiDirectImp wifiDirectImp;
+
+    private String flag;
+    private int resultTypeOfScan=-1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        blueToothImp=new BlueToothImp(this);
+        hotSpotImp=new HotSpotImp(this);
+        inetUDPImp=new InetUDPImp("127.0.0.1");
+        wifiDirectImp=new WifiDirectImp(this);
+
         fab_confirm= (FloatingActionButton) findViewById(R.id.fab_confirm);
         fab_cancel= (FloatingActionButton) findViewById(R.id.fab_cancel);
         fab_confirm.hide();
@@ -75,6 +96,20 @@ public class MainActivity extends AppCompatActivity{
         forceShowOverflowMenu();
         context=this;
         initUI();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        blueToothImp.registerBluetoothReceiver();
+        wifiDirectImp.registerWifiDirectReceiver();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        blueToothImp.unregisterBluetoothReceiver();
+        wifiDirectImp.unregister();
     }
 
     /**
@@ -189,10 +224,11 @@ public class MainActivity extends AppCompatActivity{
         switch (id) {
             case R.id.action_fileAccept:
 
-                items=new CharSequence[3];
+                items=new CharSequence[4];
                 items[0]=getString(R.string.fileAccept_bluetooth);
                 items[1]=getString(R.string.fileAccept_hotspot);
                 items[2]=getString(R.string.fileAccept_network);
+                items[3]=getString(R.string.fileAccept_wifidiect);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(
                         MainActivity.this);
@@ -204,23 +240,45 @@ public class MainActivity extends AppCompatActivity{
                         String select_item = items[which].toString();
                         if (select_item.equals(getString(R.string.fileAccept_bluetooth))) {
                             //TODO -------->通过蓝牙接受文件
+                            flag="BTR";
+                            Intent intent2=new Intent(MainActivity.this, CreateQRCodeActivity.class);
+                            intent2.putExtra("flag",flag);
+                            flag=null;
+                            startActivityForResult(intent2,1);
+
                         }else if (select_item.equals(getString(R.string.fileAccept_hotspot))) {
                             //TODO---------->通过开热点接收文件
+                            flag="HSR";
+                            Intent intent3=new Intent(MainActivity.this,CreateQRCodeActivity.class);
+                            intent3.putExtra("flag",flag);
+                            flag=null;
+                            startActivityForResult(intent3,2);
+
                         }else if (select_item.equals(getString(R.string.fileAccept_network))) {
                             //TODO--------->通过网络接收文件
+                            flag="UDP";
+                            Intent intent4=new Intent(MainActivity.this,CreateQRCodeActivity.class);
+                            intent4.putExtra("flag",flag);
+                            startActivityForResult(intent4,3);
+                        }else if(select_item.equals(getString(R.string.fileAccept_wifidiect))){
+                            //TODO --------->WIFIDirect 接收文件
+                            flag="WFD";
+                            Intent intent5=new Intent(MainActivity.this,CreateQRCodeActivity.class);
+                            intent5.putExtra("flag",flag);
+                            startActivityForResult(intent5,4);
                         }
                     }
                 });
                 builder.show();
                 break;
-            case R.id.action_creatqrcode:
-                Intent intent2=new Intent(MainActivity.this, CreateQRCodeActivity.class);
-                startActivity(intent2);
-                break;
-            case R.id.action_scanqrcode:
-                Intent intent=new Intent(MainActivity.this, CaptureActivity.class);
-                startActivityForResult(intent, 0);
-                break;
+//            case R.id.action_creatqrcode:
+//                Intent intent2=new Intent(MainActivity.this, CreateQRCodeActivity.class);
+//                startActivity(intent2);
+//                break;
+//            case R.id.action_scanqrcode:
+//                Intent intent=new Intent(MainActivity.this, CaptureActivity.class);
+//                startActivityForResult(intent, 0);
+//                break;
             case R.id.action_new_folder:
                 AlertDialog.Builder new_folder_dialog=new AlertDialog.Builder(context);
                 new_folder_dialog.setTitle(R.string.menu_new_folder);
@@ -267,29 +325,16 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo menuInfo= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        int position=menuInfo.position;
+        final int position=menuInfo.position;
         fileUsedInContextMenu=listfiles[position];
         switch (item.getItemId())
         {
-            case R.id.menu_context_copy:
-                srcFilePath=listfiles[position].getAbsolutePath();
-                System.out.println("srcFilePath:"+srcFilePath);
-                if (srcFilePath!=null) {
-                    Toast.makeText(context, R.string.fileCopy_success, Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.menu_context_move:
-                tv_title.setText(R.string.tv_text_choseTargetDictionary);
-                srcFilePath=listfiles[position].getAbsolutePath();
-                fab_confirm.show();
-                fab_cancel.show();
-                floatingActionButtonClickListener();
-                break;
             case R.id.menu_file_send:
-                items=new CharSequence[3];
+                items=new CharSequence[4];
                 items[0]=getString(R.string.fileSend_bluetooth);
                 items[1]=getString(R.string.fileSend_hotspot);
                 items[2]=getString(R.string.fileSend_network);
+                items[3]=getString(R.string.fileSend_WIFIDirect);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(
                         MainActivity.this);
@@ -301,59 +346,105 @@ public class MainActivity extends AppCompatActivity{
                         String select_item = items[which].toString();
                         if (select_item.equals(getString(R.string.fileSend_bluetooth))) {
                             //TODO -------->通过蓝牙发送文件
-                        }else if (select_item.equals(getString(R.string.fileAccept_hotspot))) {
+                            Intent intent=new Intent(MainActivity.this, CaptureActivity.class);
+                            startActivityForResult(intent, 0);
+                            resultTypeOfScan=0;
+
+                        }else if (select_item.equals(getString(R.string.fileSend_hotspot))) {
                             //TODO---------->通过开热点发送文件
-                        }else if (select_item.equals(getString(R.string.fileAccept_network))) {
+                            Intent intent1=new Intent(MainActivity.this, CaptureActivity.class);
+                            startActivityForResult(intent1, 0);
+                            resultTypeOfScan=1;
+
+                        }else if (select_item.equals(getString(R.string.fileSend_network))) {
                             //TODO--------->通过网络发送文件
+                            Intent intent2=new Intent(MainActivity.this, CaptureActivity.class);
+                            startActivityForResult(intent2, 0);
+                            resultTypeOfScan=2;
+                        }else if (select_item.equals(getString(R.string.fileSend_WIFIDirect))){
+                            //TODO---------->WIFIDirect 发送文件
+                            Intent intent3=new Intent(MainActivity.this, CaptureActivity.class);
+                            startActivityForResult(intent3, 0);
+                            resultTypeOfScan=3;
+
                         }
                     }
                 });
                 builder.show();
                 break;
-            case R.id.menu_context_rename:
-                AlertDialog.Builder dialog=new AlertDialog.Builder(context);
-                dialog.setTitle(R.string.rename);
-                editText=new EditText(context);
-                editText.setHint(R.string.input_newname);
-                editText.setText(fileUsedInContextMenu.getName());
-                editText.selectAll();
-                dialog.setView(editText);
-                dialogTag=0;
-                dialog.setPositiveButton(R.string.rename_sure, new dialogOnConfirmClickListener());
-                dialog.setNegativeButton(R.string.rename_undo, new dialogOnCancelClickListener());
-                dialog.show();
+            case R.id.menu_edit:
+                items=new CharSequence[4];
+                items[0]=getString(R.string.copy);
+                items[1]=getString(R.string.move);
+                items[2]=getString(R.string.delete);
+                items[3]=getString(R.string.rename);
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(
+                        MainActivity.this);
+                builder2.setTitle(R.string.sendFile_title);
+                //items使用全局的finalCharSequenece数组声明
+                builder2.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String select_item = items[which].toString();
+                        if (select_item.equals(getString(R.string.copy))) {
+                            srcFilePath=listfiles[position].getAbsolutePath();
+                            System.out.println("srcFilePath:"+srcFilePath);
+                            if (srcFilePath!=null) {
+                                Toast.makeText(context, R.string.fileCopy_success, Toast.LENGTH_SHORT).show();
+                            }
+                        }else if (select_item.equals(getString(R.string.move))) {
+                            tv_title.setText(R.string.tv_text_choseTargetDictionary);
+                            srcFilePath=listfiles[position].getAbsolutePath();
+                            fab_confirm.show();
+                            fab_cancel.show();
+                            floatingActionButtonClickListener();
+                        }else if (select_item.equals(getString(R.string.delete))) {
+                            boolean fileDeleteReturn;
+                            fileDeleteReturn=fileOper.delete(listfiles[position].getAbsolutePath());
+                            viewUpdate();
+                            asynLoadImg.isAllow=true;
+                            if (fileDeleteReturn) {
+                                Toast.makeText(context, R.string.fileDelete_success, Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(context, R.string.fileDelete_fail, Toast.LENGTH_SHORT).show();
+                            }
+                        }else if (select_item.equals(getString(R.string.rename))){
+                            AlertDialog.Builder dialog2=new AlertDialog.Builder(context);
+                            dialog2.setTitle(R.string.rename);
+                            editText=new EditText(context);
+                            editText.setHint(R.string.input_newname);
+                            editText.setText(fileUsedInContextMenu.getName());
+                            editText.selectAll();
+                            dialog2.setView(editText);
+                            dialogTag=0;
+                            dialog2.setPositiveButton(R.string.rename_sure, new dialogOnConfirmClickListener());
+                            dialog2.setNegativeButton(R.string.rename_undo, new dialogOnCancelClickListener());
+                            dialog2.show();
+                        }
+                    }
+                });
+                builder2.show();
                 break;
-            case R.id.menu_context_delete:
-                boolean fileDeleteReturn;
-                fileDeleteReturn=fileOper.delete(listfiles[position].getAbsolutePath());
-                viewUpdate();
-                asynLoadImg.isAllow=true;
-                if (fileDeleteReturn) {
-                    Toast.makeText(context, R.string.fileDelete_success, Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(context, R.string.fileDelete_fail, Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.menu_file_zip:
-                srcFilePath=listfiles[position].getAbsolutePath();
-                ZipUtil zipUtil=new ZipUtil();
-                String zipFileName=srcFilePath+".zip";
-                try {
-                    zipUtil.zip(srcFilePath, zipFileName);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.menu_file_unzip:
-                srcFilePath=listfiles[position].getAbsolutePath();
-                ZipUtil zipUtil1=new ZipUtil();
-                String destFilePath=currentFilePath+"/"+"FT"+"/files";
-                try {
-                    zipUtil1.unZip(srcFilePath, destFilePath);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
+//            case R.id.menu_file_zip:
+//                srcFilePath=listfiles[position].getAbsolutePath();
+//                ZipUtil zipUtil=new ZipUtil();
+//                String zipFileName=srcFilePath+".zip";
+//                try {
+//                    zipUtil.zip(srcFilePath, zipFileName);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+//            case R.id.menu_file_unzip:
+//                srcFilePath=listfiles[position].getAbsolutePath();
+//                ZipUtil zipUtil1=new ZipUtil();
+//                String destFilePath=currentFilePath+"/"+"FT"+"/files";
+//                try {
+//                    zipUtil1.unZip(srcFilePath, destFilePath);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                break;
             default:
                 break;
         }
@@ -361,12 +452,109 @@ public class MainActivity extends AppCompatActivity{
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode==RESULT_OK) {
-            String result=data.getExtras().getString("result");
-            BlueToothImp blueToothImp=new BlueToothImp(this);
-            blueToothImp.connect(result);
+        if (resultCode==RESULT_OK)
+        {
+            final String result=data.getExtras().getString("result");
+            switch (resultTypeOfScan)
+            {
+                case 0:
+                    new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            if(blueToothImp.connect(result)== TransBasic.CONNECT_OK) {
+                                blueToothImp.transFile(new File(Util.DATA_DIRECTORY, "ft.conf"));
+                            }
+                            return null;
+                        }
+                    };
+                    resultTypeOfScan=-1;
+                    break;
+                case 1:
+                    new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            if (hotSpotImp.connect("TP" + Util.SPLITER + "123456") == TransBasic.CONNECT_OK) {
+                                if (hotSpotImp.transFile(new File(Util.DATA_DIRECTORY, "ft.conf")) == TransBasic.TRANS_OK) {
+
+                                }
+                            }
+                            return null;
+                        }
+                    };
+                    resultTypeOfScan=-1;
+                    break;
+                case 2:
+                    new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            if (inetUDPImp.connect("127.0.0.1" + Util.SPLITER + "9888") == TransBasic.CONNECT_OK) {
+                                if (inetUDPImp.transFile(new File(Util.DATA_DIRECTORY, "ft.conf")) == TransBasic.TRANS_OK)
+                                {
+
+                                }
+                            }
+                            return null;
+                        }
+                    };
+                    resultTypeOfScan=-1;
+                    break;
+                case 3:
+                    new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            if (wifiDirectImp.connect(result)==TransBasic.CONNECT_OK) {
+                                if(wifiDirectImp.transFile(new File(Util.DATA_DIRECTORY,"ft.conf"))==TransBasic.TRANS_OK){
+
+                                }
+                            }
+                            return null;
+                        }
+                    };
+                    resultTypeOfScan=-1;
+                    break;
+            }
+        }else if (resultCode == 1 && data.getStringExtra("action").equals("BTR")) {//TODO 通过蓝牙接受文件
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    if(blueToothImp.receiFile()==TransBasic.RECI_OK){
+
+                    }
+                    return null;
+                }
+            };
+        }else if (resultCode == 2 && data.getStringExtra("action").equals("HSR")) {//TODO 通过热点接收文件
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    if(hotSpotImp.receiFile()==TransBasic.RECI_OK){
+
+                    }
+                    return null;
+                }
+            };
+        }else if (resultCode == 3 && data.getStringExtra("action").equals("UDP")) {//TODO 通过UDP接收文件
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    if (inetUDPImp.receiFile() == TransBasic.RECI_OK) {
+
+                    }
+                    return null;
+                }
+            };
+        }else if (resultCode == 4 && data.getStringExtra("action").equals("WFD")) {//TODO 通过WIFIDriect接收文件
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    if (wifiDirectImp.receiFile() == TransBasic.RECI_OK) {//
+
+                    }
+                    return null;
+                }
+            };
         }
     }
     /**

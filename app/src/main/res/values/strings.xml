@@ -4,6 +4,7 @@
     <string name="folder">文件夹</string>
     <string name="file">文件</string>
     <string name="menu_HeaderTitle_action">操作</string>
+    <string name="edit">编辑</string>
     <string name="copy">复制</string>
     <string name="move">移动</string>
     <string name="delete">删除</string>
@@ -11,9 +12,11 @@
     <string name="fileSend_bluetooth">蓝牙发送</string>
     <string name="fileSend_hotspot">开热点</string>
     <string name="fileSend_network">2G/3G/WIFI发送</string>
+    <string name="fileSend_WIFIDirect">WIFIDirect发送</string>
     <string name="fileAccept_bluetooth">蓝牙接收</string>
     <string name="fileAccept_hotspot">热点</string>
     <string name="fileAccept_network">2G/3G/WIFI</string>
+    <string name="fileAccept_wifidiect">WIFIDircet接收</string>
     <string name="rename">重命名</string>
     <string name="input_newname">请输入新名字</string>
     <string name="input_folderName">请输入文件名</string>
@@ -48,6 +51,7 @@
     <string name="tv_text_default">文件管理</string>
 
     <string name="sendFile_title">请选择发送方式</string>
+    <string name="editFile_title">编辑文件</string>
     <string name="acceptFile_title">请选择接收文件的方式</string>
 
     <string name="NoChoose">0/3</string>

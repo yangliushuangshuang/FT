@@ -8,17 +8,17 @@
         android:orderInCategory="100"
         app:showAsAction="always"/>
 
-    <item
-        android:id="@+id/action_creatqrcode"
-        android:icon="@drawable/file_accept"
-        android:title="@string/menu_generate_qrcode"
-        android:orderInCategory="100"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_scanqrcode"
-        android:title="@string/menu_scan_qrcode"
-        android:orderInCategory="100"
-        app:showAsAction="never"/>
+    <!--<item-->
+        <!--android:id="@+id/action_creatqrcode"-->
+        <!--android:icon="@drawable/file_accept"-->
+        <!--android:title="@string/menu_generate_qrcode"-->
+        <!--android:orderInCategory="100"-->
+        <!--app:showAsAction="never"/>-->
+    <!--<item-->
+        <!--android:id="@+id/action_scanqrcode"-->
+        <!--android:title="@string/menu_scan_qrcode"-->
+        <!--android:orderInCategory="100"-->
+        <!--app:showAsAction="never"/>-->
     <item
         android:id="@+id/action_new_folder"
         android:title="@string/menu_new_folder"
