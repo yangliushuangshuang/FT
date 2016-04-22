@@ -472,14 +472,15 @@ public class MainActivity extends AppCompatActivity{
                                 }
                             }
                             return null;
+
                         }
                     }.execute();
                     resultTypeOfScan=-1;
                     break;
                 case 1:
-                    new AsyncTask<Void, Void, Void>() {//TODO 通过开热点发送文件
+                    Runnable hotstop=new Runnable() {
                         @Override
-                        protected Void doInBackground(Void... params) {
+                        public void run() {
                             if (hotSpotImp.connect(result) == TransBasic.CONNECT_OK) {
                                 if (fileUsedInContextMenu != null) {
                                     if (hotSpotImp.transFile(fileUsedInContextMenu) == TransBasic.TRANS_OK) {
@@ -487,9 +488,9 @@ public class MainActivity extends AppCompatActivity{
                                     }
                                 }
                             }
-                            return null;
                         }
-                    }.execute();
+                    };
+                    new Thread(hotstop).start();
                     resultTypeOfScan=-1;
                     break;
                 case 2:
