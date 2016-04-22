@@ -1,19 +1,16 @@
 package com.jcx.communication;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.DhcpInfo;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.google.zxing.qrcode.encoder.QRCode;
-import com.jcx.hotspot.WifiAdmin;
-import com.jcx.hotspot.WifiApAdmin;
+import com.jcx.hotspot.WifiManageUtils;
 import com.jcx.util.Configuration;
 import com.jcx.util.NetworkDetect;
 import com.jcx.util.QRcodeUtil;
@@ -35,13 +32,14 @@ public class HotSpotImp implements HotSpot {
 	private Activity context;
 	private String wifiName;
 	private String psw;
-	private WifiAdmin wifiAdmin;
 	private String rmAddr;
 	private String addr;
 	private int port;
 	private int rmPort;
+	private WifiManageUtils wifiManageUtils;
 	public HotSpotImp(Activity context){
 		this.context = context;
+		wifiManageUtils = new WifiManageUtils(context);
 		wifiName = "TP";
 		port = new Configuration().getP2PPort();
 	}
@@ -68,6 +66,7 @@ public class HotSpotImp implements HotSpot {
 			String name = fileInfo[0];
 			//TODO
 			long length = Long.parseLong(fileInfo[1]);
+			Toast.makeText(context,String.valueOf(length),Toast.LENGTH_SHORT).show();
 			ServerSocket socket = new ServerSocket(port);
 			Socket client = socket.accept();
 			Log.d("reciFile","通过了阻塞，即socket通信开始");
@@ -101,37 +100,38 @@ public class HotSpotImp implements HotSpot {
 	public int connect(final String content){
 		String[] info = content.split(Util.SPLITER);
 		String wifiName = info[0],psw=info[1];
-		rmAddr = info[2];
+		//rmAddr = info[2];
 		rmPort = Integer.parseInt(info[3]);
-		wifiAdmin = new WifiAdmin(context) {
-			@Override
-			public Intent myRegisterReceiver(BroadcastReceiver receiver, IntentFilter filter) {
-				context.registerReceiver(receiver,filter);
-				return null;
+		wifiManageUtils.openWifi();
+		wifiManageUtils.startscan();
+		WifiConfiguration netConfig = wifiManageUtils.getCustomeWifiClientConfiguration(wifiName, psw, 3);
+		if(!wifiManageUtils.addNetwork(netConfig)){
+			Log.e("hotspot","add network fail");
+			return CONNECT_FAIL;
+		}
+		boolean iptoready =false;
+		while (!iptoready)
+		{
+			wifiManageUtils.startscan();
+			try
+			{
+				// 为了避免程序一直while循环，让它睡个100毫秒在检测……
+				Thread.currentThread();
+				Thread.sleep(100);
+			}
+			catch (InterruptedException ie)
+			{
 			}
 
-			@Override
-			public void myUnregisterReceiver(BroadcastReceiver receiver) {
-				context.unregisterReceiver(receiver);
+			DhcpInfo dhcp = new WifiManageUtils(context).getDhcpInfo();
+			int ipInt = dhcp.gateway;
+			if (ipInt != 0)
+			{
+				rmAddr = Util.intToIp(ipInt);
+				iptoready = true;
 			}
-
-			@Override
-			public void onNotifyWifiConnected() {
-				Log.v("HotSpot", "have connected success!");
-				Log.v("HotSpot", "###############################");
-			}
-
-			@Override
-			public void onNotifyWifiConnectFailed() {
-				Log.v("HotSpot", "have connected fail!");
-				Log.v("HotSpot", "###############################");
-			}
-		};
-		wifiAdmin.openWifi();
-		WifiConfiguration conf = wifiAdmin.createWifiInfo(wifiName,psw,WifiAdmin.TYPE_WPA);
-		wifiAdmin.addNetwork(conf);
-		if(wifiAdmin.isWifiContected(context)==WifiAdmin.WIFI_CONNECTED)return CONNECT_OK;
-		return CONNECT_FAIL;
+		}
+		return CONNECT_OK;
 	}
 
 	/**
@@ -140,9 +140,9 @@ public class HotSpotImp implements HotSpot {
 	 */
 	@Override
 	public Bitmap getQRCode() {
-		WifiApAdmin wifiApAdmin = new WifiApAdmin(context);
+		WifiManageUtils wifiManageUtils = new WifiManageUtils(context);
 		psw = Util.randPsw(10);
-		wifiApAdmin.startWifiAp("wifiName",psw);
+		wifiManageUtils.stratWifiAp("FT",psw,3);
 		addr = NetworkDetect.getLocalIpAddress();
 		String content = wifiName+Util.SPLITER+psw+Util.SPLITER+addr+Util.SPLITER+port;
 		return QRcodeUtil.encode(content,300,300);
@@ -150,9 +150,9 @@ public class HotSpotImp implements HotSpot {
 
 	@Override
 	public void disconnect() {
-		//wifiAdmin.disconnectWifi(wifiAdmin.getNetworkId());
-		WifiManager wifiManager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-		if(wifiManager!=null&&wifiManager.isWifiEnabled())wifiManager.setWifiEnabled(false);
-		if(wifiAdmin!=null)wifiAdmin.closeWifi();
+		if(wifiManageUtils!=null){
+			wifiManageUtils.closeWifiAp();
+			wifiManageUtils.closeWifi();
+		}
 	}
 }
