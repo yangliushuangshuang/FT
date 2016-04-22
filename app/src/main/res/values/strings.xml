@@ -4,6 +4,7 @@
     <string name="folder">文件夹</string>
     <string name="file">文件</string>
     <string name="menu_HeaderTitle_action">操作</string>
+    <string name="edit">编辑</string>
     <string name="copy">复制</string>
     <string name="move">移动</string>
     <string name="delete">删除</string>
@@ -11,9 +12,11 @@
     <string name="fileSend_bluetooth">蓝牙发送</string>
     <string name="fileSend_hotspot">开热点</string>
     <string name="fileSend_network">2G/3G/WIFI发送</string>
+    <string name="fileSend_WIFIDirect">WIFIDirect发送</string>
     <string name="fileAccept_bluetooth">蓝牙接收</string>
     <string name="fileAccept_hotspot">热点</string>
     <string name="fileAccept_network">2G/3G/WIFI</string>
+    <string name="fileAccept_wifidiect">WIFIDircet接收</string>
     <string name="rename">重命名</string>
     <string name="input_newname">请输入新名字</string>
     <string name="input_folderName">请输入文件名</string>
@@ -48,5 +51,22 @@
     <string name="tv_text_default">文件管理</string>
 
     <string name="sendFile_title">请选择发送方式</string>
+    <string name="editFile_title">编辑文件</string>
     <string name="acceptFile_title">请选择接收文件的方式</string>
+
+    <string name="NoChoose">0/3</string>
+    <string name="ChooseOne">1/3</string>
+    <string name="ChooseTow">2/3</string>
+    <string name="ChooseThree">3/3</string>
+    <string name="exitHint">再按一次退出程序</string>
+    <string name="ChooseEnough">最多只可选择三个标签</string>
+    <string name="ChooseHint">请先在上一页选择标签</string>
+    <string name="item_swip_action">发送</string>
+    <string name="basic_action_2">Action_2</string>
+    <string name="basic_del">Delete</string>
+    <string name="str_defaultColor">#FF3F51B5</string>
+    <string name="str_green">#3cac69</string>
+    <string name="str_red">#FF4444</string>
+    <string name="str_yellow">#FFBB33</string>
+    <string name="str_sky_blue">#33B5E5</string>
 </resources>

@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="C:\Users\lenovo\AndroidStudioProjects\FT\BarCodeTest 2\assets"/></dataSet><dataSet config="debug"><source path="C:\Users\lenovo\AndroidStudioProjects\FT\BarCodeTest 2\build-types\debug\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="/Users/Cui/Documents/FT/BarCodeTest 2/assets"/></dataSet><dataSet config="debug"><source path="/Users/Cui/Documents/FT/BarCodeTest 2/build-types/debug/assets"/></dataSet></merger>

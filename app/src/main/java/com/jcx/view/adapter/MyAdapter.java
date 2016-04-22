@@ -14,8 +14,6 @@ import android.widget.TextView;
 import com.jcx.R;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Cui on 16-4-1.
@@ -29,7 +27,6 @@ public class MyAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private AsynLoadImg asynLoadImg;
     private boolean isExecute=false;
-    private Map<Integer,Boolean> fileIsSelected;
     private ViewHolder holder;
 
     public MyAdapter(Context context,File[] filelist,ListView listView)
@@ -37,19 +34,11 @@ public class MyAdapter extends BaseAdapter {
         this.context=context;
         this.filelist=filelist;
         this.listView=listView;
-        fileIsSelected=new HashMap<Integer,Boolean>();
         inflater=LayoutInflater.from(context);
         asynLoadImg =new AsynLoadImg(context);
         listView.setOnScrollListener(new fixPosition());
-//        init();
     }
 
-    public void init(){
-        int fileListLength=filelist.length;
-        for (int i = 0; i < fileListLength; i++) {
-            fileIsSelected.put(i,false);
-        }
-    }
 
     public void upDate(File[] filelist){
         this.filelist=filelist;
@@ -162,7 +151,6 @@ public class MyAdapter extends BaseAdapter {
 //                holder.file_checkBox.setChecked(fileIsSelected.get(position));
 //            }
 //        });
-
         return convertView;
     }
 

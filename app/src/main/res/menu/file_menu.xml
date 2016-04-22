@@ -1,24 +1,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_context_copy"
-        android:title="@string/copy"
-        />
-    <item android:id="@+id/menu_context_move"
-        android:title="@string/move"
-        />
-    <item android:id="@+id/menu_context_delete"
-        android:title="@string/delete"
-        />
+    <!--<item android:id="@+id/menu_context_copy"-->
+        <!--android:title="@string/copy"-->
+        <!--/>-->
+    <!--<item android:id="@+id/menu_context_move"-->
+        <!--android:title="@string/move"-->
+        <!--/>-->
+    <!--<item android:id="@+id/menu_context_delete"-->
+        <!--android:title="@string/delete"-->
+        <!--/>-->
     <item android:id="@+id/menu_file_send"
         android:title="@string/file_send"
         />
-    <item android:id="@+id/menu_context_rename"
-        android:title="@string/rename"
+    <item android:id="@+id/menu_edit"
+        android:title="@string/edit"
         />
-    <item android:id="@+id/menu_file_zip"
-        android:title="压缩"
-        />
-    <item android:id="@+id/menu_file_unzip"
-        android:title="解压缩"
-        />
+    <!--<item android:id="@+id/menu_context_rename"-->
+        <!--android:title="@string/rename"-->
+        <!--/>-->
+    <!--<item android:id="@+id/menu_file_zip"-->
+        <!--android:title="压缩"-->
+        <!--/>-->
+    <!--<item android:id="@+id/menu_file_unzip"-->
+        <!--android:title="解压缩"-->
+        <!--/>-->
 
 </menu>
