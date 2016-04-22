@@ -128,6 +128,11 @@ public class InetUDPImp implements InetUDP {
 	}
 
 	@Override
+	public void disconnect() {
+
+	}
+
+	@Override
 	public int connect(Drawable qrCode) {
 		String a = QRcodeUtil.decode(((BitmapDrawable) qrCode).getBitmap());
 		return connect(a);

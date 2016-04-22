@@ -40,4 +40,9 @@ public interface TransBasic {
 	 * @return 具有连接信息的二维码。
 	 */
 	public Bitmap getQRCode();
+
+	/**
+	 * 断开连接后的善后
+	 */
+	public void disconnect();
 }

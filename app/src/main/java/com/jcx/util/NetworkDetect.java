@@ -109,7 +109,8 @@ public class NetworkDetect {
                 for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
                     InetAddress inetAddress = enumIpAddr.nextElement();
                     if (!inetAddress.isLoopbackAddress()) {
-                        return inetAddress.getHostAddress();
+                        String addr = inetAddress.getHostAddress();
+                        if(addr.length()<=16)return addr;
                     }
                 }
             }
