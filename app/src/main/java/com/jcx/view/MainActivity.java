@@ -457,61 +457,72 @@ public class MainActivity extends AppCompatActivity{
         if (resultCode==RESULT_OK)
         {
             final String result=data.getExtras().getString("result");
+            Toast.makeText(MainActivity.this, result, Toast.LENGTH_SHORT).show();
             switch (resultTypeOfScan)
             {
                 case 0:
-                    new AsyncTask<Void, Void, Void>() {
+                    new AsyncTask<Void, Void, Void>() {//TODO 使用蓝牙发送文件
                         @Override
                         protected Void doInBackground(Void... params) {
                             if(blueToothImp.connect(result)== TransBasic.CONNECT_OK) {
-                                blueToothImp.transFile(new File(Util.DATA_DIRECTORY, "ft.conf"));
-                            }
-                            return null;
-                        }
-                    };
-                    resultTypeOfScan=-1;
-                    break;
-                case 1:
-                    new AsyncTask<Void, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(Void... params) {
-                            if (hotSpotImp.connect("TP" + Util.SPLITER + "123456") == TransBasic.CONNECT_OK) {
-                                if (hotSpotImp.transFile(new File(Util.DATA_DIRECTORY, "ft.conf")) == TransBasic.TRANS_OK) {
-
+                                if (fileUsedInContextMenu != null) {
+                                    if(blueToothImp.transFile(fileUsedInContextMenu)==TransBasic.TRANS_OK){
+                                        Toast.makeText(MainActivity.this,"蓝牙传输文件陈工",Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }
                             return null;
                         }
-                    };
+                    }.execute();
+                    resultTypeOfScan=-1;
+                    break;
+                case 1:
+                    new AsyncTask<Void, Void, Void>() {//TODO 通过开热点发送文件
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            if (hotSpotImp.connect(result) == TransBasic.CONNECT_OK) {
+                                if (fileUsedInContextMenu != null) {
+                                    if (hotSpotImp.transFile(fileUsedInContextMenu) == TransBasic.TRANS_OK) {
+                                        Toast.makeText(MainActivity.this,"热点传输文件陈工",Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                            return null;
+                        }
+                    }.execute();
                     resultTypeOfScan=-1;
                     break;
                 case 2:
                     new AsyncTask<Void, Void, Void>() {
                         @Override
-                        protected Void doInBackground(Void... params) {
-                            if (inetUDPImp.connect("127.0.0.1" + Util.SPLITER + "9888") == TransBasic.CONNECT_OK) {
-                                if (inetUDPImp.transFile(new File(Util.DATA_DIRECTORY, "ft.conf")) == TransBasic.TRANS_OK)
-                                {
-
+                        protected Void doInBackground(Void... params) { //TODO 通过网络传输文件
+                            if (inetUDPImp.connect(result) == TransBasic.CONNECT_OK) {
+                                if (fileUsedInContextMenu != null) {
+                                    if (inetUDPImp.transFile(fileUsedInContextMenu) == TransBasic.TRANS_OK)
+                                    {
+                                        Toast.makeText(MainActivity.this,"网络传输文件陈工",Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }
                             return null;
                         }
-                    };
+                    }.execute();
                     resultTypeOfScan=-1;
                     break;
                 case 3:
                     new AsyncTask<Void, Void, Void>() {
                         @Override
-                        protected Void doInBackground(Void... params) {
+                        protected Void doInBackground(Void... params) { // TODO 通过WIFIDIRECT 发送文件
                             if (wifiDirectImp.connect(result)==TransBasic.CONNECT_OK) {
-                                if(wifiDirectImp.transFile(new File(Util.DATA_DIRECTORY,"ft.conf"))==TransBasic.TRANS_OK){
-
+                                if (fileUsedInContextMenu != null) {
+                                    if(wifiDirectImp.transFile(fileUsedInContextMenu)==TransBasic.TRANS_OK){
+                                        Toast.makeText(MainActivity.this,"WIFIDIRECT传输文件陈工",Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }
                             return null;
                         }
-                    };
+                    }.execute();
                     resultTypeOfScan=-1;
                     break;
             }
@@ -520,41 +531,43 @@ public class MainActivity extends AppCompatActivity{
                 @Override
                 protected Void doInBackground(Void... params) {
                     if(blueToothImp.receiFile()==TransBasic.RECI_OK){
-
+                        Toast.makeText(MainActivity.this,"蓝牙发送文件成功",Toast.LENGTH_SHORT).show();
                     }
                     return null;
                 }
-            };
+            }.execute();
         }else if (resultCode == 2 && data.getStringExtra("action").equals("HSR")) {//TODO 通过热点接收文件
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
                     if(hotSpotImp.receiFile()==TransBasic.RECI_OK){
-
+                        Toast.makeText(MainActivity.this,"热点发送文件成功",Toast.LENGTH_SHORT).show();
                     }
                     return null;
                 }
-            };
+            }.execute();
         }else if (resultCode == 3 && data.getStringExtra("action").equals("UDP")) {//TODO 通过UDP接收文件
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
-                    if (inetUDPImp.receiFile() == TransBasic.RECI_OK) {
-
+                    if(inetUDPImp.connect() == TransBasic.CONNECT_OK) {
+                        if (inetUDPImp.receiFile() == TransBasic.RECI_OK) {
+                            Toast.makeText(MainActivity.this,"网络发送文件成功",Toast.LENGTH_SHORT).show();
+                        }
                     }
                     return null;
                 }
-            };
+            }.execute();
         }else if (resultCode == 4 && data.getStringExtra("action").equals("WFD")) {//TODO 通过WIFIDriect接收文件
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
                     if (wifiDirectImp.receiFile() == TransBasic.RECI_OK) {//
-
+                        Toast.makeText(MainActivity.this,"WIFIDIRECT发送文件成功",Toast.LENGTH_SHORT).show();
                     }
                     return null;
                 }
-            };
+            }.execute();
         }
     }
     /**

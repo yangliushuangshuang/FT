@@ -74,12 +74,9 @@ public class CreateQRCodeActivity extends Activity{
 		qrCodeBitmap=inetUDPImp.getQRCode();
 		if (qrCodeBitmap != null) {
 			qrcodeImg.setImageBitmap(qrCodeBitmap);
-			if(inetUDPImp.connect() == TransBasic.CONNECT_OK)
-			{
-				Intent intent = new Intent();
-				intent.putExtra("action", "UDP");
-				setResult(3, intent);
-			}
+			Intent intent = new Intent();
+			intent.putExtra("action", "UDP");
+			setResult(3, intent);
 		}
 	}
 	public void createWiFiDirQRCode(){
