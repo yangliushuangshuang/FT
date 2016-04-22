@@ -245,5 +245,6 @@ public class WifiDirectImp implements WifiDirect{
 				Log.d("wifi direct disconnect","停止失败发现对等设备");
 			}
 		});
+		mManager.cancelConnect(mChannel,null);
 	}
 }

@@ -98,7 +98,7 @@ public class BlueToothImp implements BlueTooth {
 	public void ready() {
 		BluetoothAdapter bta = BluetoothAdapter.getDefaultAdapter();
 		bta.cancelDiscovery();
-		if(bta.isEnabled())bta.enable();
+		if(!bta.isEnabled())bta.enable();
 	}
 	/**
 	 * 作为从设备（接收文件），调用该方法，并返回该设备的蓝牙地址和设备名称，还有口令（如需）。
@@ -118,7 +118,13 @@ public class BlueToothImp implements BlueTooth {
 		return QRcodeUtil.encode(contens.toString(), 300, 300);
 
 	}
-	
+
+	@Override
+	public void disconnect() {
+		BluetoothAdapter bta = BluetoothAdapter.getDefaultAdapter();
+		bta.disable();
+	}
+
 	/**
 	 * 连接设备。
 	 * @param qrCode 扫描得到对方设备蓝牙地址和名称（和口令）的二维码，

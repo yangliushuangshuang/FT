@@ -541,7 +541,7 @@ public class MainActivity extends AppCompatActivity{
                 @Override
                 protected Void doInBackground(Void... params) {
                     if(hotSpotImp.receiFile()==TransBasic.RECI_OK){
-                        Toast.makeText(MainActivity.this,"热点发送文件成功",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,"热点接收文件成功",Toast.LENGTH_SHORT).show();
                     }
                     return null;
                 }

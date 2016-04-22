@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import com.google.zxing.qrcode.encoder.QRCode;
@@ -141,10 +142,17 @@ public class HotSpotImp implements HotSpot {
 	public Bitmap getQRCode() {
 		WifiApAdmin wifiApAdmin = new WifiApAdmin(context);
 		psw = Util.randPsw(10);
-		wifiApAdmin.startWifiAp("\""+wifiName+"\"",psw);
+		wifiApAdmin.startWifiAp("wifiName",psw);
 		addr = NetworkDetect.getLocalIpAddress();
 		String content = wifiName+Util.SPLITER+psw+Util.SPLITER+addr+Util.SPLITER+port;
 		return QRcodeUtil.encode(content,300,300);
 	}
 
+	@Override
+	public void disconnect() {
+		//wifiAdmin.disconnectWifi(wifiAdmin.getNetworkId());
+		WifiManager wifiManager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+		if(wifiManager!=null&&wifiManager.isWifiEnabled())wifiManager.setWifiEnabled(false);
+		if(wifiAdmin!=null)wifiAdmin.closeWifi();
+	}
 }
