@@ -19,14 +19,17 @@
         <!--android:title="@string/menu_scan_qrcode"-->
         <!--android:orderInCategory="100"-->
         <!--app:showAsAction="never"/>-->
+    <!-- orderincategory属性的作用：每个item的优先级，值越大，优先级越低，不会放到overflow中 -->
     <item
         android:id="@+id/action_new_folder"
         android:title="@string/menu_new_folder"
         android:orderInCategory="100"
+        android:icon="@drawable/add_folder"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_file_paste"
         android:title="@string/menu_file_paste"
         android:orderInCategory="100"
+        android:icon="@drawable/paste"
         app:showAsAction="never"/>
 </menu>

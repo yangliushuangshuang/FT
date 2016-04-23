@@ -39,7 +39,7 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 />
         </LinearLayout>
-        <ListView
+        <com.jcx.view.myListView.SwipeMenuListView
             android:id="@+id/file_list"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
