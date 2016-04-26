@@ -33,6 +33,8 @@ public class Util {
     public final static int SOCKET_TIMEOUT=5000;
     public final static int BLOCK_SIZE=1024*10;
     public final static int HELLOSHAKE_SIZE=64;
+    private static long rcvIndex;
+    private static long sendIndex;
     public static String intToIp(int i) {
 
         return (i & 0xFF ) + "." +
@@ -69,12 +71,26 @@ public class Util {
      * @param writer 输出字节流
      * @return 是否成功
      */
-    public static boolean copyFile(Reader reader,Writer writer){
+    public static boolean copyFile(Reader reader,Writer writer,boolean isIn){
         char buf[] = new char[1024];
         int len;
         try {
+            sendIndex = 0;
+            rcvIndex = 0;
             while ((len = reader.read(buf)) != -1) {
-                writer.write(buf, 0, len);
+                int offset=0;
+                if(isIn){
+                    byte[] a = new byte[8];
+                    for(int i=0;i<8;i++)a[i]=(byte)buf[i];
+                    rcvIndex = bytes2long(a);
+                    offset = a.length;
+                }
+                else {
+                    byte[] a = long2bytes(sendIndex);
+                    for(int i=0;i<a.length;i++)buf[i] = (char) a[i];
+                    sendIndex++;
+                }
+                writer.write(buf, offset, len);
             }
             writer.flush();
             reader.close();
@@ -84,7 +100,29 @@ public class Util {
         }
         return true;
     }
-
+    public static long getSendIndex(){
+        return sendIndex;
+    }
+    public static long getRcvIndex(){
+        return rcvIndex;
+    }
+    public static byte[] long2bytes(long num) {
+        byte[] b = new byte[8];
+        for (int i=0;i<8;i++) {
+            b[i] = (byte)(num>>>(56-(i*8)));
+        }
+        return b;
+    }
+    public static long bytes2long(byte[] b) {
+        long temp = 0;
+        long res = 0;
+        for (int i=0;i<8;i++) {
+            res <<= 8;
+            temp = b[i] & 0xff;
+            res |= temp;
+        }
+        return res;
+    }
     /**
      * 接收文件基本信息和传输过程中的信息
      * @param port socket的端口
