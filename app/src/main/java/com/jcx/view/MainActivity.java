@@ -4,11 +4,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -16,7 +20,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -24,7 +27,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jcx.R;
-import com.jcx.communication.BlueTooth;
 import com.jcx.communication.BlueToothImp;
 import com.jcx.communication.HotSpotImp;
 import com.jcx.communication.InetUDPImp;
@@ -33,11 +35,12 @@ import com.jcx.communication.WifiDirectImp;
 import com.jcx.util.FileFilter;
 import com.jcx.util.FileOper;
 import com.jcx.util.FileUtil;
-import com.jcx.util.ListViewSwipeGesture;
-import com.jcx.util.Util;
-import com.jcx.util.ZipUtil;
 import com.jcx.view.adapter.AsynLoadImg;
 import com.jcx.view.adapter.MyAdapter;
+import com.jcx.view.myListView.SwipeMenu;
+import com.jcx.view.myListView.SwipeMenuCreator;
+import com.jcx.view.myListView.SwipeMenuItem;
+import com.jcx.view.myListView.SwipeMenuListView;
 import com.zxing.activity.CaptureActivity;
 
 import java.io.File;
@@ -49,7 +52,7 @@ import java.lang.reflect.Method;
  */
 public class MainActivity extends AppCompatActivity{
     private String rootDictionary=null;
-    private ListView file_list;
+    private SwipeMenuListView file_list;
     private TextView path_info,tv_title;
     private Context context;
     private File[] listfiles;
@@ -83,6 +86,9 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        forceShowOverflowMenu();
+
         blueToothImp=new BlueToothImp(this);
         hotSpotImp=new HotSpotImp(this);
         inetUDPImp=new InetUDPImp("127.0.0.1");
@@ -93,7 +99,6 @@ public class MainActivity extends AppCompatActivity{
         fab_confirm.hide();
         fab_cancel.hide();
 
-        forceShowOverflowMenu();
         context=this;
         initUI();
     }
@@ -127,7 +132,7 @@ public class MainActivity extends AppCompatActivity{
      */
     private void initUI() {
         tv_title= (TextView) findViewById(R.id.tv_title);
-        file_list= (ListView) findViewById(R.id.file_list);
+        file_list= (SwipeMenuListView) findViewById(R.id.file_list);
         file_list.setOnItemClickListener(new fileItemClickListener());
         file_list.setOnItemLongClickListener(new fileItemLongClickListener());
         path_info= (TextView) findViewById(R.id.pathinfo);
@@ -136,39 +141,21 @@ public class MainActivity extends AppCompatActivity{
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
             currentFilePath=Environment.getExternalStorageDirectory().getPath();
 
-            appFolder=currentFilePath+"/FT/files";
-            File fileTemp0=new File(appFolder);
-            if (!fileTemp0.exists()) {
-                newFolder("/FT/files");
-            }
-
             int indexOf=currentFilePath.lastIndexOf("/");
-            rootDictionary=currentFilePath.substring(0,indexOf);
+            rootDictionary=currentFilePath.substring(0, indexOf);
             File fileTemp=new File(rootDictionary);
             rootDictionary=fileTemp.getName();
             System.out.println("rootDictionary:"+rootDictionary);
             listfiles=getListfiles(Environment.getExternalStorageDirectory());
             adapter=new MyAdapter(context,listfiles,file_list);
             file_list.setAdapter(adapter);
-
-            ListViewSwipeGesture touchListener = new ListViewSwipeGesture(file_list, swipeListener, this);
-            touchListener.SwipeType	=	ListViewSwipeGesture.Item_swipe_firstInvoked;    //设置两个选项列表项的背景
-            file_list.setOnTouchListener(touchListener);
+            createSwipeMenu();
 
         }else {
 
             Toast.makeText(context, getString(R.string.sd_readerror), Toast.LENGTH_SHORT).show();
         }
     }
-    ListViewSwipeGesture.TouchCallbacks swipeListener = new ListViewSwipeGesture.TouchCallbacks() {
-
-        @Override
-        public void HalfSwipeListView(int position) {
-            adapter.notifyDataSetChanged();
-            Toast.makeText(MainActivity.this,"发送", Toast.LENGTH_SHORT).show();
-        }
-
-    };
     /**
      * 设置点击菜单时menu显示在actionbar下面
      */
@@ -186,26 +173,21 @@ public class MainActivity extends AppCompatActivity{
     }
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
-        if (featureId == Window.FEATURE_ACTION_BAR && menu != null) {
-            if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
-                try {
-                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
-                    m.setAccessible(true);
-                    m.invoke(menu, true);
-                    System.out.println("setOverFlowItemIcon successed");
-                } catch (Exception e) {
-                }
-            }
-            else {
-                System.out.println("setOverFlowItemIcon failed");
-            }
-        }else {
-            System.out.println("setOverFlowItemIcon failed2");
-        }
         return super.onMenuOpened(featureId, menu);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        try {
+            Class<?> clazz = Class.forName("android.support.v7.view.menu.MenuBuilder");
+            Method m = clazz.getDeclaredMethod("setOptionalIconsVisible", boolean.class);
+            m.setAccessible(true);
+            //下面传入参数
+            m.invoke(menu, true);
+            System.out.println("setOverFlowItemIcon successed");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
@@ -222,6 +204,32 @@ public class MainActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
+            case android.R.id.home:
+                if (parentFilePath == null) {
+
+                }else if (!parentFilePath.getName().equals("")&&!parentFilePath.getName().equals(rootDictionary)) {
+                    listfiles = parentFilePath.listFiles(new FileFilter());
+                    listfiles = FileUtil.sort(listfiles);
+                    adapter.upDate(listfiles);
+                    parentFilePath=parentFilePath.getParentFile();
+
+                    String path=path_info.getText().toString();
+                    int indexOf=path.lastIndexOf("/");
+                    path=path.substring(0,indexOf);
+                    path_info.setText(path);
+
+                    indexOf=currentFilePath.lastIndexOf("/");
+                    currentFilePath=currentFilePath.substring(0, indexOf);
+
+                    if (adapter.state!=null)
+                    {
+                        file_list.setAdapter(adapter);
+                        file_list.onRestoreInstanceState(adapter.state);
+                    }
+                    asynLoadImg.isAllow=true;
+                }else {
+                }
+                break;
             case R.id.action_fileAccept:
 
                 items=new CharSequence[4];
@@ -232,7 +240,7 @@ public class MainActivity extends AppCompatActivity{
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(
                         MainActivity.this);
-                builder.setTitle(R.string.acceptFile_title);
+                builder.setTitle(R.string.acceptFile_title).setIcon(R.drawable.file_accept_menu_icon);
                 //items使用全局的finalCharSequenece数组声明
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
@@ -338,7 +346,7 @@ public class MainActivity extends AppCompatActivity{
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(
                         MainActivity.this);
-                builder.setTitle(R.string.sendFile_title);
+                builder.setTitle(R.string.sendFile_title).setIcon(R.drawable.file_send_menu_icon);
                 //items使用全局的finalCharSequenece数组声明
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
@@ -380,7 +388,7 @@ public class MainActivity extends AppCompatActivity{
                 items[3]=getString(R.string.rename);
                 AlertDialog.Builder builder2 = new AlertDialog.Builder(
                         MainActivity.this);
-                builder2.setTitle(R.string.sendFile_title);
+                builder2.setTitle(R.string.editFile_title).setIcon(R.drawable.file_settings_menu_icon);
                 //items使用全局的finalCharSequenece数组声明
                 builder2.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
@@ -782,5 +790,37 @@ public class MainActivity extends AppCompatActivity{
         }else {
             Toast.makeText(context, getString(R.string.rename_fail), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void createSwipeMenu(){
+        SwipeMenuCreator swipeMenuCreator=new SwipeMenuCreator() {
+            @Override
+            public void create(SwipeMenu menu) {
+                SwipeMenuItem sendItem=new SwipeMenuItem(getApplicationContext());
+                sendItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9, 0xCE)));
+                sendItem.setWidth(dp2px(90));
+                sendItem.setTitle("发送");
+                sendItem.setTitleSize(18);
+                sendItem.setTitleColor(Color.WHITE);
+                menu.addMenuItem(sendItem);
+            }
+        };
+        file_list.setMenuCreator(swipeMenuCreator);
+        file_list.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public void onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+                        System.out.println(position);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+    private int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                getResources().getDisplayMetrics());
     }
 }
