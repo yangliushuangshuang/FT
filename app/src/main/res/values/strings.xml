@@ -72,4 +72,15 @@
     <string name="downloading_file_name">下载的文件名</string>
     <string name="downloading_file_manager">接收</string>
     <string name="downloading_file_manager_activity_title">正在接收的文件</string>
+    <string name="accepting_dialog_title">正在接收的文件...</string>
+    <string name="sending_dialog_title">正在发送的文件...</string>
+    <string name="tv_apk">安装包</string>
+    <string name="tv_picture">图片</string>
+    <string name="tv_video">视频</string>
+    <string name="tv_music">音乐</string>
+    <string name="tv_document">文档</string>
+    <string name="tv_zip">压缩包</string>
+    <string name="tv_offline_webPages">离线网页</string>
+    <string name="tv_others">其他</string>
+    <string name="phone_SDCard">手机SD卡</string>
 </resources>

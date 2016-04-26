@@ -159,20 +159,4 @@ public class GetFileSize {
         return fileSizeString;
     }
 
-
-    public long getlist(File f)
-    {// 递归求取目录文件个数
-        long size = 0;
-        File flist[] = f.listFiles();
-        size = flist.length;
-        for (int i = 0; i < flist.length; i++)
-        {
-            if (flist[i].isDirectory())
-            {
-                size = size + getlist(flist[i]);
-                size--;
-            }
-        }
-        return size;
-    }
 }

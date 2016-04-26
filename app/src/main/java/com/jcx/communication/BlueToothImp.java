@@ -53,7 +53,7 @@ public class BlueToothImp implements BlueTooth {
 			//BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(outputStream));
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(outputStream,"utf-8"));
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-			if(!Util.copyFile(br,bw))return TRANS_FAIL;
+			if(!Util.copyFile(br,bw,false))return TRANS_FAIL;
 		} catch (IOException e) {
 			e.printStackTrace();
 			Log.i("蓝牙传输", "获取socket失败");
@@ -79,7 +79,7 @@ public class BlueToothImp implements BlueTooth {
 				File dir = new File(Util.RECEIVE_DIR);
 				if(!dir.exists())dir.mkdirs();
 				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(Util.RECEIVE_DIR+File.separator+System.currentTimeMillis())));
-				if(!Util.copyFile(br,bw))return RECI_FAIL;
+				if(!Util.copyFile(br,bw,true))return RECI_FAIL;
 			}
 			if(bluetoothSocket!=null)bluetoothSocket.close();
 			bluetoothServerSocket.close();

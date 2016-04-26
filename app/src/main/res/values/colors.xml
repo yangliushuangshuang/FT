@@ -6,4 +6,5 @@
     <color name="colorListViewBackground">#ffffff</color>
     <color name="colorTitleBackground">#FF3F51B5</color>
     <color name="rippleColor">#33728dff</color>
+    <color name="light_gray">#F4F4F9</color>
 </resources>
