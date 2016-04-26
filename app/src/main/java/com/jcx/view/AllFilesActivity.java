@@ -48,6 +48,7 @@ import com.zxing.activity.CaptureActivity;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.logging.Handler;
 
 /**
  * Created by Cui on 16-4-6.
@@ -84,6 +85,7 @@ public class AllFilesActivity extends AppCompatActivity{
 
     private String flag;//mainActivity与CreatQRCodeActivity通信的标志
     private int resultTypeOfScan=-1;
+    private int hotSpotSendIsConnected=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +97,12 @@ public class AllFilesActivity extends AppCompatActivity{
         hotSpotImp=new HotSpotImp(this);
         inetUDPImp=new InetUDPImp("127.0.0.1");
         wifiDirectImp=new WifiDirectImp(this);
-        util=new Util();
         getFileSize=new GetFileSize();
+
+        if (progressDialog == null) {
+            progressDialog=new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        }
 
         context=this;
         initUI();
@@ -219,7 +225,7 @@ public class AllFilesActivity extends AppCompatActivity{
         switch (id) {
             case android.R.id.home:
                 if (parentFilePath == null) {
-
+                    finish();
                 }else if (!parentFilePath.getName().equals("")&&!parentFilePath.getName().equals(rootDictionary)) {
                     listfiles = parentFilePath.listFiles(new FileFilter());
                     listfiles = FileUtil.sort(listfiles);
@@ -241,6 +247,7 @@ public class AllFilesActivity extends AppCompatActivity{
                     }
                     asynLoadImg.isAllow=true;
                 }else {
+                    finish();
                 }
                 break;
             case R.id.action_fileAccept:
@@ -485,6 +492,12 @@ public class AllFilesActivity extends AppCompatActivity{
         return super.onContextItemSelected(item);
     }
 
+//    public void setProgressDialog(){
+//        if (hotSpotSendIsConnected == 1) {
+//
+//        }
+//    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -512,10 +525,16 @@ public class AllFilesActivity extends AppCompatActivity{
                     resultTypeOfScan=-1;
                     break;
                 case 1: //TODO 通过热点发送文件
+                    final int[] isConnected = new int[1];
+                    while (isConnected[0] != TransBasic.CONNECT_OK && isConnected[0] != TransBasic.CONNECT_FAIL);
+                    if (isConnected[0] == TransBasic.CONNECT_OK) {
+                        progressDialog.show();
+                    }
                     Runnable hotstop=new Runnable() {
                         @Override
                         public void run() {
                             if (hotSpotImp.connect(result) == TransBasic.CONNECT_OK) {
+                                isConnected[0]= TransBasic.CONNECT_OK;
                                 srcFilePath=fileUsedInContextMenu.getAbsolutePath();
                                 ZipUtil zipUtil=new ZipUtil();
                                 String zipFileName=srcFilePath+".zip";
@@ -526,13 +545,30 @@ public class AllFilesActivity extends AppCompatActivity{
                                     e.printStackTrace();
                                 }
                                 if (zipFileWillBeSend != null) {
-                                    File zipFile=new File(zipFileWillBeSend);
-                                    fab_sending.show();
-                                    if (hotSpotImp.transFile(zipFile) == TransBasic.TRANS_OK) {
+
+                                    progressDialog.setTitle(getString(R.string.accepting_dialog_title));
+                                    progressDialog.setMessage(zipFileName);
+                                    progressDialog.setMax((int) (new File(zipFileName).length()/1024));
+//                                    progressDialog.incrementProgressBy((int) (util.getRcvIndex() * 1016*2));
+                                    final int[] result = new int[1];
+
+                                    final File zipFile=new File(zipFileWillBeSend);
+
+
+                                    Runnable sendFile=new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            result[0] =hotSpotImp.transFile(zipFile);
+                                        }
+                                    };
+                                    new Thread(sendFile).start();
+                                    while (hotSpotImp.getlength()<=util.getRcvIndex()*1016*2){
+                                        progressDialog.incrementProgressBy((int) (util.getRcvIndex() * 1016*2));
+                                    }
+                                    if ( result[0] == TransBasic.TRANS_OK) {
                                         Toast.makeText(AllFilesActivity.this,"热点传输文件成功",Toast.LENGTH_SHORT).show();
-                                        fab_sending.hide();
+                                        hotSpotImp.disconnect();
                                     }else{
-                                        fab_sending.hide();
                                     }
                                 }
                             }
@@ -590,6 +626,7 @@ public class AllFilesActivity extends AppCompatActivity{
                 @Override
                 protected Void doInBackground(Void... params) {
                     if(hotSpotImp.receiFile()==TransBasic.RECI_OK){
+                        hotSpotImp.disconnect();
                         Toast.makeText(AllFilesActivity.this,"热点接收文件成功",Toast.LENGTH_SHORT).show();
                     }
                     return null;
@@ -854,11 +891,11 @@ public class AllFilesActivity extends AppCompatActivity{
         file_list.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public void onMenuItemClick(int position, SwipeMenu menu, int index) {
-                switch (index) {
+                switch (index) {//TODO 点击发送按钮选择发送方式
                     case 0:
                         System.out.println(position);
                         fileUsedInContextMenu=listfiles[position];
-                        menu_editModes();
+                        menu_sendModes();
                         break;
                     default:
                         break;

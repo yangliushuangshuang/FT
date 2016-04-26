@@ -15,6 +15,7 @@ import com.jcx.R;
 public class MainActivity extends AppCompatActivity {
 
     private RelativeLayout rl_allFiles;
+    private RelativeLayout rl_null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         rl_allFiles= (RelativeLayout) findViewById(R.id.rl_allFiles);
+        rl_null= (RelativeLayout) findViewById(R.id.rl_null);
+        rl_null.setVisibility(View.GONE);
         rl_allFiles.setOnClickListener(new onClickListener());
     }
 

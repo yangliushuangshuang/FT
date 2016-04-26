@@ -13,6 +13,8 @@ import com.jcx.util.Configuration;
 import com.jcx.util.NetworkDetect;
 import com.jcx.util.QRcodeUtil;
 import com.jcx.util.Util;
+import com.jcx.view.AllFilesActivity;
+import com.jcx.view.MainActivity;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -142,10 +144,12 @@ public class HotSpotImp implements HotSpot {
 	@Override
 	public Bitmap getQRCode() {
 		WifiManageUtils wifiManageUtils = new WifiManageUtils(context);
-		psw = Util.randPsw(10);
-		wifiManageUtils.stratWifiAp("FT", psw,3);
+		//psw = Util.randPsw(10);
+		psw="123456789";
+		wifiManageUtils.stratWifiAp(wifiName, psw,3);
 		addr = NetworkDetect.getLocalIpAddress();
 		String content = wifiName+Util.SPLITER+psw+Util.SPLITER+addr+Util.SPLITER+port;
+		System.out.println("hotSpotImg -------->psw:"+psw);
 		return QRcodeUtil.encode(content,300,300);
 	}
 
