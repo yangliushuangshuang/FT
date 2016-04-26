@@ -69,4 +69,7 @@
     <string name="str_red">#FF4444</string>
     <string name="str_yellow">#FFBB33</string>
     <string name="str_sky_blue">#33B5E5</string>
+    <string name="downloading_file_name">下载的文件名</string>
+    <string name="downloading_file_manager">接收</string>
+    <string name="downloading_file_manager_activity_title">正在接收的文件</string>
 </resources>

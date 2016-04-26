@@ -1,10 +1,10 @@
 package com.jcx.view;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -35,8 +35,10 @@ import com.jcx.communication.WifiDirectImp;
 import com.jcx.util.FileFilter;
 import com.jcx.util.FileOper;
 import com.jcx.util.FileUtil;
+import com.jcx.util.Util;
+import com.jcx.util.ZipUtil;
 import com.jcx.view.adapter.AsynLoadImg;
-import com.jcx.view.adapter.MyAdapter;
+import com.jcx.view.adapter.FileManagerAdapter;
 import com.jcx.view.myListView.SwipeMenu;
 import com.jcx.view.myListView.SwipeMenuCreator;
 import com.jcx.view.myListView.SwipeMenuItem;
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity{
     private TextView path_info,tv_title;
     private Context context;
     private File[] listfiles;
-    private MyAdapter adapter;
+    private FileManagerAdapter adapter;
     private File parentFilePath=null,fileUsedInContextMenu;
     private AsynLoadImg asynLoadImg;
 
@@ -87,6 +89,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);//不现实标题
         forceShowOverflowMenu();
 
         blueToothImp=new BlueToothImp(this);
@@ -147,7 +150,7 @@ public class MainActivity extends AppCompatActivity{
             rootDictionary=fileTemp.getName();
             System.out.println("rootDictionary:"+rootDictionary);
             listfiles=getListfiles(Environment.getExternalStorageDirectory());
-            adapter=new MyAdapter(context,listfiles,file_list);
+            adapter=new FileManagerAdapter(context,listfiles,file_list);
             file_list.setAdapter(adapter);
             createSwipeMenu();
 
@@ -287,6 +290,16 @@ public class MainActivity extends AppCompatActivity{
 //                Intent intent=new Intent(MainActivity.this, CaptureActivity.class);
 //                startActivityForResult(intent, 0);
 //                break;
+            case R.id.downloading_file_manager:
+                ProgressDialog progressDialog=new ProgressDialog(MainActivity.this);
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                progressDialog.setTitle("正在下载的文件");
+                progressDialog.setMessage("downloading_file_name");
+                progressDialog.setMax(100);
+                progressDialog.incrementProgressBy(50);
+                progressDialog.setCancelable(true);
+                progressDialog.show();
+                break;
             case R.id.action_new_folder:
                 AlertDialog.Builder new_folder_dialog=new AlertDialog.Builder(context);
                 new_folder_dialog.setTitle(R.string.menu_new_folder);
@@ -433,26 +446,26 @@ public class MainActivity extends AppCompatActivity{
                 });
                 builder2.show();
                 break;
-//            case R.id.menu_file_zip:
-//                srcFilePath=listfiles[position].getAbsolutePath();
-//                ZipUtil zipUtil=new ZipUtil();
-//                String zipFileName=srcFilePath+".zip";
-//                try {
-//                    zipUtil.zip(srcFilePath, zipFileName);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                break;
-//            case R.id.menu_file_unzip:
-//                srcFilePath=listfiles[position].getAbsolutePath();
-//                ZipUtil zipUtil1=new ZipUtil();
-//                String destFilePath=currentFilePath+"/"+"FT"+"/files";
-//                try {
-//                    zipUtil1.unZip(srcFilePath, destFilePath);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                break;
+            case R.id.menu_file_zip:
+                srcFilePath=listfiles[position].getAbsolutePath();
+                ZipUtil zipUtil=new ZipUtil();
+                String zipFileName=srcFilePath+".zip";
+                try {
+                    zipUtil.zip(srcFilePath, zipFileName);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.menu_file_unzip:
+                srcFilePath=listfiles[position].getAbsolutePath();
+                ZipUtil zipUtil1=new ZipUtil();
+                String destFilePath= Util.DATA_DIRECTORY;
+                try {
+                    zipUtil1.unZip(srcFilePath, destFilePath);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
             default:
                 break;
         }
@@ -797,7 +810,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void create(SwipeMenu menu) {
                 SwipeMenuItem sendItem=new SwipeMenuItem(getApplicationContext());
-                sendItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9, 0xCE)));
+                sendItem.setBackground(R.color.colorTitleBackground);
                 sendItem.setWidth(dp2px(90));
                 sendItem.setTitle("发送");
                 sendItem.setTitleSize(18);
