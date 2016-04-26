@@ -132,7 +132,7 @@ public class WifiDirectImp implements WifiDirect{
 				socket.connect(new InetSocketAddress(host, port),Util.SOCKET_TIMEOUT);
 				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-				if(Util.copyFile(br,bw))return TRANS_OK;
+				if(Util.copyFile(br,bw,false))return TRANS_OK;
 			} catch (IOException e) {
 				e.printStackTrace();
 				Log.d("transFile","传输出现I/O错误");
@@ -156,7 +156,7 @@ public class WifiDirectImp implements WifiDirect{
 			if(!file.getParentFile().exists())if(!file.getParentFile().mkdirs())return RECI_FAIL;
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
 			BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
-			if(!Util.copyFile(br,bw))return RECI_FAIL;
+			if(!Util.copyFile(br,bw,true))return RECI_FAIL;
 			client.close();
 			socket.close();
 			if(file.exists())return RECI_OK;
