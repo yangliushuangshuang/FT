@@ -1,12 +1,10 @@
 package com.jcx.communication;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -37,6 +35,8 @@ public class HotSpotImp implements HotSpot {
 	private int port;
 	private int rmPort;
 	private WifiManageUtils wifiManageUtils;
+	private String fileName;
+	private long length;
 	public HotSpotImp(Activity context){
 		this.context = context;
 		wifiManageUtils = new WifiManageUtils(context);
@@ -52,7 +52,7 @@ public class HotSpotImp implements HotSpot {
 			socket.connect(new InetSocketAddress(rmAddr,rmPort),Util.SOCKET_TIMEOUT);
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			if(Util.copyFile(br,bw))return TRANS_OK;
+			if(Util.copyFile(br,bw,false))return TRANS_OK;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -63,18 +63,18 @@ public class HotSpotImp implements HotSpot {
 	public int receiFile() {
 		try {
 			String[] fileInfo = Util.receiveInfo(port).split(Util.SPLITER);
-			String name = fileInfo[0];
+			fileName = fileInfo[0];
 			//TODO
-			long length = Long.parseLong(fileInfo[1]);
+			length = Long.parseLong(fileInfo[1]);
 			Toast.makeText(context,String.valueOf(length),Toast.LENGTH_SHORT).show();
 			ServerSocket socket = new ServerSocket(port);
 			Socket client = socket.accept();
 			Log.d("reciFile","通过了阻塞，即socket通信开始");
-			File file = new File(Util.RECEIVE_DIR+File.separator+name);
+			File file = new File(Util.RECEIVE_DIR+File.separator+fileName);
 			if(!file.getParentFile().exists())if(!file.getParentFile().mkdirs())return RECI_FAIL;
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
 			BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
-			if(!Util.copyFile(br,bw))return RECI_FAIL;
+			Util.copyFile(br,bw,true);
 			client.close();
 			socket.close();
 			if(file.exists())return RECI_OK;
@@ -102,6 +102,7 @@ public class HotSpotImp implements HotSpot {
 		String wifiName = info[0],psw=info[1];
 		//rmAddr = info[2];
 		rmPort = Integer.parseInt(info[3]);
+		wifiManageUtils.closeWifi();
 		wifiManageUtils.openWifi();
 		wifiManageUtils.startscan();
 		WifiConfiguration netConfig = wifiManageUtils.getCustomeWifiClientConfiguration(wifiName, psw, 3);
@@ -142,7 +143,7 @@ public class HotSpotImp implements HotSpot {
 	public Bitmap getQRCode() {
 		WifiManageUtils wifiManageUtils = new WifiManageUtils(context);
 		psw = Util.randPsw(10);
-		wifiManageUtils.stratWifiAp("FT",psw,3);
+		wifiManageUtils.stratWifiAp("FT", psw,3);
 		addr = NetworkDetect.getLocalIpAddress();
 		String content = wifiName+Util.SPLITER+psw+Util.SPLITER+addr+Util.SPLITER+port;
 		return QRcodeUtil.encode(content,300,300);
@@ -154,5 +155,11 @@ public class HotSpotImp implements HotSpot {
 			wifiManageUtils.closeWifiAp();
 			wifiManageUtils.closeWifi();
 		}
+	}
+	public String getFileName(){
+		return fileName;
+	}
+	public long getlength(){
+		return length;
 	}
 }
