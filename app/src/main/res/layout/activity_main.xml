@@ -36,6 +36,26 @@
             app:rippleColor="@color/rippleColor"
             app:elevation="3dp"
             app:pressedTranslationZ="4dp"/>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_accepting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            app:backgroundTint="@android:color/holo_blue_light"
+            app:rippleColor="@color/rippleColor"
+            app:elevation="3dp"
+            app:pressedTranslationZ="4dp"
+            />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_sending"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            app:backgroundTint="@android:color/holo_green_light"
+            app:rippleColor="@color/rippleColor"
+            app:elevation="3dp"
+            app:pressedTranslationZ="4dp"
+            />
     </RelativeLayout>
 
 

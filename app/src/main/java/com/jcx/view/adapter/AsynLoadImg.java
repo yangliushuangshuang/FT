@@ -35,8 +35,7 @@ public class AsynLoadImg {
      * 2.在松开手指时，通知子线程开始加载图片，并通知主线程更新UI
      * @param imageView 要加载图片的imageView
      */
-    public void loadImage(ImageView imageView,String key){
-        String path= (String) imageView.getTag();
+    public void loadImage(ImageView imageView,String key,String file_path){
         this.key=key;
         if (key.equals("pic")) {
             imageView.setImageResource(R.drawable.file_picture);//设置默认图标
@@ -45,14 +44,14 @@ public class AsynLoadImg {
         }
         for (CacheImg img:cacheImgs)
         {
-            if (path.equals(img.getPath()))
+            if (imageView.getTag().equals(img.getPath()))
             {
                 Bitmap bitmap=img.getBitmap();
                 imageView.setImageBitmap(bitmap);
                 return;
             }
         }
-        new LoadImageThread(imageView,key).start();
+        new LoadImageThread(imageView,key,file_path).start();
     }
 
     /**
@@ -77,16 +76,16 @@ public class AsynLoadImg {
      */
     class LoadImageThread extends Thread{
         private ImageView imageView;
-        private String path;
+        private String file_path;
         private String key;
         private CacheImg cacheImg;
         private Bitmap bitmap;
         private Drawable drawable;
         private Bitmap bitmapDrawable;
-        public LoadImageThread(ImageView imageView,String key)
+        public LoadImageThread(ImageView imageView,String key,String file_path)
         {
             this.imageView=imageView;
-            this.path= (String) imageView.getTag();
+            this.file_path=file_path;
             this.key=key;
         }
 
@@ -104,19 +103,19 @@ public class AsynLoadImg {
                 }
             }
             if (key.equals("apk")){
-                drawable= GetApkIcon.loadApkIcon(context, path);
+                drawable= GetApkIcon.loadApkIcon(context, file_path);
                 bitmapDrawable=((BitmapDrawable)drawable).getBitmap();
                 cacheImg = new CacheImg();
-                cacheImg.setPath(path);
+                cacheImg.setPath(file_path);
                 cacheImg.setBitmap(bitmapDrawable);
             }
             else {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 8;
-                bitmap = BitmapFactory.decodeFile(path, options);
+                bitmap = BitmapFactory.decodeFile(file_path, options);
                 //把bitmap和路径存入到内存
                 cacheImg = new CacheImg();
-                cacheImg.setPath(path);
+                cacheImg.setPath(file_path);
                 cacheImg.setBitmap(bitmap);
             }
                 if (cacheImgs.size() > 50) {
@@ -131,7 +130,9 @@ public class AsynLoadImg {
                         imageView.setImageBitmap(bitmapDrawable);
                     }
                     else{
-                        imageView.setImageBitmap(bitmap);
+                        if (file_path.equals(imageView.getTag())) {
+                            imageView.setImageBitmap(bitmap);
+                        }
                     }
                 }
             });

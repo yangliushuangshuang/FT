@@ -17,11 +17,11 @@
     <!--<item android:id="@+id/menu_context_rename"-->
         <!--android:title="@string/rename"-->
         <!--/>-->
-    <!--<item android:id="@+id/menu_file_zip"-->
-        <!--android:title="压缩"-->
-        <!--/>-->
-    <!--<item android:id="@+id/menu_file_unzip"-->
-        <!--android:title="解压缩"-->
-        <!--/>-->
+    <item android:id="@+id/menu_file_zip"
+        android:title="压缩"
+        />
+    <item android:id="@+id/menu_file_unzip"
+        android:title="解压缩"
+        />
 
 </menu>

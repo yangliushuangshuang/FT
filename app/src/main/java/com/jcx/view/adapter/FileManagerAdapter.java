@@ -1,7 +1,9 @@
 package com.jcx.view.adapter;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Parcelable;
+import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +14,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jcx.R;
+import com.jcx.util.GetFileSize;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Created by Cui on 16-4-1.
  */
-public class MyAdapter extends BaseAdapter {
+public class FileManagerAdapter extends BaseAdapter {
 
     private Context context;
     private File[] filelist;
@@ -28,12 +34,14 @@ public class MyAdapter extends BaseAdapter {
     private AsynLoadImg asynLoadImg;
     private boolean isExecute=false;
     private ViewHolder holder;
+    private GetFileSize getFileSize;
 
-    public MyAdapter(Context context,File[] filelist,ListView listView)
+    public FileManagerAdapter(Context context, File[] filelist, ListView listView)
     {
         this.context=context;
         this.filelist=filelist;
         this.listView=listView;
+        getFileSize=new GetFileSize();
         inflater=LayoutInflater.from(context);
         asynLoadImg =new AsynLoadImg(context);
         listView.setOnScrollListener(new fixPosition());
@@ -71,6 +79,7 @@ public class MyAdapter extends BaseAdapter {
 
             holder.fileIcon= (ImageView) convertView.findViewById(R.id.file_icon);
             holder.filename= (TextView) convertView.findViewById(R.id.file_name);
+            holder.fileSize= (TextView) convertView.findViewById(R.id.file_size);
 
             convertView.setTag(holder);
         }else {
@@ -112,7 +121,7 @@ public class MyAdapter extends BaseAdapter {
             {
                 isExecute=true;
                 holder.fileIcon.setTag(filelist[position].getAbsolutePath());
-                asynLoadImg.loadImage(holder.fileIcon, "pic");
+                asynLoadImg.loadImage(holder.fileIcon, "pic",filelist[position].getAbsolutePath());
             }else if (file_name.endsWith(".rar")||file_name.endsWith(".zip"))
             {
                 holder.fileIcon.setImageResource(R.drawable.file_zip);
@@ -120,7 +129,7 @@ public class MyAdapter extends BaseAdapter {
             {
                 isExecute=true;
                 holder.fileIcon.setTag(filelist[position].getAbsolutePath());
-                asynLoadImg.loadImage(holder.fileIcon, "apk");
+                asynLoadImg.loadImage(holder.fileIcon, "apk",filelist[position].getAbsolutePath());
             }else if (file_name.endsWith(".db"))
             {
                 holder.fileIcon.setImageResource(R.drawable.file_database);
@@ -133,31 +142,16 @@ public class MyAdapter extends BaseAdapter {
             }
         }
         holder.filename.setText(filelist[position].getName());
+        holder.fileSize.setTag(filelist[position].getAbsolutePath());
+        getFileSize.asyncLoadFileSize(holder.fileSize, filelist[position].getAbsolutePath());
 
-//        holder.file_checkBox= (CheckBox) convertView.findViewById(R.id.file_checkbox);
-//        holder.file_checkBox.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                boolean isSelceted=fileIsSelected.get(position);
-//                if (isSelceted)
-//                {
-//                    fileIsSelected.put(position,false);
-//                    holder.file_checkBox.setChecked(false);
-//                }else {
-//                    fileIsSelected.put(position,true);
-//                    holder.file_checkBox.setChecked(true);
-//                }
-//                System.out.println(position);
-//                holder.file_checkBox.setChecked(fileIsSelected.get(position));
-//            }
-//        });
         return convertView;
     }
 
     public static final class ViewHolder{
         ImageView fileIcon;
         TextView filename;
-//        CheckBox file_checkBox;
+        TextView fileSize;
     }
 
     /**

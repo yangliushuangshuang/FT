@@ -6,7 +6,8 @@
     <LinearLayout
         android:id="@+id/list_display_view_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_height="56dp"
         android:orientation="vertical"
         android:visibility="visible" >
 
