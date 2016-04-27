@@ -142,8 +142,8 @@ public class FileManagerAdapter extends BaseAdapter {
             }
         }
         holder.filename.setText(filelist[position].getName());
-        holder.fileSize.setTag(filelist[position].getAbsolutePath());
-        getFileSize.asyncLoadFileSize(holder.fileSize, filelist[position].getAbsolutePath());
+//        holder.fileSize.setTag(filelist[position].getAbsolutePath());
+//        getFileSize.asyncLoadFileSize(holder.fileSize, filelist[position].getAbsolutePath());
 
         return convertView;
     }
