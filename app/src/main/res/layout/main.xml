@@ -1,230 +1,263 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_gray"
     >
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/ll_main_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
-        android:layout_marginTop="26dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
         >
         <LinearLayout
             android:id="@+id/ll1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_weight="1"
             >
             <RelativeLayout
+                android:layout_marginTop="20dp"
                 android:id="@+id/rl_apk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <ImageView
+                >
+                <ImageButton
                     android:id="@+id/iv_app"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:background="@drawable/image_btn_press"
+                    android:src="@drawable/file_apk"/>
                 <TextView
                     android:layout_below="@+id/iv_app"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
+                    android:textSize="12sp"
                     android:text="@string/tv_apk"/>
             </RelativeLayout>
             <RelativeLayout
-                android:id="@+id/rl_picture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <ImageView
-                    android:id="@+id/iv_picture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:src="@mipmap/ic_launcher"/>
-                <TextView
-                    android:layout_below="@+id/iv_picture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/tv_picture"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/rl_video"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <ImageView
-                    android:id="@+id/iv_video"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:src="@mipmap/ic_launcher"/>
-                <TextView
-                    android:layout_below="@+id/iv_video"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/tv_video"/>
-            </RelativeLayout>
-
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll2"
-            android:layout_below="@+id/ll1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="26dp"
-            >
-            <RelativeLayout
+                android:layout_marginTop="16dp"
                 android:id="@+id/rl_music"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <ImageView
+               >
+                <ImageButton
                     android:id="@+id/iv_music"
+                    android:background="@drawable/image_btn_press"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@drawable/file_music"/>
                 <TextView
                     android:layout_below="@+id/iv_music"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
+                    android:textSize="12sp"
                     android:text="@string/tv_music"/>
             </RelativeLayout>
             <RelativeLayout
-                android:id="@+id/rl_document"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="20dp"
+                android:id="@+id/rl_offline_webPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <ImageView
-                    android:id="@+id/iv_document"
+                >
+                <ImageButton
+                    android:id="@+id/iv_offine_webPage"
+                    android:background="@drawable/image_btn_press"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@drawable/file_html"/>
+                <TextView
+                    android:layout_below="@+id/iv_offine_webPage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="12sp"
+                    android:text="@string/tv_offline_webPages"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_weight="1"
+            >
+            <RelativeLayout
+                android:layout_marginTop="20dp"
+                android:id="@+id/rl_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+                <ImageButton
+                    android:id="@+id/iv_picture"
+                    android:background="@drawable/image_btn_press"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/file_picture"/>
+                <TextView
+                    android:layout_below="@+id/iv_picture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="12sp"
+                    android:text="@string/tv_picture"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="16dp"
+                android:id="@+id/rl_document"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+                <ImageButton
+                    android:id="@+id/iv_document"
+                    android:background="@drawable/image_btn_press"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/file_text"/>
                 <TextView
                     android:layout_below="@+id/iv_document"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
+                    android:textSize="12sp"
                     android:text="@string/tv_document"/>
             </RelativeLayout>
             <RelativeLayout
-                android:id="@+id/rl_zip"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="20dp"
+                android:id="@+id/rl_others"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <ImageView
-                    android:id="@+id/iv_zip"
+                >
+                <ImageButton
+                    android:id="@+id/iv_others"
+                    android:background="@drawable/image_btn_press"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@drawable/file_default"/>
                 <TextView
-                    android:layout_below="@+id/iv_zip"
+                    android:layout_below="@+id/iv_others"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/tv_zip"/>
+                    android:textSize="12sp"
+                    android:text="@string/tv_others"/>
             </RelativeLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll3"
-            android:layout_below="@+id/ll2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="26dp"
-            android:layout_marginBottom="36dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_weight="1"
             >
             <RelativeLayout
-                android:id="@+id/rl_offline_webPage"
+                android:layout_marginTop="20dp"
+                android:id="@+id/rl_video"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <ImageView
-                    android:id="@+id/iv_offine_webPage"
+                >
+                <ImageButton
+                    android:id="@+id/iv_video"
+                    android:background="@drawable/image_btn_press"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@drawable/file_movie"/>
                 <TextView
-                    android:layout_below="@+id/iv_offine_webPage"
+                    android:layout_below="@+id/iv_video"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/tv_offline_webPages"/>
+                    android:textSize="12sp"
+                    android:text="@string/tv_video"/>
             </RelativeLayout>
             <RelativeLayout
-                android:id="@+id/rl_others"
+                android:layout_marginTop="16dp"
+                android:id="@+id/rl_zip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <ImageView
-                    android:id="@+id/iv_others"
+                >
+                <ImageButton
+                    android:id="@+id/iv_zip"
+                    android:background="@drawable/image_btn_press"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@drawable/file_zip"/>
                 <TextView
-                    android:layout_below="@+id/iv_others"
+                    android:layout_below="@+id/iv_zip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/tv_others"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/rl_null"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <ImageView
-                    android:id="@+id/iv_null"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:src="@mipmap/ic_launcher"/>
-                <TextView
-                    android:layout_below="@+id/iv_null"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    />
+                    android:textSize="12sp"
+                    android:text="@string/tv_zip"/>
             </RelativeLayout>
 
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
     <RelativeLayout
         android:id="@+id/rl_allFiles"
+        android:layout_below="@+id/ll_main_1"
         android:layout_marginTop="26dp"
         android:layout_width="match_parent"
-        android:background="@android:color/white"
-        android:layout_height="wrap_content">
+        android:background="@drawable/image_btn_press"
+        android:layout_height="50dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="26dp"
-            android:textSize="16sp"
+            android:textStyle="bold"
             android:text="@string/phone_SDCard"/>
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
-            android:src="@mipmap/ic_launcher"/>
+            android:layout_centerVertical="true"
+            android:src="@drawable/forward"/>
     </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/ll_main_progressbar_waiting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:orientation="horizontal">
+        <ProgressBar
+            android:id="@+id/pb_main_waiting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyle"
+            />
+        <TextView
+            android:layout_marginLeft="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/tv_connecting"/>
+    </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
