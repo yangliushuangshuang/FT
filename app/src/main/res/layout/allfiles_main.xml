@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
-    <include layout="@layout/content_main" />
+    <include layout="@layout/included_in_allfiles_main" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -36,26 +36,26 @@
             app:rippleColor="@color/rippleColor"
             app:elevation="3dp"
             app:pressedTranslationZ="4dp"/>
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_accepting"
+        <LinearLayout
+            android:id="@+id/ll_allfiles_progressbar_waiting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            app:backgroundTint="@android:color/holo_blue_light"
-            app:rippleColor="@color/rippleColor"
-            app:elevation="3dp"
-            app:pressedTranslationZ="4dp"
-            />
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_sending"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            app:backgroundTint="@android:color/holo_green_light"
-            app:rippleColor="@color/rippleColor"
-            app:elevation="3dp"
-            app:pressedTranslationZ="4dp"
-            />
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:orientation="horizontal">
+            <ProgressBar
+                android:id="@+id/pb_waitingForGetapk_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/progressBarStyle"
+                />
+            <TextView
+                android:layout_marginLeft="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/tv_connecting"/>
+        </LinearLayout>
     </RelativeLayout>
 
 

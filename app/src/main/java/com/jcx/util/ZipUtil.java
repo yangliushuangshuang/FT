@@ -98,19 +98,19 @@ public class ZipUtil {
 
     }//end of func
 
-    public String getZipedFile(final String srcFileString, final String zipFilesString){
+    public String getZipedFile(final String srcFilePath, final String zipedFilePath){
         Runnable zipFiles=new Runnable() {
             @Override
             public void run() {
                 try {
-                    zip(srcFileString,zipFilesString);
+                    zip(srcFilePath,zipedFilePath);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         };
         new Thread(zipFiles).start();
-        return zipFilesString;
+        return zipedFilePath;
     }
 
     /**

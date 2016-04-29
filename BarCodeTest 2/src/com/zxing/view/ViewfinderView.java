@@ -81,14 +81,14 @@ public final class ViewfinderView extends View {
     // Draw the exterior (i.e. outside the framing rect) darkened
     paint.setColor(resultBitmap != null ? resultColor : maskColor);
     canvas.drawRect(0, 0, width, frame.top, paint);
-    canvas.drawRect(0, frame.top, frame.left, frame.bottom + 1, paint);
+    canvas.drawRect(0, frame.top, frame.left, (frame.bottom + 1), paint);
     canvas.drawRect(frame.right + 1, frame.top, width, frame.bottom + 1, paint);
     canvas.drawRect(0, frame.bottom + 1, width, height, paint);
-
     if (resultBitmap != null) {
       // Draw the opaque result bitmap over the scanning rectangle
       paint.setAlpha(OPAQUE);
       canvas.drawBitmap(resultBitmap, frame.left, frame.top, paint);
+      System.out.println(frame.left + "," + frame.top);
     } else {
 
       // Draw a two pixel solid black border inside the framing rect

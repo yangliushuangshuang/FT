@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="actionOverflowMenuStyle">@style/AppBaseActionOverflowMenuStyle</item>
         <item name="actionDropDownStyle">@style/AppBaseDropDownStyle</item>
-    </style>
+        </style>
     <style name="AppBaseActionOverflowMenuStyle" parent="@style/Widget.AppCompat.Light.PopupMenu.Overflow">
         <item name="overlapAnchor">false</item>
         <item name="android:dropDownVerticalOffset">-3dip</item>

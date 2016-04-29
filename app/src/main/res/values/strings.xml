@@ -83,4 +83,16 @@
     <string name="tv_offline_webPages">离线网页</string>
     <string name="tv_others">其他</string>
     <string name="phone_SDCard">手机SD卡</string>
+    <string name="scan_SDCard">正在扫描SD卡...</string>
+    <string name="file_not_found">没有找到文件</string>
+    <string name="title_file_transfer">文件传输</string>
+    <string name="title_apk">安装包</string>
+    <string name="title_documents">文档</string>
+    <string name="title_music">音乐</string>
+    <string name="title_offLineWebPages">离线网页</string>
+    <string name="title_pictures">图片</string>
+    <string name="title_video">视频</string>
+    <string name="title_zip">压缩包</string>
+    <string name="title_others">其他</string>
+    <string name="tv_connecting">正在连接</string>
 </resources>

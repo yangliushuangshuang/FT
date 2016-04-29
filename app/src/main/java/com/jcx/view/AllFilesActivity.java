@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
@@ -21,6 +23,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,7 +51,6 @@ import com.zxing.activity.CaptureActivity;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.logging.Handler;
 
 /**
  * Created by Cui on 16-4-6.
@@ -56,7 +58,7 @@ import java.util.logging.Handler;
 public class AllFilesActivity extends AppCompatActivity{
     private SwipeMenuListView file_list;//自定义的listview
     private TextView path_info,tv_title;//布局中的控件
-    private FloatingActionButton fab_confirm,fab_cancel, fab_accepting,fab_sending;
+    private FloatingActionButton fab_confirm,fab_cancel;
     private Context context;
     private File[] listfiles;//存放从存储卡中读出的文件列表
     private FileManagerAdapter adapter;
@@ -87,10 +89,12 @@ public class AllFilesActivity extends AppCompatActivity{
     private int resultTypeOfScan=-1;
     private int hotSpotSendIsConnected=-1;
 
+    private LinearLayout ll_waiting;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.allfiles_main);
 
 
         blueToothImp=new BlueToothImp(this);
@@ -141,6 +145,7 @@ public class AllFilesActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayShowTitleEnabled(false);//不现实标题
         forceShowOverflowMenu();
 
+        ll_waiting= (LinearLayout) findViewById(R.id.ll_allfiles_progressbar_waiting);
         tv_title= (TextView) findViewById(R.id.tv_title);
         file_list= (SwipeMenuListView) findViewById(R.id.file_list);
         file_list.setOnItemClickListener(new fileItemClickListener());
@@ -148,22 +153,18 @@ public class AllFilesActivity extends AppCompatActivity{
         path_info= (TextView) findViewById(R.id.pathinfo);
         fab_confirm= (FloatingActionButton) findViewById(R.id.fab_confirm);
         fab_cancel= (FloatingActionButton) findViewById(R.id.fab_cancel);
-        fab_accepting = (FloatingActionButton) findViewById(R.id.fab_accepting);
-        fab_sending= (FloatingActionButton) findViewById(R.id.fab_sending);
         fab_confirm.hide();
         fab_cancel.hide();
-        fab_accepting.hide();
-        fab_sending.hide();
 
         //获得文件的名称然后显示到listview中
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
             currentFilePath=Environment.getExternalStorageDirectory().getPath();
-
             int indexOf=currentFilePath.lastIndexOf("/");
             rootDictionary=currentFilePath.substring(0, indexOf);
             File fileTemp=new File(rootDictionary);
             rootDictionary=fileTemp.getName();
             System.out.println("rootDictionary:"+rootDictionary);
+
             listfiles=getListfiles(Environment.getExternalStorageDirectory());
             adapter=new FileManagerAdapter(context,listfiles,file_list);
             file_list.setAdapter(adapter);
@@ -206,7 +207,7 @@ public class AllFilesActivity extends AppCompatActivity{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.all_files_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
     @Override
@@ -525,56 +526,79 @@ public class AllFilesActivity extends AppCompatActivity{
                     resultTypeOfScan=-1;
                     break;
                 case 1: //TODO 通过热点发送文件
-                    final int[] isConnected = new int[1];
-                    while (isConnected[0] != TransBasic.CONNECT_OK && isConnected[0] != TransBasic.CONNECT_FAIL);
-                    if (isConnected[0] == TransBasic.CONNECT_OK) {
-                        progressDialog.show();
-                    }
-                    Runnable hotstop=new Runnable() {
+                    final int[] connectResult = new int[1];
+                    ll_waiting.setVisibility(View.VISIBLE);
+                    //开启线程用于连接
+                    new Thread(){
                         @Override
                         public void run() {
-                            if (hotSpotImp.connect(result) == TransBasic.CONNECT_OK) {
-                                isConnected[0]= TransBasic.CONNECT_OK;
-                                srcFilePath=fileUsedInContextMenu.getAbsolutePath();
-                                ZipUtil zipUtil=new ZipUtil();
-                                String zipFileName=srcFilePath+".zip";
-                                try {
-                                    zipUtil.zip(srcFilePath, zipFileName);
-                                    zipFileWillBeSend=zipFileName;
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                if (zipFileWillBeSend != null) {
-
-                                    progressDialog.setTitle(getString(R.string.accepting_dialog_title));
-                                    progressDialog.setMessage(zipFileName);
-                                    progressDialog.setMax((int) (new File(zipFileName).length()/1024));
-//                                    progressDialog.incrementProgressBy((int) (util.getRcvIndex() * 1016*2));
-                                    final int[] result = new int[1];
-
-                                    final File zipFile=new File(zipFileWillBeSend);
-
-
-                                    Runnable sendFile=new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            result[0] =hotSpotImp.transFile(zipFile);
-                                        }
-                                    };
-                                    new Thread(sendFile).start();
-                                    while (hotSpotImp.getlength()<=util.getRcvIndex()*1016*2){
-                                        progressDialog.incrementProgressBy((int) (util.getRcvIndex() * 1016*2));
-                                    }
-                                    if ( result[0] == TransBasic.TRANS_OK) {
-                                        Toast.makeText(AllFilesActivity.this,"热点传输文件成功",Toast.LENGTH_SHORT).show();
-                                        hotSpotImp.disconnect();
-                                    }else{
-                                    }
-                                }
-                            }
+                            super.run();
+                            connectResult[0] =hotSpotImp.connect(result);
                         }
-                    };
-                    new Thread(hotstop).start();
+                    }.start();
+                    ll_waiting.setVisibility(View.GONE);
+                    if (connectResult[0] == TransBasic.CONNECT_OK) {
+                        //获得要发送文件的路径
+                        srcFilePath=fileUsedInContextMenu.getAbsolutePath();
+                        //压缩文件
+                        ZipUtil zipUtil=new ZipUtil();
+                        String zipedFilePath=srcFilePath.substring(0,srcFilePath.lastIndexOf("."))+".zip";
+                        String zipFilePath_WillBeSend=zipUtil.getZipedFile(srcFilePath,zipedFilePath);
+                        final File zip_file=new File(zipFilePath_WillBeSend);
+
+                        if (zipFilePath_WillBeSend != null) {
+                            progressDialog=new ProgressDialog(this);
+                            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                            progressDialog.setTitle(getString(R.string.accepting_dialog_title));
+                            progressDialog.setCancelable(false);//不允许退出
+                            progressDialog.setMessage(zip_file.getName());
+                            progressDialog.setMax((int) (zip_file.length()/1024));
+                            progressDialog.show();
+                        }
+                        final Handler handlerFroUpdateProgressBar=new Handler(){
+                            @Override
+                            public void handleMessage(Message msg) {
+                                super.handleMessage(msg);
+                                progressDialog.setProgress(msg.what);
+                            }
+                        };
+                        //开启线程监听接收文件的大小更新progressbar
+                        new Thread(){
+                            @Override
+                            public void run() {
+                                super.run();
+                                do {
+                                    int progress= (int) (Util.getRcvIndex()*1016*2);
+                                    Message message=Message.obtain();
+                                    message.what=progress;
+                                    handlerFroUpdateProgressBar.sendMessage(message);
+                                }while (hotSpotImp.getlength()<= Util.getRcvIndex()*1016*2);
+                            }
+                        }.start();
+                        final Handler handlerForGetTransFilesResult =new Handler(){
+                            @Override
+                            public void handleMessage(Message msg) {
+                                super.handleMessage(msg);
+                                if ((int)(msg.obj)==TransBasic.TRANS_OK) {
+                                    Toast.makeText(AllFilesActivity.this,"热点传输文件成功",Toast.LENGTH_SHORT).show();
+                                }
+                                progressDialog.hide();
+                                progressDialog=null;
+                                hotSpotImp.disconnect();
+                            }
+                        };
+                        //开启线程传送文件
+                        new Thread(){
+                            @Override
+                            public void run() {
+                                super.run();
+                                int transResult=hotSpotImp.transFile(zip_file);
+                                Message message=Message.obtain();
+                                message.obj=transResult;
+                                handlerForGetTransFilesResult.sendMessage(message);
+                            }
+                        }.start();
+                    }
                     resultTypeOfScan=-1;
                     break;
                 case 2:
@@ -689,7 +713,7 @@ public class AllFilesActivity extends AppCompatActivity{
         fab_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("srcFilePath:"+srcFilePath+"\n"+"currentFilePath:"+currentFilePath);
+                System.out.println("srcFilePath:" + srcFilePath + "\n" + "currentFilePath:" + currentFilePath);
                 if (srcFilePath != null) {
                     boolean fileMoveResult=fileOper.move(srcFilePath,currentFilePath);
                     if (fileMoveResult) {
@@ -709,41 +733,6 @@ public class AllFilesActivity extends AppCompatActivity{
                 srcFilePath=null;
                 fab_confirm.hide();
                 fab_cancel.hide();
-            }
-        });
-        fab_accepting.setOnClickListener(new View.OnClickListener() {//TODO 接收文件的进度条
-            @Override
-            public void onClick(View v) {
-                //TODO 点击可查看正在下载文件的进度
-                if (progressDialog == null) {
-                    progressDialog = new ProgressDialog(AllFilesActivity.this);
-                    progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                }
-                progressDialog.setTitle(getString(R.string.accepting_dialog_title));
-//                progressDialog.setMessage(hotSpotImp.getFileName());
-                progressDialog.setMax(100);
-                progressDialog.incrementProgressBy(10);
-//                progressDialog.setMax((int) hotSpotImp.getlength());
-//                progressDialog.incrementProgressBy((int) (util.getRcvIndex() * 1024));
-                progressDialog.setCancelable(true);
-                progressDialog.show();
-            }
-        });
-        fab_sending.setOnClickListener(new View.OnClickListener() {//TODO 发送文件的进度条
-            @Override
-            public void onClick(View v) {
-                if (progressDialog == null) {
-                    progressDialog = new ProgressDialog(AllFilesActivity.this);
-                    progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                }
-                progressDialog.setTitle(getString(R.string.sending_dialog_title));
-                progressDialog.setMessage(fileUsedInContextMenu.getName());
-                progressDialog.setMax(100);
-                progressDialog.incrementProgressBy(10);
-//                progressDialog.setMax(getFileSize.getFileSize(zipFileWillBeSend));
-//                progressDialog.incrementProgressBy((int) (util.getSendIndex() * 1024));
-                progressDialog.setCancelable(true);
-                progressDialog.show();
             }
         });
         tv_title.setText(R.string.tv_text_default);

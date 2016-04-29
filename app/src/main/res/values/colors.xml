@@ -7,4 +7,6 @@
     <color name="colorTitleBackground">#FF3F51B5</color>
     <color name="rippleColor">#33728dff</color>
     <color name="light_gray">#F4F4F9</color>
+    <color name="fully_transparent">#00000000</color>
+    <color name="ligt_transparent">#FF3F51ff</color>
 </resources>

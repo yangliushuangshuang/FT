@@ -1,9 +1,7 @@
 package com.jcx.view.adapter;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Parcelable;
-import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +15,6 @@ import com.jcx.R;
 import com.jcx.util.GetFileSize;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 /**
  * Created by Cui on 16-4-1.
@@ -74,7 +69,7 @@ public class FileManagerAdapter extends BaseAdapter {
         holder=null;
 
         if (convertView==null){
-            convertView=inflater.inflate(R.layout.list_item,parent,false);
+            convertView=inflater.inflate(R.layout.allfiles_list_item,parent,false);
             holder=new ViewHolder();
 
             holder.fileIcon= (ImageView) convertView.findViewById(R.id.file_icon);
@@ -107,7 +102,7 @@ public class FileManagerAdapter extends BaseAdapter {
                 holder.fileIcon.setImageResource(R.drawable.file_docx);
             }else if (file_name.endsWith(".xls")||file_name.endsWith(".xlsx"))
             {
-                holder.fileIcon.setImageResource(R.drawable.file_music);
+                holder.fileIcon.setImageResource(R.drawable.file_exel);
             }else if (file_name.endsWith(".mp3")||file_name.endsWith(".wav"))
             {
                 holder.fileIcon.setImageResource(R.drawable.file_music);
