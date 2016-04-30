@@ -30,7 +30,7 @@ public class Util {
     public final static String DATA_DIRECTORY= Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"ftFiles";
     public final static String SPLITER="/_/";
     public final static String RECEIVE_DIR=DATA_DIRECTORY+File.separator+"FileRec";
-    public final static int SOCKET_TIMEOUT=5000;
+    public final static int SOCKET_TIMEOUT=12000;
     public final static int BLOCK_SIZE=1024*10;
     public final static int HELLOSHAKE_SIZE=64;
     public static long rcvIndex;
@@ -72,7 +72,7 @@ public class Util {
      * @return 是否成功
      */
     public static boolean copyFile(Reader reader,Writer writer,boolean isIn){
-        char buf[] = new char[1024];
+        char buf[] = new char[BLOCK_SIZE+8];
         int len;
         try {
             sendIndex = 0;

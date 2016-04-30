@@ -526,79 +526,90 @@ public class AllFilesActivity extends AppCompatActivity{
                     resultTypeOfScan=-1;
                     break;
                 case 1: //TODO 通过热点发送文件
-                    final int[] connectResult = new int[1];
+                    srcFilePath=fileUsedInContextMenu.getAbsolutePath();
+                    //压缩文件
+                    ZipUtil zipUtil=new ZipUtil();
+                    String zipedFilePath=srcFilePath.substring(0,srcFilePath.lastIndexOf("."))+".zip";
+                    final String zipFilePath_WillBeSend=zipUtil.getZipedFile(srcFilePath,zipedFilePath);
+                    final File zip_file=new File(zipFilePath_WillBeSend);
+
                     ll_waiting.setVisibility(View.VISIBLE);
+                    final Handler handlerForShowProgressbar=new Handler(){
+                        @Override
+                        public void handleMessage(Message msg) {
+                            super.handleMessage(msg);
+                            if (msg.what == TransBasic.CONNECT_OK) {
+                                if (zipFilePath_WillBeSend != null) {
+                                    progressDialog=new ProgressDialog(AllFilesActivity.this);
+                                    progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                                    progressDialog.setTitle(getString(R.string.accepting_dialog_title));
+                                    progressDialog.setCancelable(false);//不允许退出
+                                    progressDialog.setMessage(zip_file.getName());
+                                    progressDialog.setMax((int) (zip_file.length()/1024));
+                                    progressDialog.show();
+                                }
+                            }
+                            ll_waiting.setVisibility(View.GONE);
+                        }
+                    };
+                    final Handler handlerForGetTransFilesResult =new Handler(){
+                        @Override
+                        public void handleMessage(Message msg) {
+                            super.handleMessage(msg);
+                            if ((int)(msg.obj)==TransBasic.TRANS_OK) {
+                                Toast.makeText(AllFilesActivity.this,"热点传输文件成功",Toast.LENGTH_SHORT).show();
+                            }
+                            progressDialog.hide();
+                            progressDialog=null;
+                            hotSpotImp.disconnect();
+                        }
+                    };
+                    final Handler handlerFroUpdateProgressBar=new Handler(){
+                        @Override
+                        public void handleMessage(Message msg) {
+                            super.handleMessage(msg);
+                            progressDialog.setProgress(msg.what);
+                        }
+                    };
                     //开启线程用于连接
                     new Thread(){
                         @Override
                         public void run() {
                             super.run();
-                            connectResult[0] =hotSpotImp.connect(result);
+                            int connectResult =hotSpotImp.connect(result);
+                            Message message=Message.obtain();
+                            message.what=connectResult;
+                            handlerForShowProgressbar.sendMessage(message);
+
+                            if (connectResult == TransBasic.CONNECT_OK) {//TODO 如果连接成功，则开启线程开始传输
+                                //开启线程传送文件
+                                new Thread(){
+                                    @Override
+                                    public void run() {
+                                        super.run();
+                                        int transResult=hotSpotImp.transFile(zip_file);
+                                        Message message=Message.obtain();
+                                        message.obj=transResult;
+                                        handlerForGetTransFilesResult.sendMessage(message);
+                                    }
+                                }.start();
+                                new Thread(){
+                                    @Override
+                                    public void run() {
+                                        super.run();
+                                        int progress;
+                                        do {
+                                            progress= (int) (Util.getSendIndex()*Util.BLOCK_SIZE*2);
+                                            Message message=Message.obtain();
+                                            message.what=progress;
+                                            handlerFroUpdateProgressBar.sendMessage(message);
+                                        }while (hotSpotImp.getlength()<= progress);
+                                    }
+                                }.start();
+                            }
                         }
                     }.start();
-                    ll_waiting.setVisibility(View.GONE);
-                    if (connectResult[0] == TransBasic.CONNECT_OK) {
-                        //获得要发送文件的路径
-                        srcFilePath=fileUsedInContextMenu.getAbsolutePath();
-                        //压缩文件
-                        ZipUtil zipUtil=new ZipUtil();
-                        String zipedFilePath=srcFilePath.substring(0,srcFilePath.lastIndexOf("."))+".zip";
-                        String zipFilePath_WillBeSend=zipUtil.getZipedFile(srcFilePath,zipedFilePath);
-                        final File zip_file=new File(zipFilePath_WillBeSend);
 
-                        if (zipFilePath_WillBeSend != null) {
-                            progressDialog=new ProgressDialog(this);
-                            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                            progressDialog.setTitle(getString(R.string.accepting_dialog_title));
-                            progressDialog.setCancelable(false);//不允许退出
-                            progressDialog.setMessage(zip_file.getName());
-                            progressDialog.setMax((int) (zip_file.length()/1024));
-                            progressDialog.show();
-                        }
-                        final Handler handlerFroUpdateProgressBar=new Handler(){
-                            @Override
-                            public void handleMessage(Message msg) {
-                                super.handleMessage(msg);
-                                progressDialog.setProgress(msg.what);
-                            }
-                        };
-                        //开启线程监听接收文件的大小更新progressbar
-                        new Thread(){
-                            @Override
-                            public void run() {
-                                super.run();
-                                do {
-                                    int progress= (int) (Util.getRcvIndex()*1016*2);
-                                    Message message=Message.obtain();
-                                    message.what=progress;
-                                    handlerFroUpdateProgressBar.sendMessage(message);
-                                }while (hotSpotImp.getlength()<= Util.getRcvIndex()*1016*2);
-                            }
-                        }.start();
-                        final Handler handlerForGetTransFilesResult =new Handler(){
-                            @Override
-                            public void handleMessage(Message msg) {
-                                super.handleMessage(msg);
-                                if ((int)(msg.obj)==TransBasic.TRANS_OK) {
-                                    Toast.makeText(AllFilesActivity.this,"热点传输文件成功",Toast.LENGTH_SHORT).show();
-                                }
-                                progressDialog.hide();
-                                progressDialog=null;
-                                hotSpotImp.disconnect();
-                            }
-                        };
-                        //开启线程传送文件
-                        new Thread(){
-                            @Override
-                            public void run() {
-                                super.run();
-                                int transResult=hotSpotImp.transFile(zip_file);
-                                Message message=Message.obtain();
-                                message.obj=transResult;
-                                handlerForGetTransFilesResult.sendMessage(message);
-                            }
-                        }.start();
-                    }
                     resultTypeOfScan=-1;
                     break;
                 case 2:

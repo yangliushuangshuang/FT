@@ -48,7 +48,8 @@ public class HotSpotImp implements HotSpot {
 	@Override
 	public int transFile(File file) {
 		if(!file.exists()||file.isDirectory())return TRANS_FAIL;
-		if(!Util.sendInfo(rmAddr,rmPort,file.getName()+Util.SPLITER+file.getTotalSpace()))return TRANS_FAIL;
+		length = file.getTotalSpace();
+		if(!Util.sendInfo(rmAddr,rmPort,file.getName()+Util.SPLITER+length))return TRANS_FAIL;
 		Socket socket = new Socket();
 		try {
 			socket.connect(new InetSocketAddress(rmAddr,rmPort),Util.SOCKET_TIMEOUT);
@@ -105,6 +106,12 @@ public class HotSpotImp implements HotSpot {
 		//rmAddr = info[2];
 		rmPort = Integer.parseInt(info[3]);
 		wifiManageUtils.closeWifi();
+		try{
+			Thread.currentThread();
+			Thread.sleep(2000);
+		}catch (InterruptedException e){
+			e.printStackTrace();
+		}
 		wifiManageUtils.openWifi();
 		wifiManageUtils.startscan();
 		WifiConfiguration netConfig = wifiManageUtils.getCustomeWifiClientConfiguration(wifiName, psw, 3);
@@ -144,8 +151,9 @@ public class HotSpotImp implements HotSpot {
 	@Override
 	public Bitmap getQRCode() {
 		WifiManageUtils wifiManageUtils = new WifiManageUtils(context);
-		psw = Util.randPsw(10);
-		//psw="123456789";
+		//psw = Util.randPsw(10);
+		psw="123456789";
+		wifiManageUtils.closeWifi();
 		wifiManageUtils.stratWifiAp(wifiName, psw,3);
 		addr = NetworkDetect.getLocalIpAddress();
 		String content = wifiName+Util.SPLITER+psw+Util.SPLITER+addr+Util.SPLITER+port;
