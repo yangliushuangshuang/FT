@@ -25,6 +25,8 @@ public class InetUDPImp implements InetUDP {
 	private String inetAddr;
 	private String rmInetAddr;
 	private int rmPort;
+	private long length;
+	private String name;
 	/**
 	 *
 	 * @param inetString 本机IP地址
@@ -44,33 +46,6 @@ public class InetUDPImp implements InetUDP {
 			e.printStackTrace();
 		}
 		return TRANS_FAIL;
-		/*try {
-			int cursorPort=Integer.parseInt(Util.randPsw(5));
-			InetAddress inetAddress = InetAddress.getByAddress(Util.ipToBytes(rmInetAddr));
-			String content = file.getName()+ Util.SPLITER+file.getTotalSpace()+Util.SPLITER+cursorPort;
-			if(!Util.sendInfo(rmInetAddr,rmPort,content))return TRANS_FAIL;//发送文件信息
-			DatagramSocket socket = new DatagramSocket(new Configuration().getP2PPort());
-			BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
-			byte[] buf = new byte[Util.BLOCK_SIZE];
-			int len;
-			long cursor=1;
-			while((len=in.read(buf, Long.SIZE,buf.length))!=-1){
-				byte[] b = Long.toString(cursor).getBytes();
-				for(int i=0;i<Long.SIZE;i++){
-					buf[i]=b[i];
-				}
-				cursor++;
-				DatagramPacket packet = new DatagramPacket(buf,0,len,inetAddress,rmPort);
-				socket.send(packet);
-			}
-			return TRANS_OK;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return TRANS_FAIL;
-		}catch (NullPointerException e){
-			e.printStackTrace();
-			return TRANS_FAIL;
-		}*/
 	}
 
 	@Override
@@ -79,8 +54,8 @@ public class InetUDPImp implements InetUDP {
 		String info=Util.receiveInfo(port);
 		if(info==null)return RECI_FAIL;
 		String[] fileInfo = info.split(Util.SPLITER);
-		String name = fileInfo[0];
-		String length = fileInfo[1];
+		name = fileInfo[0];
+		length = Long.parseLong(fileInfo[1]);
 		try {
 			File file = new File(Util.RECEIVE_DIR,name);
 			if(file.exists())file.delete();
@@ -91,34 +66,6 @@ public class InetUDPImp implements InetUDP {
 			e.printStackTrace();
 			return RECI_FAIL;
 		}
-		/*try{
-			String[] fileInfo = Util.receiveInfo(port).split(Util.SPLITER);
-			String name = fileInfo[0];
-			long length = Long.parseLong(fileInfo[1]);
-
-			File file = new File(Util.RECEIVE_DIR+File.separator+name);
-			if(!file.getParentFile().exists())if(!file.getParentFile().mkdirs())return RECI_FAIL;
-
-			DatagramSocket socket = new DatagramSocket(port);
-			byte[] buf = new byte[Util.BLOCK_SIZE];
-			DatagramPacket packet = new DatagramPacket(buf,buf.length);
-			socket.receive(packet);
-
-			byte[] cb = new byte[Long.SIZE];
-			for(int i=0;i<Long.SIZE;i++)cb[i]=buf[i];
-			long cursor = Long.parseLong(new String(cb));
-
-
-		}catch (NullPointerException e){
-			e.printStackTrace();//获取文件基本信息失败
-			return RECI_FAIL;
-		} catch (SocketException e) {
-			e.printStackTrace();
-			return RECI_FAIL;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return RECI_FAIL;
-		}*/
 	}
 
 	@Override
@@ -196,5 +143,11 @@ public class InetUDPImp implements InetUDP {
 			Log.d("InetUDP", "连接失败");
 		}
 		return CONNECT_FAIL;
+	}
+	public String getFileName(){
+		return name;
+	}
+	public long getLength(){
+		return length;
 	}
 }
