@@ -33,8 +33,8 @@ public class Util {
     public final static int SOCKET_TIMEOUT=5000;
     public final static int BLOCK_SIZE=1024*10;
     public final static int HELLOSHAKE_SIZE=64;
-    private static long rcvIndex;
-    private static long sendIndex;
+    public static long rcvIndex;
+    public static long sendIndex;
     public static String intToIp(int i) {
 
         return (i & 0xFF ) + "." +

@@ -1,6 +1,8 @@
 package com.jcx.rudp;
 
 
+import com.jcx.util.Util;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.DatagramPacket;
@@ -53,6 +55,7 @@ public class DatagramRecive {
             out.write(recvMsg.getData());
             NetJavaRespMsg resp=new NetJavaRespMsg(recvMsg.getId(),(byte)0,System.currentTimeMillis());
 
+            Util.rcvIndex = recvMsg.getId();
             byte[] data=resp.toByte();
             DatagramPacket dp=new DatagramPacket(data,data.length,recvPacket.getSocketAddress());
             dSender.send(dp);

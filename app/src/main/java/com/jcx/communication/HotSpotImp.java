@@ -144,8 +144,8 @@ public class HotSpotImp implements HotSpot {
 	@Override
 	public Bitmap getQRCode() {
 		WifiManageUtils wifiManageUtils = new WifiManageUtils(context);
-		//psw = Util.randPsw(10);
-		psw="123456789";
+		psw = Util.randPsw(10);
+		//psw="123456789";
 		wifiManageUtils.stratWifiAp(wifiName, psw,3);
 		addr = NetworkDetect.getLocalIpAddress();
 		String content = wifiName+Util.SPLITER+psw+Util.SPLITER+addr+Util.SPLITER+port;

@@ -99,6 +99,7 @@ public class DatagramSend {
 
             msgQueue.put(id, sendMsg);
             System.out.println("客户端-数据已发送" + sendMsg);
+            Util.sendIndex = id;
             //Thread.sleep(1000);
         }
     }
