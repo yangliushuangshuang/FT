@@ -106,18 +106,20 @@ public class HotSpotImp implements HotSpot {
 		//rmAddr = info[2];
 		rmPort = Integer.parseInt(info[3]);
 		wifiManageUtils.closeWifi();
-		try{
+/*		try{
 			Thread.currentThread();
 			Thread.sleep(2000);
 		}catch (InterruptedException e){
 			e.printStackTrace();
-		}
+		}*/
 		wifiManageUtils.openWifi();
 		wifiManageUtils.startscan();
 		WifiConfiguration netConfig = wifiManageUtils.getCustomeWifiClientConfiguration(wifiName, psw, 3);
-		if(!wifiManageUtils.addNetwork(netConfig)){
-			Log.e("hotspot","add network fail");
-			return CONNECT_FAIL;
+		while(wifiManageUtils.isConnected(wifiName)){
+			if(!wifiManageUtils.addNetwork(netConfig)){
+				Log.e("hotspot","add network fail");
+				return CONNECT_FAIL;
+			}
 		}
 		boolean iptoready =false;
 		while (!iptoready)
