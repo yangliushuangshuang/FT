@@ -51,11 +51,6 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
         <activity
-            android:name=".view.CreateQRCodeActivity"
-            android:theme="@style/AppTheme"
-            android:label="@string/activity_actionBar_label">
-        </activity>
-        <activity
             android:name="com.jcx.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

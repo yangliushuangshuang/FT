@@ -39,12 +39,14 @@ public class HotSpotImp implements HotSpot {
 	private WifiManageUtils wifiManageUtils;
 	private String fileName;
 	private long length;
+	private boolean isBegin = false;
 	public HotSpotImp(Activity context){
 		this.context = context;
 		wifiManageUtils = new WifiManageUtils(context);
 		wifiName = "TP";
 		port = new Configuration().getP2PPort();
 	}
+	public boolean isBegin(){return isBegin;}
 	@Override
 	public int transFile(File file) {
 		if(!file.exists()||file.isDirectory())return TRANS_FAIL;
@@ -66,6 +68,7 @@ public class HotSpotImp implements HotSpot {
 	public int receiFile() {
 		try {
 			String[] fileInfo = Util.receiveInfo(port).split(Util.SPLITER);
+			isBegin=true;
 			fileName = fileInfo[0];
 			//TODO
 			length = Long.parseLong(fileInfo[1]);
@@ -106,20 +109,18 @@ public class HotSpotImp implements HotSpot {
 		//rmAddr = info[2];
 		rmPort = Integer.parseInt(info[3]);
 		wifiManageUtils.closeWifi();
-/*		try{
+		try{
 			Thread.currentThread();
 			Thread.sleep(2000);
 		}catch (InterruptedException e){
 			e.printStackTrace();
-		}*/
+		}
 		wifiManageUtils.openWifi();
 		wifiManageUtils.startscan();
 		WifiConfiguration netConfig = wifiManageUtils.getCustomeWifiClientConfiguration(wifiName, psw, 3);
-		while(wifiManageUtils.isConnected(wifiName)){
-			if(!wifiManageUtils.addNetwork(netConfig)){
-				Log.e("hotspot","add network fail");
-				return CONNECT_FAIL;
-			}
+		if(!wifiManageUtils.addNetwork(netConfig)){
+			Log.e("hotspot","add network fail");
+			return CONNECT_FAIL;
 		}
 		boolean iptoready =false;
 		while (!iptoready)

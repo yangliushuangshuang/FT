@@ -149,32 +149,14 @@ public class MainActivity extends AppCompatActivity {
                         String select_item = items[which].toString();
                         if (select_item.equals(getString(R.string.fileAccept_bluetooth))) {
                             //TODO -------->通过蓝牙接受文件
-                            flag = "BTR";
-                            Intent intent2 = new Intent(MainActivity.this, CreateQRCodeActivity.class);
-                            intent2.putExtra("flag", flag);
-                            flag = null;
-                            startActivityForResult(intent2, 1);
 
                         } else if (select_item.equals(getString(R.string.fileAccept_hotspot))) {
                             //TODO---------->通过开热点接收文件
-                            flag = "HSR";
-                            Intent intent3 = new Intent(MainActivity.this, CreateQRCodeActivity.class);
-                            intent3.putExtra("flag", flag);
-                            flag = null;
-                            startActivityForResult(intent3, 2);
 
                         } else if (select_item.equals(getString(R.string.fileAccept_network))) {
                             //TODO--------->通过网络接收文件
-                            flag = "UDP";
-                            Intent intent4 = new Intent(MainActivity.this, CreateQRCodeActivity.class);
-                            intent4.putExtra("flag", flag);
-                            startActivityForResult(intent4, 3);
                         } else if (select_item.equals(getString(R.string.fileAccept_wifidiect))) {
                             //TODO --------->WIFIDirect 接收文件
-                            flag = "WFD";
-                            Intent intent5 = new Intent(MainActivity.this, CreateQRCodeActivity.class);
-                            intent5.putExtra("flag", flag);
-                            startActivityForResult(intent5, 4);
                         }
                     }
                 });

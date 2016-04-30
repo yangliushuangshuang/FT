@@ -162,32 +162,14 @@ public class ClassifiedFileActivity extends AppCompatActivity {
                         String select_item = items[which].toString();
                         if (select_item.equals(getString(R.string.fileAccept_bluetooth))) {
                             //TODO -------->通过蓝牙接受文件
-                            flag = "BTR";
-                            Intent intent2 = new Intent(ClassifiedFileActivity.this, CreateQRCodeActivity.class);
-                            intent2.putExtra("flag", flag);
-                            flag = null;
-                            startActivityForResult(intent2, 1);
 
                         } else if (select_item.equals(getString(R.string.fileAccept_hotspot))) {
                             //TODO---------->通过开热点接收文件
-                            flag = "HSR";
-                            Intent intent3 = new Intent(ClassifiedFileActivity.this, CreateQRCodeActivity.class);
-                            intent3.putExtra("flag", flag);
-                            flag = null;
-                            startActivityForResult(intent3, 2);
 
                         } else if (select_item.equals(getString(R.string.fileAccept_network))) {
                             //TODO--------->通过网络接收文件
-                            flag = "UDP";
-                            Intent intent4 = new Intent(ClassifiedFileActivity.this, CreateQRCodeActivity.class);
-                            intent4.putExtra("flag", flag);
-                            startActivityForResult(intent4, 3);
                         } else if (select_item.equals(getString(R.string.fileAccept_wifidiect))) {
                             //TODO --------->WIFIDirect 接收文件
-                            flag = "WFD";
-                            Intent intent5 = new Intent(ClassifiedFileActivity.this, CreateQRCodeActivity.class);
-                            intent5.putExtra("flag", flag);
-                            startActivityForResult(intent5, 4);
                         }
                     }
                 });
@@ -392,21 +374,19 @@ public class ClassifiedFileActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode==RESULT_OK)
-        {
-            final String result=data.getExtras().getString("result");
+        if (resultCode==RESULT_OK) {
+            final String result = data.getExtras().getString("result");
             Toast.makeText(ClassifiedFileActivity.this, result, Toast.LENGTH_SHORT).show();
-            switch (resultTypeOfScan)
-            {
+            switch (resultTypeOfScan) {
                 case 0:
                     new AsyncTask<Void, Void, Void>() {//TODO 使用蓝牙发送文件
                         @Override
                         protected Void doInBackground(Void... params) {
-                            if(blueToothImp.connect(result)== TransBasic.CONNECT_OK) {
+                            if (blueToothImp.connect(result) == TransBasic.CONNECT_OK) {
                                 if (filePath_WillBeSend != null) {
-                                    File file=new File(filePath_WillBeSend);
-                                    if(blueToothImp.transFile(file)==TransBasic.TRANS_OK){
-                                        Toast.makeText(ClassifiedFileActivity.this,"蓝牙传输文件成功",Toast.LENGTH_SHORT).show();
+                                    File file = new File(filePath_WillBeSend);
+                                    if (blueToothImp.transFile(file) == TransBasic.TRANS_OK) {
+                                        Toast.makeText(ClassifiedFileActivity.this, "蓝牙传输文件成功", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }
@@ -414,65 +394,65 @@ public class ClassifiedFileActivity extends AppCompatActivity {
 
                         }
                     }.execute();
-                    resultTypeOfScan=-1;
+                    resultTypeOfScan = -1;
                     break;
                 case 1: //TODO 通过热点发送文件
                     final int[] connectResult = new int[1];
                     ll_classifiedFile_waiting.setVisibility(View.VISIBLE);
                     //开启线程用于连接
-                    new Thread(){
+                    new Thread() {
                         @Override
                         public void run() {
                             super.run();
-                            connectResult[0] =hotSpotImp.connect(result);
+                            connectResult[0] = hotSpotImp.connect(result);
                         }
                     }.start();
                     ll_classifiedFile_waiting.setVisibility(View.GONE);
                     if (connectResult[0] == TransBasic.CONNECT_OK) {
                         //获得要发送文件的路径
-                        srcFilePath=filePath_WillBeSend;
+                        srcFilePath = filePath_WillBeSend;
                         //压缩文件
-                        ZipUtil zipUtil=new ZipUtil();
-                        String zipedFilePath=srcFilePath.substring(0,srcFilePath.lastIndexOf("."))+".zip";
-                        zipFilePath_WillBeSend=zipUtil.getZipedFile(srcFilePath,zipedFilePath);
-                        final File zip_file=new File(zipFilePath_WillBeSend);
+                        ZipUtil zipUtil = new ZipUtil();
+                        String zipedFilePath = srcFilePath.substring(0, srcFilePath.lastIndexOf(".")) + ".zip";
+                        zipFilePath_WillBeSend = zipUtil.getZipedFile(srcFilePath, zipedFilePath);
+                        final File zip_file = new File(zipFilePath_WillBeSend);
 
                         if (zipFilePath_WillBeSend != null) {
-                            progressDialog=new ProgressDialog(this);
+                            progressDialog = new ProgressDialog(this);
                             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                             progressDialog.setTitle(getString(R.string.accepting_dialog_title));
                             progressDialog.setCancelable(false);//不允许退出
                             progressDialog.setMessage(zip_file.getName());
-                            progressDialog.setMax((int) (zip_file.length()/1024));
+                            progressDialog.setMax((int) (zip_file.length() / 1024));
                             progressDialog.show();
                         }
                         //开启线程监听接收文件的大小更新progressbar
-                        new Thread(){
+                        new Thread() {
                             @Override
                             public void run() {
                                 super.run();
                                 do {
-                                    int progress= (int) (Util.getRcvIndex()*1016*2);
-                                    Message message=Message.obtain();
-                                    message.what=progress;
+                                    int progress = (int) (Util.getRcvIndex() * 1016 * 2);
+                                    Message message = Message.obtain();
+                                    message.what = progress;
                                     handlerFroUpdateProgressBar.sendMessage(message);
-                                }while (hotSpotImp.getlength()<= Util.getRcvIndex()*1016*2);
+                                } while (hotSpotImp.getlength() <= Util.getRcvIndex() * 1016 * 2);
                             }
                         }.start();
 
                         //开启线程传送文件
-                        new Thread(){
+                        new Thread() {
                             @Override
                             public void run() {
                                 super.run();
-                                int transResult=hotSpotImp.transFile(zip_file);
-                                Message message=Message.obtain();
-                                message.obj=transResult;
+                                int transResult = hotSpotImp.transFile(zip_file);
+                                Message message = Message.obtain();
+                                message.obj = transResult;
                                 handlerForGetTransFilesResult.sendMessage(message);
                             }
                         }.start();
                     }
-                    resultTypeOfScan=-1;
+                    resultTypeOfScan = -1;
                     break;
                 case 2:
                     new AsyncTask<Void, Void, Void>() {
@@ -480,79 +460,79 @@ public class ClassifiedFileActivity extends AppCompatActivity {
                         protected Void doInBackground(Void... params) { //TODO 通过网络传输文件
                             if (inetUDPImp.connect(result) == TransBasic.CONNECT_OK) {
                                 if (filePath_WillBeSend != null) {
-                                    File file=new File(filePath_WillBeSend);
-                                    if (inetUDPImp.transFile(file) == TransBasic.TRANS_OK)
-                                    {
-                                        Toast.makeText(ClassifiedFileActivity.this,"网络传输文件成功",Toast.LENGTH_SHORT).show();
+                                    File file = new File(filePath_WillBeSend);
+                                    if (inetUDPImp.transFile(file) == TransBasic.TRANS_OK) {
+                                        Toast.makeText(ClassifiedFileActivity.this, "网络传输文件成功", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }
                             return null;
                         }
                     }.execute();
-                    resultTypeOfScan=-1;
+                    resultTypeOfScan = -1;
                     break;
                 case 3:
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... params) { // TODO 通过WIFIDIRECT 发送文件
-                            if (wifiDirectImp.connect(result)==TransBasic.CONNECT_OK) {
+                            if (wifiDirectImp.connect(result) == TransBasic.CONNECT_OK) {
                                 if (filePath_WillBeSend != null) {
-                                    File file=new File(filePath_WillBeSend);
-                                    if(wifiDirectImp.transFile(file)==TransBasic.TRANS_OK){
-                                        Toast.makeText(ClassifiedFileActivity.this,"WIFIDIRECT传输文件成功",Toast.LENGTH_SHORT).show();
+                                    File file = new File(filePath_WillBeSend);
+                                    if (wifiDirectImp.transFile(file) == TransBasic.TRANS_OK) {
+                                        Toast.makeText(ClassifiedFileActivity.this, "WIFIDIRECT传输文件成功", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }
                             return null;
                         }
                     }.execute();
-                    resultTypeOfScan=-1;
+                    resultTypeOfScan = -1;
                     break;
             }
-        }else if (resultCode == 1 && data.getStringExtra("action").equals("BTR")) {//TODO 通过蓝牙接收文件
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    if(blueToothImp.receiFile()==TransBasic.RECI_OK){
-                        Toast.makeText(ClassifiedFileActivity.this,"蓝牙发送文件成功",Toast.LENGTH_SHORT).show();
-                    }
-                    return null;
-                }
-            }.execute();
-        }else if (resultCode == 2 && data.getStringExtra("action").equals("HSR")) {//TODO 通过热点接收文件
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    if(hotSpotImp.receiFile()==TransBasic.RECI_OK){
-                        hotSpotImp.disconnect();
-                        Toast.makeText(ClassifiedFileActivity.this,"热点接收文件成功",Toast.LENGTH_SHORT).show();
-                    }
-                    return null;
-                }
-            }.execute();
-        }else if (resultCode == 3 && data.getStringExtra("action").equals("UDP")) {//TODO 通过UDP接收文件
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    if(inetUDPImp.connect() == TransBasic.CONNECT_OK) {
-                        if (inetUDPImp.receiFile() == TransBasic.RECI_OK) {
-                            Toast.makeText(ClassifiedFileActivity.this,"网络发送文件成功",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    return null;
-                }
-            }.execute();
-        }else if (resultCode == 4 && data.getStringExtra("action").equals("WFD")) {//TODO 通过WIFIDriect接收文件
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    if (wifiDirectImp.receiFile() == TransBasic.RECI_OK) {//
-                        Toast.makeText(ClassifiedFileActivity.this,"WIFIDIRECT发送文件成功",Toast.LENGTH_SHORT).show();
-                    }
-                    return null;
-                }
-            }.execute();
+//        }else if (resultCode == 1 && data.getStringExtra("action").equals("BTR")) {//TODO 通过蓝牙接收文件
+//            new AsyncTask<Void, Void, Void>() {
+//                @Override
+//                protected Void doInBackground(Void... params) {
+//                    if(blueToothImp.receiFile()==TransBasic.RECI_OK){
+//                        Toast.makeText(ClassifiedFileActivity.this,"蓝牙发送文件成功",Toast.LENGTH_SHORT).show();
+//                    }
+//                    return null;
+//                }
+//            }.execute();
+//        }else if (resultCode == 2 && data.getStringExtra("action").equals("HSR")) {//TODO 通过热点接收文件
+//            new AsyncTask<Void, Void, Void>() {
+//                @Override
+//                protected Void doInBackground(Void... params) {
+//                    if(hotSpotImp.receiFile()==TransBasic.RECI_OK){
+//                        hotSpotImp.disconnect();
+//                        Toast.makeText(ClassifiedFileActivity.this,"热点接收文件成功",Toast.LENGTH_SHORT).show();
+//                    }
+//                    return null;
+//                }
+//            }.execute();
+//        }else if (resultCode == 3 && data.getStringExtra("action").equals("UDP")) {//TODO 通过UDP接收文件
+//            new AsyncTask<Void, Void, Void>() {
+//                @Override
+//                protected Void doInBackground(Void... params) {
+//                    if(inetUDPImp.connect() == TransBasic.CONNECT_OK) {
+//                        if (inetUDPImp.receiFile() == TransBasic.RECI_OK) {
+//                            Toast.makeText(ClassifiedFileActivity.this,"网络发送文件成功",Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                    return null;
+//                }
+//            }.execute();
+//        }else if (resultCode == 4 && data.getStringExtra("action").equals("WFD")) {//TODO 通过WIFIDriect接收文件
+//            new AsyncTask<Void, Void, Void>() {
+//                @Override
+//                protected Void doInBackground(Void... params) {
+//                    if (wifiDirectImp.receiFile() == TransBasic.RECI_OK) {//
+//                        Toast.makeText(ClassifiedFileActivity.this,"WIFIDIRECT发送文件成功",Toast.LENGTH_SHORT).show();
+//                    }
+//                    return null;
+//                }
+//            }.execute();
+//        }
         }
     }
 }
