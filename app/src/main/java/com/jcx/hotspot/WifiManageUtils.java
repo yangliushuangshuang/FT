@@ -11,8 +11,6 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
-import com.jcx.util.Util;
-
 public class WifiManageUtils
 {
     private static WifiManager wifiManager;
@@ -281,10 +279,6 @@ public class WifiManageUtils
     public boolean addNetwork(WifiConfiguration wcg){
         int wcgID = wifiManager.addNetwork(wcg);
         return wifiManager.enableNetwork(wcgID, true);
-    }
-    public boolean isConnected(String ssid){
-        WifiInfo info = getWifiConnectInfo();
-        return info!=null?info.getSSID()==ssid:false;
     }
     public void openWifi(){
         wifiManager.setWifiEnabled(true);
