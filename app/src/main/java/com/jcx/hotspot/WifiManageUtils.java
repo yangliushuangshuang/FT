@@ -14,7 +14,7 @@ import android.net.wifi.WifiManager;
 public class WifiManageUtils
 {
     private static WifiManager wifiManager;
-    private static WifiInfo wifiInfo;
+    private static WifiInfo wifiInfo=null;
     private static List<ScanResult> wifiScanlist;
     private static List<WifiConfiguration> wifiConfigurationlist;
     private static DhcpInfo wifiDhcpInfo;
@@ -279,6 +279,10 @@ public class WifiManageUtils
     public boolean addNetwork(WifiConfiguration wcg){
         int wcgID = wifiManager.addNetwork(wcg);
         return wifiManager.enableNetwork(wcgID, true);
+    }
+    public boolean isConnected(String uusid){
+        WifiInfo info = getWifiConnectInfo();
+        return info!=null&&(info.getSSID().equals(uusid)||info.getSSID().equals("\""+uusid+"\""));
     }
     public void openWifi(){
         wifiManager.setWifiEnabled(true);

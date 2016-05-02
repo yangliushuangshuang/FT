@@ -1,11 +1,11 @@
 package com.jcx.view;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -91,7 +92,10 @@ public class AllFilesActivity extends AppCompatActivity{
     private int resultTypeOfScan=-1;
     private int hotSpotSendIsConnected=-1;
 
-    private LinearLayout ll_waiting;
+    private RelativeLayout rl_waiting;
+
+    private boolean isStop=false;
+    private Dialog menuDialog=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,7 +151,7 @@ public class AllFilesActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayShowTitleEnabled(false);//不现实标题
         forceShowOverflowMenu();
 
-        ll_waiting= (LinearLayout) findViewById(R.id.ll_allfiles_progressbar_waiting);
+        rl_waiting= (RelativeLayout) findViewById(R.id.allfiles_main_rl_waiting);
         tv_title= (TextView) findViewById(R.id.tv_title);
         file_list= (SwipeMenuListView) findViewById(R.id.file_list);
         file_list.setOnItemClickListener(new fileItemClickListener());
@@ -225,6 +229,7 @@ public class AllFilesActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        String selectItem=null;
         switch (id) {
             case android.R.id.home:
                 if (parentFilePath == null) {
@@ -253,7 +258,8 @@ public class AllFilesActivity extends AppCompatActivity{
                     finish();
                 }
                 break;
-            case R.id.action_fileAccept:
+            case R.id.action_fileAccept://TODO 通过热点接收文件
+
 
                 items=new CharSequence[4];
                 items[0]=getString(R.string.fileAccept_bluetooth);
@@ -261,8 +267,7 @@ public class AllFilesActivity extends AppCompatActivity{
                 items[2]=getString(R.string.fileAccept_network);
                 items[3]=getString(R.string.fileAccept_wifidiect);
 
-                final AlertDialog.Builder builder = new AlertDialog.Builder(
-                        AllFilesActivity.this);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(AllFilesActivity.this);
                 builder.setTitle(R.string.acceptFile_title).setIcon(R.drawable.file_accept_menu_icon);
                 //items使用全局的finalCharSequenece数组声明
                 builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -274,74 +279,66 @@ public class AllFilesActivity extends AppCompatActivity{
 
                         } else if (select_item.equals(getString(R.string.fileAccept_hotspot))) {
                             //TODO---------->通过开热点接收文件
-                            Bitmap qrCodeBitmap = hotSpotImp.getQRCode();
-                            AlertDialog qrcodeDialog = null;
-                            if (qrCodeBitmap != null) {
-                                View view = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_view, null);
-                                AlertDialog.Builder builder = new AlertDialog.Builder(AllFilesActivity.this);
-                                builder.setView(view);
-                                ImageView iv_qrcodeBitmap= (ImageView) view.findViewById(R.id.dialog_QRCode_image);
-                                iv_qrcodeBitmap.setImageBitmap(qrCodeBitmap);
-                                builder.create();
-                                qrcodeDialog = builder.show();
-                            }
-                            if (hotSpotImp.isBegin()) {
-                                qrcodeDialog.dismiss();
-                                progressDialog = new ProgressDialog(AllFilesActivity.this);
-                                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                                progressDialog.setTitle(getString(R.string.accepting_dialog_title));
-                                progressDialog.setCancelable(false);//不允许退出
-                                progressDialog.setMessage(hotSpotImp.getFileName());
-                                progressDialog.setMax((int) (hotSpotImp.getlength() / Util.BLOCK_SIZE));
-                                progressDialog.show();
-                                final Handler handlerForAcceptResult_hotSpotImg = new Handler() {
-                                    @Override
-                                    public void handleMessage(Message msg) {
-                                        super.handleMessage(msg);
-                                        if (msg.what == TransBasic.RECI_OK) {
-                                            Toast.makeText(AllFilesActivity.this, "热点接收文件成功", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Toast.makeText(AllFilesActivity.this, "热点接收文件失败", Toast.LENGTH_SHORT).show();
+//                            Bitmap qrCodeBitmap = hotSpotImp.getQRCode();
+//                            Intent intent=new Intent(AllFilesActivity.this,ShowQRCodeActivity.class);
+//                            intent.putExtra(Config.KEY, Config.VALUE_HOTSPOT);
+//                            startActivityForResult(intent,1);
+                            View  view=(LinearLayout) getLayoutInflater().inflate(R.layout.dialog_view,null);
+                            AlertDialog.Builder builder =new AlertDialog.Builder(AllFilesActivity.this);
+                            ImageView iv_qrcode= (ImageView) view.findViewById(R.id.dialog_QRCode_image);
+                            iv_qrcode.setImageBitmap(hotSpotImp.getQRCode());
+                            builder.setView(view);
+                            builder.create();
+                            final AlertDialog qrcodeDialog=builder.show();
+
+
+                            hotSpot_connection(new SuccessCallBack() {
+                                @Override
+                                public void onSuccess() {
+                                    if (qrcodeDialog.isShowing()) {
+                                        qrcodeDialog.dismiss();
+                                    }
+                                    progressDialog = new ProgressDialog(context);
+                                    progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                                    progressDialog.setTitle(getString(R.string.accepting_dialog_title));
+                                    progressDialog.setCancelable(false);//不允许退出
+                                    progressDialog.setMessage(hotSpotImp.getFileName());
+                                    progressDialog.setMax((int) (hotSpotImp.getlength() / Util.BLOCK_SIZE));
+                                    progressDialog.show();
+
+                                    updateProgressBarWhenAcceptByHotSpot();//显示progressBar的时候更新progressbar的进度条
+                                    acceptFileByHotSpot(new SuccessCallBack() {
+                                        @Override
+                                        public void onSuccess() {
+                                            Toast.makeText(AllFilesActivity.this, "接收文件成功", Toast.LENGTH_SHORT).show();
+                                            hotSpotImp.disconnect();
+                                            progressDialog.hide();
+                                            progressDialog = null;
                                         }
-                                        hotSpotImp.disconnect();
-                                        progressDialog.hide();
-                                        progressDialog = null;
-                                    }
-                                };
-                                final Handler handlerForUpdateProgressbar_hotSpotImgRec = new Handler() {
-                                    @Override
-                                    public void handleMessage(Message msg) {
-                                        super.handleMessage(msg);
-                                        if (msg.what != 0) {
-                                            progressDialog.setProgress(msg.what);
+                                    }, new FailCallBack() {
+                                        @Override
+                                        public void onFail() {
+                                            Toast.makeText(AllFilesActivity.this, "接收文件失败", Toast.LENGTH_SHORT).show();
+                                            hotSpotImp.disconnect();
+                                            progressDialog.hide();
+                                            progressDialog = null;
                                         }
+                                    });
+                                }
+                            }, new FailCallBack() {
+                                @Override
+                                public void onFail() {
+
+                                    Toast.makeText(AllFilesActivity.this, "未能成功连接", Toast.LENGTH_SHORT).show();
+                                    if (qrcodeDialog.isShowing()) {
+                                        qrcodeDialog.dismiss();
                                     }
-                                };
-                                new Thread() {
-                                    @Override
-                                    public void run() {
-                                        super.run();
-                                        if (hotSpotImp.receiFile() == TransBasic.RECI_OK) {
-                                            Message message = Message.obtain();
-                                            message.what = TransBasic.RECI_OK;
-                                            handlerForAcceptResult_hotSpotImg.sendMessage(message);
-                                        }
-                                    }
-                                }.start();
-                                new Thread() {
-                                    @Override
-                                    public void run() {
-                                        super.run();
-                                        int progress=0;
-                                        do {
-                                            progress = (int) (Util.getRcvIndex() * 2);
-                                            Message message = Message.obtain();
-                                            message.what = progress;
-                                            handlerForUpdateProgressbar_hotSpotImgRec.sendMessage(message);
-                                        }while (progress<hotSpotImp.getlength());
-                                    }
-                                }.start();
-                            }
+                                    hotSpotImp.disconnect();
+                                    System.out.println("未能连接成功");
+                                }
+                            });
+
+
                         }else if (select_item.equals(getString(R.string.fileAccept_network))) {
                             //TODO--------->通过网络接收文件
                         }else if(select_item.equals(getString(R.string.fileAccept_wifidiect))){
@@ -349,7 +346,7 @@ public class AllFilesActivity extends AppCompatActivity{
                         }
                     }
                 });
-                builder.show();
+                menuDialog=builder.show();
                 break;
             case R.id.action_new_folder:
                 AlertDialog.Builder new_folder_dialog=new AlertDialog.Builder(context);
@@ -387,6 +384,124 @@ public class AllFilesActivity extends AppCompatActivity{
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 通过热点接收文件时更新progressbar
+     */
+    private void updateProgressBarWhenAcceptByHotSpot(){
+        final Handler handlerForUpdateProgressbar_hotSpotImgRec = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (msg.what != 0) {
+                    progressDialog.setProgress(msg.what);
+                }
+            }
+        };
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                int progress=0;
+                do {
+                    progress = (int) (Util.getRcvIndex() * 2);
+                    Message message = Message.obtain();
+                    message.what = progress;
+                    handlerForUpdateProgressbar_hotSpotImgRec.sendMessage(message);
+                }while (progress<hotSpotImp.getlength());
+            }
+        }.start();
+    }
+
+    /**
+     * 监听是否已经开始接收文件
+     * @param successCallBack
+     * @param failCallBack
+     */
+    private void hotSpot_connection(final SuccessCallBack successCallBack, final FailCallBack failCallBack){
+        final Handler handler=new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch ((int)msg.what){
+                    case 0:
+                        if (failCallBack != null) {
+                            failCallBack.onFail();
+                        }
+                        break;
+                    case 1:
+                        if (successCallBack != null) {
+                            successCallBack.onSuccess();
+                        }
+                        break;
+                }
+            }
+        };
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                if (hotSpotImp.connenct()==TransBasic.CONNECT_OK) {
+                    Message message=Message.obtain();
+                    message.what=1;
+                    handler.sendMessage(message);
+                }else {
+                    Message message=Message.obtain();
+                    message.what=0;
+                    handler.sendMessage(message);
+                }
+            }
+        }.start();
+    }
+
+    /**
+     * 通过热点接收文件
+     * @param successCallBack 接收文件成功的接口
+     * @param failCallBack 接收文件失败的接口
+     */
+    private void acceptFileByHotSpot(final SuccessCallBack successCallBack, final FailCallBack failCallBack){
+        final Handler handler=new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch ((int)msg.what){
+                    case 0:
+                        if (failCallBack != null) {
+                            failCallBack.onFail();
+                        }
+                        break;
+                    case 1:
+                        if (successCallBack != null) {
+                            successCallBack.onSuccess();
+                        }
+                        break;
+                }
+            }
+        };
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                if (hotSpotImp.receiFile() == TransBasic.RECI_OK) {
+                    Message message=Message.obtain();
+                    message.what=1;
+                    handler.sendMessage(message);
+                }
+                else {
+                    Message message=Message.obtain();
+                    message.what=0;
+                    handler.sendMessage(message);
+                }
+            }
+        }.start();
+    }
+
+    public static interface SuccessCallBack{
+        void onSuccess();
+    }
+    public static interface FailCallBack{
+        void onFail();
     }
 
     /**
@@ -516,6 +631,108 @@ public class AllFilesActivity extends AppCompatActivity{
         return super.onContextItemSelected(item);
     }
 
+    /**
+     * 通过热点发送文件
+     * @param result
+     * @param zipFilePath_WillBeSend
+     * @param zip_file
+     * @param successCallBack
+     * @param failCallBack
+     */
+    private void connection_sendByHotSpot(final String result,final String zipFilePath_WillBeSend,final File zip_file, final SuccessCallBack successCallBack, final FailCallBack failCallBack){
+        final Handler handlerForShowProgressbar = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (msg.what == TransBasic.CONNECT_OK) {
+                    if (successCallBack!=null) {
+                        successCallBack.onSuccess();
+                    }
+
+                }else {
+                    if (failCallBack != null) {
+                        failCallBack.onFail();
+                    }
+
+                }
+            }
+        };
+        //开启线程用于连接
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                int connectResult = hotSpotImp.connect(result);
+                Message message = Message.obtain();
+                message.what = connectResult;
+                handlerForShowProgressbar.sendMessage(message);
+
+
+            }
+        }.start();
+    }
+
+    /**
+     * 通过热点发送文件
+     * @param zip_file 要发送的文件
+     */
+    private void sendFileByHotSpot(final File zip_file, final SuccessCallBack successCallBack, final FailCallBack failCallBack){
+        final Handler handlerForGetTransFilesResult = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if ((int) (msg.obj) == TransBasic.TRANS_OK) {
+                    if (successCallBack != null) {
+                        successCallBack.onSuccess();
+                    }
+                }else {
+                    if (failCallBack != null) {
+                        failCallBack.onFail();
+                    }
+                }
+            }
+        };
+        //开启线程传送文件
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                int transResult = hotSpotImp.transFile(zip_file);
+                Message message = Message.obtain();
+                message.obj = transResult;
+                handlerForGetTransFilesResult.sendMessage(message);
+            }
+        }.start();
+
+    }
+
+    /**
+     * 发送文件的时候更新进度条
+     */
+    private void updateProgressBarWhenSendByHotSpot(){
+        final Handler handlerFroUpdateProgressBar = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if(progressDialog!=null)progressDialog.setProgress(msg.what);
+            }
+        };
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                int progress;
+                do {
+                    progress = (int) (Util.getSendIndex() * 2);
+                    Message message = Message.obtain();
+                    message.what = progress;
+                    handlerFroUpdateProgressBar.sendMessage(message);
+                } while (progress<hotSpotImp.getlength());
+            }
+        }.start();
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -524,139 +741,74 @@ public class AllFilesActivity extends AppCompatActivity{
             Toast.makeText(AllFilesActivity.this, result, Toast.LENGTH_SHORT).show();
             switch (resultTypeOfScan) {
                 case 0:
-                    new AsyncTask<Void, Void, Void>() {//TODO 使用蓝牙发送文件
-                        @Override
-                        protected Void doInBackground(Void... params) {
-                            if (blueToothImp.connect(result) == TransBasic.CONNECT_OK) {
-                                if (fileUsedInContextMenu != null) {
-                                    if (blueToothImp.transFile(fileUsedInContextMenu) == TransBasic.TRANS_OK) {
-                                        Toast.makeText(AllFilesActivity.this, "蓝牙传输文件成功", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                            return null;
-
-                        }
-                    }.execute();
                     resultTypeOfScan = -1;
                     break;
                 case 1: //TODO 通过热点发送文件
-                    srcFilePath = fileUsedInContextMenu.getAbsolutePath();
+//                    srcFilePath = fileUsedInContextMenu.getAbsolutePath();
                     //压缩文件
-                    ZipUtil zipUtil = new ZipUtil();
-                    String zipedFilePath = srcFilePath.substring(0, srcFilePath.lastIndexOf(".")) + ".zip";
-                    final String zipFilePath_WillBeSend = zipUtil.getZipedFile(srcFilePath, zipedFilePath);
-                    final File zip_file = new File(zipFilePath_WillBeSend);
+//                    ZipUtil zipUtil = new ZipUtil();
+//                    String zipedFilePath = srcFilePath.substring(0, srcFilePath.lastIndexOf(".")) + ".zip";
+//                    final String zipFilePath_WillBeSend = zipUtil.getZipedFile(srcFilePath, zipedFilePath);
+//                    final File zip_file = new File(zipFilePath_WillBeSend);
+                    final String zipFilePath_WillBeSend = fileUsedInContextMenu.getAbsolutePath();
+                    final File zip_file=new File(zipFilePath_WillBeSend);
+                    rl_waiting.setVisibility(View.VISIBLE);
 
-                    ll_waiting.setVisibility(View.VISIBLE);
-                    final Handler handlerForShowProgressbar = new Handler() {
+                    connection_sendByHotSpot(result, zipFilePath_WillBeSend, zip_file, new SuccessCallBack() {
                         @Override
-                        public void handleMessage(Message msg) {
-                            super.handleMessage(msg);
-                            if (msg.what == TransBasic.CONNECT_OK) {
-                                if (zipFilePath_WillBeSend != null) {
-                                    progressDialog = new ProgressDialog(AllFilesActivity.this);
-                                    progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                                    progressDialog.setTitle(getString(R.string.accepting_dialog_title));
-                                    progressDialog.setCancelable(false);//不允许退出
-                                    progressDialog.setMessage(zip_file.getName());
-                                    progressDialog.setMax((int) (zip_file.length() / Util.BLOCK_SIZE));
-                                    progressDialog.show();
-                                }
-                            }
-                            ll_waiting.setVisibility(View.GONE);
-                        }
-                    };
-                    final Handler handlerForGetTransFilesResult = new Handler() {
-                        @Override
-                        public void handleMessage(Message msg) {
-                            super.handleMessage(msg);
-                            if ((int) (msg.obj) == TransBasic.TRANS_OK) {
-                                Toast.makeText(AllFilesActivity.this, "热点传输文件成功", Toast.LENGTH_SHORT).show();
-                            }
-                            progressDialog.hide();
-                            progressDialog = null;
-                            hotSpotImp.disconnect();
-                        }
-                    };
-                    final Handler handlerFroUpdateProgressBar = new Handler() {
-                        @Override
-                        public void handleMessage(Message msg) {
-                            super.handleMessage(msg);
-                            progressDialog.setProgress(msg.what);
-                        }
-                    };
-                    //开启线程用于连接
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            super.run();
-                            int connectResult = hotSpotImp.connect(result);
-                            Message message = Message.obtain();
-                            message.what = connectResult;
-                            handlerForShowProgressbar.sendMessage(message);
+                        public void onSuccess() {
+                            rl_waiting.setVisibility(View.GONE);
+                            if (zipFilePath_WillBeSend != null) {
+                                progressDialog = new ProgressDialog(AllFilesActivity.this);
+                                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                                progressDialog.setTitle(getString(R.string.accepting_dialog_title));
+                                progressDialog.setCancelable(false);//不允许退出
+                                progressDialog.setMessage(zip_file.getName());
+                                progressDialog.setMax((int) (zip_file.length() / Util.BLOCK_SIZE));
+                                progressDialog.show();
 
-                            if (connectResult == TransBasic.CONNECT_OK) {//TODO 如果连接成功，则开启线程开始传输
-                                //开启线程传送文件
-                                new Thread() {
+                                sendFileByHotSpot(zip_file, new SuccessCallBack() {
                                     @Override
-                                    public void run() {
-                                        super.run();
-                                        int transResult = hotSpotImp.transFile(zip_file);
-                                        Message message = Message.obtain();
-                                        message.obj = transResult;
-                                        handlerForGetTransFilesResult.sendMessage(message);
+                                    public void onSuccess() {
+                                        Toast.makeText(AllFilesActivity.this, "热点传输文件成功", Toast.LENGTH_SHORT).show();
+                                        if (progressDialog.isShowing()) {
+                                            progressDialog.dismiss();
+                                        }
+                                        progressDialog = null;
+                                        hotSpotImp.disconnect();
                                     }
-                                }.start();
-                                new Thread() {
+                                }, new FailCallBack() {
                                     @Override
-                                    public void run() {
-                                        super.run();
-                                        int progress;
-                                        do {
-                                            progress = (int) (Util.getSendIndex() * 2);
-                                            Message message = Message.obtain();
-                                            message.what = progress;
-                                            handlerFroUpdateProgressBar.sendMessage(message);
-                                        } while (progress<hotSpotImp.getlength());
+                                    public void onFail() {
+                                        Toast.makeText(AllFilesActivity.this,"发送失败",Toast.LENGTH_SHORT).show();
+                                        System.out.println("发送失败");
+                                        if (progressDialog.isShowing()) {
+                                            progressDialog.dismiss();
+                                        }
+                                        progressDialog = null;
+                                        hotSpotImp.disconnect();
                                     }
-                                }.start();
+                                });
+                                updateProgressBarWhenSendByHotSpot();
                             }
                         }
-                    }.start();
+                    }, new FailCallBack() {
+                        @Override
+                        public void onFail() {
+                            rl_waiting.setVisibility(View.GONE);
+                            Toast.makeText(AllFilesActivity.this,"连接失败",Toast.LENGTH_SHORT).show();
+                            System.out.println("连接失败");
+                        }
+                    });
+
+
 
                     resultTypeOfScan = -1;
                     break;
-                case 2:
-                    new AsyncTask<Void, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(Void... params) { //TODO 通过网络传输文件
-                            if (inetUDPImp.connect(result) == TransBasic.CONNECT_OK) {
-                                if (fileUsedInContextMenu != null) {
-                                    if (inetUDPImp.transFile(fileUsedInContextMenu) == TransBasic.TRANS_OK) {
-                                        Toast.makeText(AllFilesActivity.this, "网络传输文件成功", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                            return null;
-                        }
-                    }.execute();
+                case 2://TODO 通过网络传输文件
                     resultTypeOfScan = -1;
                     break;
-                case 3:
-                    new AsyncTask<Void, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(Void... params) { // TODO 通过WIFIDIRECT 发送文件
-                            if (wifiDirectImp.connect(result) == TransBasic.CONNECT_OK) {
-                                if (fileUsedInContextMenu != null) {
-                                    if (wifiDirectImp.transFile(fileUsedInContextMenu) == TransBasic.TRANS_OK) {
-                                        Toast.makeText(AllFilesActivity.this, "WIFIDIRECT传输文件成功", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                            return null;
-                        }
-                    }.execute();
+                case 3:// TODO 通过WIFIDIRECT 发送文件
                     resultTypeOfScan = -1;
                     break;
             }

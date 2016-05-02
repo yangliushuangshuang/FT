@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/lenovo/AndroidStudioProjects/FT/BarCodeTest%202/build/intermediates/bundles/debug/res/values/values.xml -->
+    <!-- From: file:/Users/Cui/Documents/FT/BarCodeTest%202/build/intermediates/bundles/debug/res/values/values.xml -->
     <eat-comment/>
     <color name="bg_color">#EDEDED</color>
     <color name="contents_text">#ff000000</color>

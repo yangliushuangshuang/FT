@@ -7,44 +7,58 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
-
-    <include layout="@layout/included_in_allfiles_main" />
-
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        >
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_confirm"
-            android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/included_in_allfiles_main" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/float_confirm"
-            app:backgroundTint="@color/colorTitleBackground"
-            app:rippleColor="@color/rippleColor"
-            app:elevation="3dp"
-            app:pressedTranslationZ="4dp"
-            />
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_cancel"
-            android:layout_below="@+id/fab_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/float_cancel"
-            app:backgroundTint="@color/colorTitleBackground"
-            app:rippleColor="@color/rippleColor"
-            app:elevation="3dp"
-            app:pressedTranslationZ="4dp"/>
+            >
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/float_confirm"
+                app:backgroundTint="@color/colorTitleBackground"
+                app:rippleColor="@color/rippleColor"
+                app:elevation="3dp"
+                app:pressedTranslationZ="4dp"
+                />
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_cancel"
+                android:layout_below="@+id/fab_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/float_cancel"
+                app:backgroundTint="@color/colorTitleBackground"
+                app:rippleColor="@color/rippleColor"
+                app:elevation="3dp"
+                app:pressedTranslationZ="4dp"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/allfiles_main_rl_waiting"
+        android:layout_width="match_parent"
+        android:background="#30000000"
+        android:visibility="gone"
+        android:layout_height="match_parent">
         <LinearLayout
             android:id="@+id/ll_allfiles_progressbar_waiting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_centerInParent="true"
-            android:visibility="gone"
+            android:background="@android:color/white"
             android:orientation="horizontal">
             <ProgressBar
-                android:id="@+id/pb_waitingForGetapk_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="?android:attr/progressBarStyle"
@@ -57,6 +71,7 @@
                 android:text="@string/tv_connecting"/>
         </LinearLayout>
     </RelativeLayout>
+
 
 
 </android.support.design.widget.CoordinatorLayout>
