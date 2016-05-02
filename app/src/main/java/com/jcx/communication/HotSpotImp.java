@@ -16,6 +16,7 @@ import com.jcx.util.Util;
 import com.jcx.view.AllFilesActivity;
 import com.jcx.view.MainActivity;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -27,6 +28,7 @@ import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 
 public class HotSpotImp implements HotSpot {
 	private Activity context;
@@ -40,6 +42,7 @@ public class HotSpotImp implements HotSpot {
 	private String fileName;
 	private long length;
 	private boolean isBegin = false;
+	private final static String HAND_SHAKE= "handshake";
 	public HotSpotImp(Activity context){
 		this.context = context;
 		wifiManageUtils = new WifiManageUtils(context);
@@ -50,7 +53,7 @@ public class HotSpotImp implements HotSpot {
 	@Override
 	public int transFile(File file) {
 		if(!file.exists()||file.isDirectory())return TRANS_FAIL;
-		length = file.getTotalSpace();
+		length = file.length();
 		if(!Util.sendInfo(rmAddr,rmPort,file.getName()+Util.SPLITER+length))return TRANS_FAIL;
 		Socket socket = new Socket();
 		try {
@@ -68,6 +71,7 @@ public class HotSpotImp implements HotSpot {
 	public int receiFile() {
 		try {
 			String[] fileInfo = Util.receiveInfo(port).split(Util.SPLITER);
+			if(fileInfo==null)return RECI_FAIL;
 			isBegin=true;
 			fileName = fileInfo[0];
 			//TODO
@@ -92,7 +96,10 @@ public class HotSpotImp implements HotSpot {
 		}
 		return RECI_FAIL;
 	}
-
+	public int connenct(){
+		String res = Util.receiveInfo(port);
+		return res!=null&&res.equals(HAND_SHAKE)?CONNECT_OK:CONNECT_FAIL;
+	}
 	@Override
 	public int connect(Drawable qrCode) {
 		return CONNECT_FAIL;
@@ -109,21 +116,17 @@ public class HotSpotImp implements HotSpot {
 		//rmAddr = info[2];
 		rmPort = Integer.parseInt(info[3]);
 		wifiManageUtils.closeWifi();
-		try{
-			Thread.currentThread();
-			Thread.sleep(2000);
-		}catch (InterruptedException e){
-			e.printStackTrace();
-		}
 		wifiManageUtils.openWifi();
 		wifiManageUtils.startscan();
 		WifiConfiguration netConfig = wifiManageUtils.getCustomeWifiClientConfiguration(wifiName, psw, 3);
-		if(!wifiManageUtils.addNetwork(netConfig)){
-			Log.e("hotspot","add network fail");
-			return CONNECT_FAIL;
+		for(int i=0;i<1000&&!wifiManageUtils.isConnected(wifiName);i++){
+			wifiManageUtils.startscan();
+			wifiManageUtils.addNetwork(netConfig);
 		}
+		if(!wifiManageUtils.isConnected(wifiName))return CONNECT_FAIL;
 		boolean iptoready =false;
-		while (!iptoready)
+		int i = 0;
+		while (!iptoready&&i++<10)
 		{
 			wifiManageUtils.startscan();
 			try
@@ -134,6 +137,8 @@ public class HotSpotImp implements HotSpot {
 			}
 			catch (InterruptedException ie)
 			{
+				ie.printStackTrace();
+				return CONNECT_FAIL;
 			}
 
 			DhcpInfo dhcp = new WifiManageUtils(context).getDhcpInfo();
@@ -144,7 +149,11 @@ public class HotSpotImp implements HotSpot {
 				iptoready = true;
 			}
 		}
-		return CONNECT_OK;
+		if(iptoready){
+			Util.sendInfo(rmAddr,rmPort,HAND_SHAKE);
+			return CONNECT_OK;
+		}
+		return CONNECT_FAIL;
 	}
 
 	/**

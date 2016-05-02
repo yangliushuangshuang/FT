@@ -94,5 +94,5 @@
     <string name="title_video">视频</string>
     <string name="title_zip">压缩包</string>
     <string name="title_others">其他</string>
-    <string name="tv_connecting">正在连接</string>
+    <string name="tv_connecting">正在连接...</string>
 </resources>

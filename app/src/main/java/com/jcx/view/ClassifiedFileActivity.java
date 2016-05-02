@@ -489,50 +489,6 @@ public class ClassifiedFileActivity extends AppCompatActivity {
                     resultTypeOfScan = -1;
                     break;
             }
-//        }else if (resultCode == 1 && data.getStringExtra("action").equals("BTR")) {//TODO 通过蓝牙接收文件
-//            new AsyncTask<Void, Void, Void>() {
-//                @Override
-//                protected Void doInBackground(Void... params) {
-//                    if(blueToothImp.receiFile()==TransBasic.RECI_OK){
-//                        Toast.makeText(ClassifiedFileActivity.this,"蓝牙发送文件成功",Toast.LENGTH_SHORT).show();
-//                    }
-//                    return null;
-//                }
-//            }.execute();
-//        }else if (resultCode == 2 && data.getStringExtra("action").equals("HSR")) {//TODO 通过热点接收文件
-//            new AsyncTask<Void, Void, Void>() {
-//                @Override
-//                protected Void doInBackground(Void... params) {
-//                    if(hotSpotImp.receiFile()==TransBasic.RECI_OK){
-//                        hotSpotImp.disconnect();
-//                        Toast.makeText(ClassifiedFileActivity.this,"热点接收文件成功",Toast.LENGTH_SHORT).show();
-//                    }
-//                    return null;
-//                }
-//            }.execute();
-//        }else if (resultCode == 3 && data.getStringExtra("action").equals("UDP")) {//TODO 通过UDP接收文件
-//            new AsyncTask<Void, Void, Void>() {
-//                @Override
-//                protected Void doInBackground(Void... params) {
-//                    if(inetUDPImp.connect() == TransBasic.CONNECT_OK) {
-//                        if (inetUDPImp.receiFile() == TransBasic.RECI_OK) {
-//                            Toast.makeText(ClassifiedFileActivity.this,"网络发送文件成功",Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                    return null;
-//                }
-//            }.execute();
-//        }else if (resultCode == 4 && data.getStringExtra("action").equals("WFD")) {//TODO 通过WIFIDriect接收文件
-//            new AsyncTask<Void, Void, Void>() {
-//                @Override
-//                protected Void doInBackground(Void... params) {
-//                    if (wifiDirectImp.receiFile() == TransBasic.RECI_OK) {//
-//                        Toast.makeText(ClassifiedFileActivity.this,"WIFIDIRECT发送文件成功",Toast.LENGTH_SHORT).show();
-//                    }
-//                    return null;
-//                }
-//            }.execute();
-//        }
         }
     }
 }

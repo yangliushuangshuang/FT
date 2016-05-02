@@ -131,12 +131,14 @@ public class Util {
     public static String receiveInfo(int port){
         try {
             ServerSocket socket = new ServerSocket(port);
+            socket.setSoTimeout(SOCKET_TIMEOUT*20);
             Socket client = socket.accept();
             BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream(),"utf-8"));
             StringBuilder builder = new StringBuilder();
             char[] buf = new char[HELLOSHAKE_SIZE];
             int len;
             while((len=reader.read(buf,0,buf.length))!=-1)builder.append(buf,0,len);
+            reader.close();
             client.close();
             socket.close();
             return builder.toString();
@@ -165,6 +167,7 @@ public class Util {
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),"utf-8"));
             writer.write(info);
             writer.flush();
+            writer.close();
             socket.close();
            /* byte[] data = info.getBytes();
             InetAddress address = InetAddress.getByAddress(Util.ipToBytes(ip));
