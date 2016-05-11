@@ -1,13 +1,11 @@
 package com.jcx.view;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -32,17 +30,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jcx.R;
-import com.jcx.communication.BlueToothImp;
 import com.jcx.communication.HotSpotImp;
 import com.jcx.communication.InetUDPImp;
 import com.jcx.communication.TransBasic;
-import com.jcx.communication.WifiDirectImp;
 import com.jcx.util.FileFilter;
 import com.jcx.util.FileOper;
 import com.jcx.util.FileUtil;
 import com.jcx.util.GetFileSize;
+import com.jcx.util.NetworkDetect;
 import com.jcx.util.Util;
-import com.jcx.util.ZipUtil;
 import com.jcx.view.adapter.AsynLoadImg;
 import com.jcx.view.adapter.FileManagerAdapter;
 import com.jcx.view.myListView.SwipeMenu;
@@ -81,11 +77,8 @@ public class AllFilesActivity extends AppCompatActivity{
     private CharSequence[] items;//发送选择菜单和编辑方式选择菜单的列表集合
 
     private FileOper fileOper;
-    private BlueToothImp blueToothImp;
     private HotSpotImp hotSpotImp;
     private InetUDPImp inetUDPImp;
-    private WifiDirectImp wifiDirectImp;
-    private Util util;
     private GetFileSize getFileSize;
 
     private String flag;//mainActivity与CreatQRCodeActivity通信的标志
@@ -94,19 +87,16 @@ public class AllFilesActivity extends AppCompatActivity{
 
     private RelativeLayout rl_waiting;
 
-    private boolean isStop=false;
-    private Dialog menuDialog=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.allfiles_main);
 
-
-        blueToothImp=new BlueToothImp(this);
+        String netType = NetworkDetect.getCurrentNetType(this);
+        String localAddr = netType=="2g"||netType=="3g"||netType=="4g"?NetworkDetect.getLocalIpAddress():NetworkDetect.getNetIp();
         hotSpotImp=new HotSpotImp(this);
-        inetUDPImp=new InetUDPImp("127.0.0.1");
-        wifiDirectImp=new WifiDirectImp(this);
+        inetUDPImp=new InetUDPImp(localAddr);
         getFileSize=new GetFileSize();
 
         if (progressDialog == null) {
@@ -121,15 +111,11 @@ public class AllFilesActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        blueToothImp.registerBluetoothReceiver();
-        wifiDirectImp.registerWifiDirectReceiver();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        blueToothImp.unregisterBluetoothReceiver();
-        wifiDirectImp.unregister();
     }
 
     /**
@@ -346,7 +332,7 @@ public class AllFilesActivity extends AppCompatActivity{
                         }
                     }
                 });
-                menuDialog=builder.show();
+                builder.show();
                 break;
             case R.id.action_new_folder:
                 AlertDialog.Builder new_folder_dialog=new AlertDialog.Builder(context);
@@ -442,7 +428,7 @@ public class AllFilesActivity extends AppCompatActivity{
             @Override
             public void run() {
                 super.run();
-                if (hotSpotImp.connenct()==TransBasic.CONNECT_OK) {
+                if (hotSpotImp.connect()==TransBasic.CONNECT_OK) {
                     Message message=Message.obtain();
                     message.what=1;
                     handler.sendMessage(message);
@@ -764,7 +750,7 @@ public class AllFilesActivity extends AppCompatActivity{
                                 progressDialog.setTitle(getString(R.string.accepting_dialog_title));
                                 progressDialog.setCancelable(false);//不允许退出
                                 progressDialog.setMessage(zip_file.getName());
-                                progressDialog.setMax((int) (zip_file.length() / Util.BLOCK_SIZE));
+                                progressDialog.setMax((int) (zip_file.length() / Util.BLOCK_SIZE)+1);
                                 progressDialog.show();
 
                                 sendFileByHotSpot(zip_file, new SuccessCallBack() {
@@ -780,7 +766,7 @@ public class AllFilesActivity extends AppCompatActivity{
                                 }, new FailCallBack() {
                                     @Override
                                     public void onFail() {
-                                        Toast.makeText(AllFilesActivity.this,"发送失败",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(AllFilesActivity.this, "发送失败", Toast.LENGTH_SHORT).show();
                                         System.out.println("发送失败");
                                         if (progressDialog.isShowing()) {
                                             progressDialog.dismiss();
@@ -796,7 +782,7 @@ public class AllFilesActivity extends AppCompatActivity{
                         @Override
                         public void onFail() {
                             rl_waiting.setVisibility(View.GONE);
-                            Toast.makeText(AllFilesActivity.this,"连接失败",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AllFilesActivity.this, "连接失败", Toast.LENGTH_SHORT).show();
                             System.out.println("连接失败");
                         }
                     });

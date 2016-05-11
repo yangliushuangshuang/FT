@@ -14,7 +14,7 @@ public interface HotSpot extends TransBasic{
 	 * 该方法由主设备调用，打开热点并获得热点标识和登录口令，生成二维码。
 	 * @return 热点打开成功后，获得热点标识和登录口令生成二维码，热点打开失败或其他错误则返回null。
 	 */
-	public Bitmap getQRCode();
+	public Bitmap getQRCode(int heigth,int width);
 	
 	/**
 	 * connect方法由从设备（接收文件方）调用

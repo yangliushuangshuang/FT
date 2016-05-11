@@ -13,10 +13,6 @@ import com.jcx.util.Configuration;
 import com.jcx.util.NetworkDetect;
 import com.jcx.util.QRcodeUtil;
 import com.jcx.util.Util;
-import com.jcx.view.AllFilesActivity;
-import com.jcx.view.MainActivity;
-
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -28,20 +24,17 @@ import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
 
 public class HotSpotImp implements HotSpot {
 	private Activity context;
 	private String wifiName;
 	private String psw;
 	private String rmAddr;
-	private String addr;
 	private int port;
 	private int rmPort;
 	private WifiManageUtils wifiManageUtils;
 	private String fileName;
 	private long length;
-	private boolean isBegin = false;
 	private final static String HAND_SHAKE= "handshake";
 	public HotSpotImp(Activity context){
 		this.context = context;
@@ -49,7 +42,6 @@ public class HotSpotImp implements HotSpot {
 		wifiName = "TP";
 		port = new Configuration().getP2PPort();
 	}
-	public boolean isBegin(){return isBegin;}
 	@Override
 	public int transFile(File file) {
 		if(!file.exists()||file.isDirectory())return TRANS_FAIL;
@@ -60,7 +52,11 @@ public class HotSpotImp implements HotSpot {
 			socket.connect(new InetSocketAddress(rmAddr,rmPort),Util.SOCKET_TIMEOUT);
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			if(Util.copyFile(br,bw,false))return TRANS_OK;
+			if(Util.copyFile(br,bw,false)){
+				socket.close();
+				return TRANS_OK;
+			}
+			socket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -70,12 +66,12 @@ public class HotSpotImp implements HotSpot {
 	@Override
 	public int receiFile() {
 		try {
-			String[] fileInfo = Util.receiveInfo(port).split(Util.SPLITER);
+			String fileInfo = Util.receiveInfo(port);
 			if(fileInfo==null)return RECI_FAIL;
-			isBegin=true;
-			fileName = fileInfo[0];
+			String[] fileInfos = fileInfo.split(Util.SPLITER);
+			fileName = fileInfos[0];
 			//TODO
-			length = Long.parseLong(fileInfo[1]);
+			length = Long.parseLong(fileInfos[1]);
 			Toast.makeText(context,String.valueOf(length),Toast.LENGTH_SHORT).show();
 			ServerSocket socket = new ServerSocket(port);
 			Socket client = socket.accept();
@@ -90,13 +86,10 @@ public class HotSpotImp implements HotSpot {
 			if(file.exists())return RECI_OK;
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (NullPointerException e){
-			//获取文件信息失败
-			e.printStackTrace();
 		}
 		return RECI_FAIL;
 	}
-	public int connenct(){
+	public int connect(){
 		String res = Util.receiveInfo(port);
 		return res!=null&&res.equals(HAND_SHAKE)?CONNECT_OK:CONNECT_FAIL;
 	}
@@ -107,14 +100,13 @@ public class HotSpotImp implements HotSpot {
 
 	/**
 	 * 扫描端（发送文件）二维码端调用。
-	 * @param content
-	 * @return
+	 * @param content 扫描二维码结果
+	 * @return 返回连接结果。
 	 */
 	public int connect(final String content){
 		String[] info = content.split(Util.SPLITER);
 		String wifiName = info[0],psw=info[1];
-		//rmAddr = info[2];
-		rmPort = Integer.parseInt(info[3]);
+		rmPort = Integer.parseInt(info[2]);
 		wifiManageUtils.closeWifi();
 		wifiManageUtils.openWifi();
 		wifiManageUtils.startscan();
@@ -161,16 +153,15 @@ public class HotSpotImp implements HotSpot {
 	 * @return 二维码
 	 */
 	@Override
-	public Bitmap getQRCode() {
+	public Bitmap getQRCode(int heigth,int width) {
 		WifiManageUtils wifiManageUtils = new WifiManageUtils(context);
 		//psw = Util.randPsw(10);
 		psw="123456789";
 		wifiManageUtils.closeWifi();
 		wifiManageUtils.stratWifiAp(wifiName, psw,3);
-		addr = NetworkDetect.getLocalIpAddress();
-		String content = wifiName+Util.SPLITER+psw+Util.SPLITER+addr+Util.SPLITER+port;
+		String content = wifiName+Util.SPLITER+psw+Util.SPLITER+port;
 		System.out.println("hotSpotImg -------->psw:"+psw);
-		return QRcodeUtil.encode(content,300,300);
+		return QRcodeUtil.encode(content,heigth,width);
 	}
 
 	@Override

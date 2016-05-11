@@ -14,7 +14,7 @@ public interface InetUDP  extends TransBasic{
 	 * 获得本机的互联网IP（外网IP）。
 	 * @return 返回IP所对应的二维码，如果无互联网IP地址则返回空.
 	 */
-	public Bitmap getQRCode();
+	public Bitmap getQRCode(int heigth,int width);
 	/**
 	 * 扫描二维码，得到IP，并发送握手确认。
 	 * @param qrCode 扫描得到的对方设备的IP二维码。

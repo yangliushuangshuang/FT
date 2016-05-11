@@ -1,0 +1,37 @@
+package com.jcx.view.task;
+
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+
+import com.jcx.util.Util;
+
+/**
+ * you must override doInBackground()
+ * Created by churongShaw on 2016/5/11.
+ */
+public abstract class MyTask extends AsyncTask<String,Integer,String> {
+    ProgressDialog progressDialog=null;
+    public MyTask(ProgressDialog progressDialog){
+        this.progressDialog = progressDialog;
+    }
+    @Override
+    protected void onPreExecute(){
+        Util.rcvIndex=0;
+        Util.sendIndex=0;
+        if(!progressDialog.isShowing())progressDialog.show();
+    }
+    @Override
+    protected void onPostExecute(String b){
+        progressDialog.setTitle(b);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        progressDialog.dismiss();
+    }
+    @Override
+    protected void onProgressUpdate(Integer... param){
+        progressDialog.setProgress(param[0]);
+    }
+}
