@@ -69,9 +69,9 @@ public class InetUDPImp implements InetUDP {
 	}
 
 	@Override
-	public Bitmap getQRCode() {
+	public Bitmap getQRCode(int heigth , int width) {
 		String content = inetAddr + Util.SPLITER + new Configuration().getP2PPort();
-		return QRcodeUtil.encode(content, 300, 300);
+		return QRcodeUtil.encode(content, heigth, width);
 	}
 
 	@Override

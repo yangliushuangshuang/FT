@@ -22,12 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jcx.R;
-import com.jcx.communication.BlueToothImp;
 import com.jcx.communication.HotSpotImp;
 import com.jcx.communication.InetUDPImp;
 import com.jcx.communication.TransBasic;
-import com.jcx.communication.WifiDirectImp;
 import com.jcx.util.FileClassification;
+import com.jcx.util.NetworkDetect;
 import com.jcx.util.Util;
 import com.jcx.util.ZipUtil;
 import com.jcx.view.adapter.ClassifiedFileAdapter;
@@ -47,10 +46,8 @@ public class ClassifiedFileActivity extends AppCompatActivity {
     private List<FileClassification.MyFile> filesList;
 
     private ClassifiedFileAdapter adapter;
-    private BlueToothImp blueToothImp;
     private HotSpotImp hotSpotImp;
     private InetUDPImp inetUDPImp;
-    private WifiDirectImp wifiDirectImp;
 
     private SwipeMenuListView myListView;
     private LinearLayout ll_waiting;
@@ -74,11 +71,10 @@ public class ClassifiedFileActivity extends AppCompatActivity {
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
         FLAG=bundle.getInt("flag");
-
-        blueToothImp=new BlueToothImp(this);
+        String netType = NetworkDetect.getCurrentNetType(this);
+        String localAddr = netType=="2g"||netType=="3g"||netType=="4g"?NetworkDetect.getLocalIpAddress():NetworkDetect.getNetIp();
         hotSpotImp=new HotSpotImp(this);
-        inetUDPImp=new InetUDPImp("127.0.0.1");
-        wifiDirectImp=new WifiDirectImp(this);
+        inetUDPImp=new InetUDPImp(localAddr);
 
         initCustomActionBar();
         initView();
@@ -87,15 +83,11 @@ public class ClassifiedFileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        blueToothImp.registerBluetoothReceiver();
-        wifiDirectImp.registerWifiDirectReceiver();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        blueToothImp.unregisterBluetoothReceiver();
-        wifiDirectImp.unregister();
     }
 
     /**
@@ -379,21 +371,6 @@ public class ClassifiedFileActivity extends AppCompatActivity {
             Toast.makeText(ClassifiedFileActivity.this, result, Toast.LENGTH_SHORT).show();
             switch (resultTypeOfScan) {
                 case 0:
-                    new AsyncTask<Void, Void, Void>() {//TODO 使用蓝牙发送文件
-                        @Override
-                        protected Void doInBackground(Void... params) {
-                            if (blueToothImp.connect(result) == TransBasic.CONNECT_OK) {
-                                if (filePath_WillBeSend != null) {
-                                    File file = new File(filePath_WillBeSend);
-                                    if (blueToothImp.transFile(file) == TransBasic.TRANS_OK) {
-                                        Toast.makeText(ClassifiedFileActivity.this, "蓝牙传输文件成功", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                            return null;
-
-                        }
-                    }.execute();
                     resultTypeOfScan = -1;
                     break;
                 case 1: //TODO 通过热点发送文件
@@ -472,20 +449,6 @@ public class ClassifiedFileActivity extends AppCompatActivity {
                     resultTypeOfScan = -1;
                     break;
                 case 3:
-                    new AsyncTask<Void, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(Void... params) { // TODO 通过WIFIDIRECT 发送文件
-                            if (wifiDirectImp.connect(result) == TransBasic.CONNECT_OK) {
-                                if (filePath_WillBeSend != null) {
-                                    File file = new File(filePath_WillBeSend);
-                                    if (wifiDirectImp.transFile(file) == TransBasic.TRANS_OK) {
-                                        Toast.makeText(ClassifiedFileActivity.this, "WIFIDIRECT传输文件成功", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                            return null;
-                        }
-                    }.execute();
                     resultTypeOfScan = -1;
                     break;
             }

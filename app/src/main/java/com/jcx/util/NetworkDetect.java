@@ -110,7 +110,7 @@ public class NetworkDetect {
                     InetAddress inetAddress = enumIpAddr.nextElement();
                     if (!inetAddress.isLoopbackAddress()) {
                         String addr = inetAddress.getHostAddress();
-                        if(addr.length()<=16)return addr;
+                        if(addr!=null&&addr.length()<=16)return addr;
                     }
                 }
             }

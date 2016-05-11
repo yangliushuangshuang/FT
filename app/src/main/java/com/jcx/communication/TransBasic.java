@@ -39,7 +39,7 @@ public interface TransBasic {
 	 * 根据连接方式获得连接标识信息生成二维码。
 	 * @return 具有连接信息的二维码。
 	 */
-	public Bitmap getQRCode();
+	public Bitmap getQRCode(int heigth,int width);
 
 	/**
 	 * 断开连接后的善后

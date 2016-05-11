@@ -6,12 +6,8 @@ import android.os.Environment;
 import android.test.ApplicationTestCase;
 import android.util.Log;
 
-import com.jcx.communication.BlueTooth;
-import com.jcx.communication.BlueToothImp;
-import com.jcx.communication.HotSpotImp;
 import com.jcx.communication.InetUDPImp;
 import com.jcx.communication.TransBasic;
-import com.jcx.communication.WifiDirectImp;
 import com.jcx.util.Configuration;
 import com.jcx.util.FileOper;
 import com.jcx.util.NetworkDetect;
@@ -31,35 +27,6 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     @Override
     public void setUp() throws Exception{
         super.setUp();
-    }
-
-    /**
-     * 蓝牙测试
-     */
-    public void testBlue(){
-        Runnable send = new Runnable() {
-            @Override
-            public void run() {
-                /*BlueToothImp blueToothImp = new BlueToothImp(this);//Activity
-                blueToothImp.registerBluetoothReceiver();
-                blueToothImp.ready();
-                assertTrue(blueToothImp.connect("", "") == TransBasic.CONNECT_OK);
-                assertTrue(blueToothImp.transFile(new File(Util.DATA_DIRECTORY,"ft.conf"))==TransBasic.TRANS_OK);
-                blueToothImp.unregisterBluetoothReceiver();*/
-            }
-        };
-        Runnable rcv = new Runnable() {
-            @Override
-            public void run() {
-                /*BlueToothImp blueToothImp = new BlueToothImp(this);//Activity
-                blueToothImp.registerBluetoothReceiver();
-                assertTrue(blueToothImp.getQRCode()!=null);
-                assertTrue(blueToothImp.receiFile()==TransBasic.RECI_OK);
-                blueToothImp.unregisterBluetoothReceiver();*/
-            }
-        };
-        new Thread(send).start();
-        new Thread(rcv).start();
     }
     public void testUDP(){
         Runnable send = new Runnable() {
@@ -97,30 +64,6 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
                 /*HotSpotImp hotSpotImp = new HotSpotImp(this);//Activity
                 hotSpotImp.getQRCode();
                 assertEquals(TransBasic.RECI_OK,hotSpotImp.receiFile());*/
-            }
-        };
-        new Thread(send).start();
-        new Thread(rcv).start();
-    }
-    public void testWifiDirect(){
-        Runnable send = new Runnable() {
-            @Override
-            public void run() {
-                /*WifiDirectImp wdi = new WifiDirectImp(this);//Activity
-                wdi.registerWifiDirectReceiver();//在当前Activity中的onResume()生命周期中调用该方法。注册广播监听的接收器。
-                assertEquals(TransBasic.CONNECT_OK, wdi.connect(""));
-                assertEquals(TransBasic.TRANS_OK,wdi.transFile(new File(Util.DATA_DIRECTORY,"ft.conf")));
-                wdi.unregister()//在onPause()生命周期中进行注销*/
-            }
-        };
-        Runnable rcv = new Runnable() {
-            @Override
-            public void run() {
-                /*WifiDirectImp wdi = new WifiDirectImp(this);//Activity
-                wdi.registerWifiDirectReceiver();//在当前Activity中的onResume()生命周期中调用该方法。注册广播监听的接收器。
-                assertTrue("WifiDirect rcv getQRCode", wdi.getQRCode() != null);
-                assertEquals(TransBasic.RECI_OK,wdi.receiFile());
-                wdi.unregister();//在onPause()生命周期中进行注销*/
             }
         };
         new Thread(send).start();
