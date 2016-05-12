@@ -18,7 +18,8 @@ public abstract class MyTask extends AsyncTask<String,Integer,String> {
     protected void onPreExecute(){
         Util.rcvIndex=0;
         Util.sendIndex=0;
-        if(!progressDialog.isShowing())progressDialog.show();
+        if(!progressDialog.isShowing())
+            progressDialog.show();
     }
     @Override
     protected void onPostExecute(String b){
@@ -32,6 +33,10 @@ public abstract class MyTask extends AsyncTask<String,Integer,String> {
     }
     @Override
     protected void onProgressUpdate(Integer... param){
-        progressDialog.setProgress(param[0]);
+        if(param[0]==-1){
+            if(!progressDialog.isShowing())progressDialog.show();
+        }else if(param[0]>0){
+            progressDialog.setProgress(param[0]);
+        }
     }
 }

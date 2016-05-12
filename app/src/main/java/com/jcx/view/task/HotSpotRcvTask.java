@@ -39,7 +39,7 @@ public class HotSpotRcvTask extends MyTask {
             rcvRes[0] = TransBasic.CONNECT_FAIL;
         }
         if(rcvRes[0]== TransBasic.CONNECT_FAIL)return "连接失败";
-
+        else if(rcvRes[0]==TransBasic.CONNECT_OK)publishProgress(-1);
 
         Thread thread = new Thread(){
             @Override
@@ -61,5 +61,10 @@ public class HotSpotRcvTask extends MyTask {
             e.printStackTrace();
         }
         return rcvRes[0]==TransBasic.RECI_OK?"发送成功":"发送失败";
+    }
+    @Override
+    protected void onPreExecute(){
+        Util.sendIndex=0;
+        Util.rcvIndex=0;
     }
 }
