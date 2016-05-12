@@ -5,6 +5,9 @@ import android.test.ApplicationTestCase;
 
 import com.jcx.util.Util;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+
 /**
  * Created by lenovo on 2016/5/2.
  */
@@ -22,7 +25,12 @@ public class UtilTest extends ApplicationTestCase<Application>{
         Runnable rev = new Runnable() {
             @Override
             public void run() {
-                Util.receiveInfo(8888);
+                try {
+                    ServerSocket socket = new ServerSocket(8888);
+                    Util.receiveInfo(socket);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         };
         new Thread(send).start();

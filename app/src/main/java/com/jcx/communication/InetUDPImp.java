@@ -5,19 +5,18 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import com.jcx.rudp.DatagramRecive;
+import com.jcx.rudp.DatagramReceive;
 import com.jcx.rudp.DatagramSend;
 import com.jcx.util.Configuration;
 import com.jcx.util.QRcodeUtil;
 import com.jcx.util.Util;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.SocketException;
 
 
@@ -27,6 +26,7 @@ public class InetUDPImp implements InetUDP {
 	private int rmPort;
 	private long length;
 	private String name;
+	private int port = new Configuration().getP2PPort();
 	/**
 	 *
 	 * @param inetString 本机IP地址
@@ -34,7 +34,7 @@ public class InetUDPImp implements InetUDP {
 	public InetUDPImp(String inetString) {
 		inetAddr = inetString;
 	}
-
+	public String getLoaclAddr(){return inetAddr;}
 	@Override
 	public int transFile(File file) {
 		if(!file.exists()||file.isDirectory())return TRANS_FAIL;
@@ -50,8 +50,13 @@ public class InetUDPImp implements InetUDP {
 
 	@Override
 	public int receiFile() {
-		int port = new Configuration().getP2PPort();
-		String info=Util.receiveInfo(port);
+		ServerSocket socket = null;
+		try {
+			socket = new ServerSocket(port);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String info=Util.receiveInfo(socket);
 		if(info==null)return RECI_FAIL;
 		String[] fileInfo = info.split(Util.SPLITER);
 		name = fileInfo[0];
@@ -60,7 +65,7 @@ public class InetUDPImp implements InetUDP {
 			File file = new File(Util.RECEIVE_DIR,name);
 			if(file.exists())file.delete();
 			file.createNewFile();
-			new DatagramRecive(file,inetAddr,port);
+			new DatagramReceive(file,inetAddr,port);
 			return RECI_OK;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,7 +95,6 @@ public class InetUDPImp implements InetUDP {
 	 * @return CONNECT_OK表示成功，反之则CONNECT_FAIL
 	 */
 	public int connect(){
-		int port =new Configuration().getP2PPort();
 		try {
 			Log.d("Shake","开始");
 			DatagramSocket datagramSocket = new DatagramSocket(port);

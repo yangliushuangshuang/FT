@@ -3,6 +3,8 @@ package com.jcx.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
+import android.os.Message;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -62,7 +64,23 @@ public class NetworkDetect {
      * 当连接WIFI处于内网中时调用该方法。
      * @return 返回外网IP
      */
-    public static String getNetIp() {
+    public static String getNetIp(){
+        final StringBuilder res = new StringBuilder();
+        Thread thread = new Thread(){
+            @Override
+            public void run(){
+                res.append(getNetIpInside());
+            }
+        };
+        thread.start();
+        try {
+            thread.join();
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        return res.toString();
+    }
+    private static String getNetIpInside() {
         URL infoUrl = null;
         InputStream inStream = null;
         String ipLine = "";

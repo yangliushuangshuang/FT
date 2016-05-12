@@ -33,9 +33,10 @@ public class HotSpotImp implements HotSpot {
 	private int port;
 	private int rmPort;
 	private WifiManageUtils wifiManageUtils;
-	private String fileName;
+	private String fileName="";
 	private long length;
 	private final static String HAND_SHAKE= "handshake";
+	private ServerSocket socket;
 	public HotSpotImp(Activity context){
 		this.context = context;
 		wifiManageUtils = new WifiManageUtils(context);
@@ -66,14 +67,12 @@ public class HotSpotImp implements HotSpot {
 	@Override
 	public int receiFile() {
 		try {
-			String fileInfo = Util.receiveInfo(port);
+			String fileInfo = Util.receiveInfo(socket);
 			if(fileInfo==null)return RECI_FAIL;
 			String[] fileInfos = fileInfo.split(Util.SPLITER);
 			fileName = fileInfos[0];
-			//TODO
+			Log.d("rcv","接收到文件信息"+length);
 			length = Long.parseLong(fileInfos[1]);
-			Toast.makeText(context,String.valueOf(length),Toast.LENGTH_SHORT).show();
-			ServerSocket socket = new ServerSocket(port);
 			Socket client = socket.accept();
 			Log.d("reciFile","通过了阻塞，即socket通信开始");
 			File file = new File(Util.RECEIVE_DIR+File.separator+fileName);
@@ -90,7 +89,12 @@ public class HotSpotImp implements HotSpot {
 		return RECI_FAIL;
 	}
 	public int connect(){
-		String res = Util.receiveInfo(port);
+		try {
+			socket = new ServerSocket(port);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String res = Util.receiveInfo(socket);
 		return res!=null&&res.equals(HAND_SHAKE)?CONNECT_OK:CONNECT_FAIL;
 	}
 	@Override
@@ -117,8 +121,7 @@ public class HotSpotImp implements HotSpot {
 		}
 		if(!wifiManageUtils.isConnected(wifiName))return CONNECT_FAIL;
 		boolean iptoready =false;
-		int i = 0;
-		while (!iptoready&&i++<10)
+		while (!iptoready)
 		{
 			wifiManageUtils.startscan();
 			try
@@ -169,6 +172,11 @@ public class HotSpotImp implements HotSpot {
 		if(wifiManageUtils!=null){
 			wifiManageUtils.closeWifiAp();
 			wifiManageUtils.closeWifi();
+		}
+		if(socket!=null) try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	public String getFileName(){

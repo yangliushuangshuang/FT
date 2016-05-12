@@ -77,22 +77,20 @@ public class Util {
         try {
             sendIndex = 0;
             rcvIndex = 0;
-            while ((len = reader.read(buf)) != -1) {
-                int offset=0;
+            while ((len = reader.read(buf,HEAD_LEN,BLOCK_SIZE)) != -1) {
+                int offset=HEAD_LEN;
                 if(isIn){
                     byte[] a = new byte[HEAD_LEN];
                     for(int i=0;i<HEAD_LEN;i++)a[i]=(byte)buf[i];
                     rcvIndex = bytes2long(a);
-                    offset = a.length;
                 }
                 else {
-                    byte[] a = long2bytes(sendIndex);
+                    byte[] a = long2bytes(++sendIndex);
                     for(int i=0;i<a.length;i++)buf[i] = (char) a[i];
-                    sendIndex++;
                 }
                 writer.write(buf, offset, len);
+                writer.flush();
             }
-            writer.flush();
             writer.close();
             reader.close();
         } catch (IOException e) {
@@ -125,15 +123,13 @@ public class Util {
     }
     /**
      * 接收文件基本信息和传输过程中的信息
-     * @param port socket的端口
+     * @param socket socket
      * @return 返回收到的内容
      */
-    public static String receiveInfo(int port){
-        ServerSocket socket=null;
+    public static String receiveInfo(ServerSocket socket){
         Socket client=null;
         StringBuilder builder = new StringBuilder();
         try {
-            socket = new ServerSocket(port);
             socket.setSoTimeout(SOCKET_TIMEOUT*20);
             client = socket.accept();
             BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream(),"utf-8"));
@@ -150,21 +146,6 @@ public class Util {
         } catch (IOException e) {
             e.printStackTrace();
             return "";
-        }finally {
-            if(client!=null){
-                try {
-                    client.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(socket!=null){
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return builder.toString();
     }
@@ -176,32 +157,23 @@ public class Util {
      * @return 返回发送结果，true成功，false失败,失败原因可
      */
     public static boolean sendInfo(String ip,int port,String info){
-        Socket socket=null;
         try {
-            socket = new Socket();
+            Socket socket = new Socket();
             socket.connect(new InetSocketAddress(ip, port), SOCKET_TIMEOUT);
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),"utf-8"));
             writer.write(info);
             writer.flush();
-            writer.close();
+            socket.close();
            /* byte[] data = info.getBytes();
             InetAddress address = InetAddress.getByAddress(Util.ipToBytes(ip));
             DatagramPacket packet = new DatagramPacket(data,data.length,address,port);
             DatagramSocket socket = new DatagramSocket();
             socket.send(packet);
             socket.close();*/
-            return true;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
-        }finally {
-            if(socket!=null){
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
+        return true;
     }
 }

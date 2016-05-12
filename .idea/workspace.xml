@@ -18,7 +18,8 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="System.out" />
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="rcv" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e876961-da46-4fc8-a69b-71044090869a" name="Default" comment="" />
@@ -48,84 +49,78 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="AllFilesActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AllFilesActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/AllFilesActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="748" column="13" selection-start-line="748" selection-start-column="13" selection-end-line="748" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.27240142">
+              <caret line="82" column="30" selection-start-line="82" selection-start-column="30" selection-end-line="82" selection-end-column="30" />
               <folding>
-                <element signature="method#getListfiles#0;class#AllFilesActivity#0" expanded="false" />
-                <element signature="method#initUI#0;class#AllFilesActivity#0" expanded="false" />
-                <element signature="e#5990#6022#0" expanded="true" />
-                <element signature="method#forceShowOverflowMenu#0;class#AllFilesActivity#0" expanded="false" />
-                <element signature="method#onMenuOpened#0;class#AllFilesActivity#0" expanded="false" />
-                <element signature="method#onCreateOptionsMenu#0;class#AllFilesActivity#0" expanded="false" />
-                <element signature="method#onCreateContextMenu#0;class#AllFilesActivity#0" expanded="false" />
-                <element signature="e#9052#9092#0" expanded="true" />
-                <element signature="e#9119#9157#0" expanded="true" />
-                <element signature="e#9184#9222#0" expanded="true" />
-                <element signature="e#9249#9289#0" expanded="true" />
-                <element signature="e#9425#9450#0" expanded="true" />
-                <element signature="e#9856#9896#0" expanded="true" />
-                <element signature="e#9980#10018#0" expanded="true" />
-                <element signature="e#10956#11028#0" expanded="false" />
-                <element signature="e#14213#14255#0" expanded="true" />
-                <element signature="e#14651#14689#0" expanded="true" />
-                <element signature="e#15008#15050#0" expanded="true" />
-                <element signature="e#15850#15890#0" expanded="true" />
-                <element signature="e#16250#16274#0" expanded="true" />
-                <element signature="e#16358#16383#0" expanded="true" />
-                <element signature="e#16520#16540#0" expanded="true" />
-                <element signature="e#16631#16651#0" expanded="true" />
-                <element signature="e#17637#17663#0" expanded="true" />
-                <element signature="e#17778#17801#0" expanded="true" />
-                <element signature="e#17934#17961#0" expanded="true" />
-                <element signature="e#18173#18231#0" expanded="false" />
+                <element signature="e#6087#6119#0" expanded="true" />
+                <element signature="e#9149#9189#0" expanded="true" />
+                <element signature="e#9216#9254#0" expanded="true" />
+                <element signature="e#9281#9319#0" expanded="true" />
+                <element signature="e#9346#9386#0" expanded="true" />
+                <element signature="e#9522#9547#0" expanded="true" />
+                <element signature="e#9953#9993#0" expanded="true" />
+                <element signature="e#10077#10115#0" expanded="true" />
+                <element signature="e#10728#10800#0" expanded="false" />
+                <element signature="e#13913#13955#0" expanded="true" />
+                <element signature="e#14317#14355#0" expanded="true" />
+                <element signature="e#14602#14644#0" expanded="true" />
+                <element signature="e#14867#14907#0" expanded="true" />
+                <element signature="e#15267#15291#0" expanded="true" />
+                <element signature="e#15375#15400#0" expanded="true" />
+                <element signature="e#15537#15557#0" expanded="true" />
+                <element signature="e#15648#15668#0" expanded="true" />
+                <element signature="e#16654#16680#0" expanded="true" />
+                <element signature="e#16795#16818#0" expanded="true" />
+                <element signature="e#16951#16978#0" expanded="true" />
+                <element signature="e#17190#17248#0" expanded="false" />
                 <element signature="method#menu_sendModes#0;class#AllFilesActivity#0" expanded="false" />
-                <element signature="e#22341#22379#0" expanded="true" />
-                <element signature="e#22398#22434#0" expanded="true" />
-                <element signature="e#22453#22489#0" expanded="true" />
-                <element signature="e#22508#22547#0" expanded="true" />
-                <element signature="e#22678#22701#0" expanded="true" />
-                <element signature="e#23051#23089#0" expanded="true" />
-                <element signature="e#23372#23408#0" expanded="true" />
-                <element signature="e#23695#23731#0" expanded="true" />
-                <element signature="e#24015#24054#0" expanded="true" />
+                <element signature="e#21358#21396#0" expanded="true" />
+                <element signature="e#21415#21451#0" expanded="true" />
+                <element signature="e#21470#21506#0" expanded="true" />
+                <element signature="e#21525#21564#0" expanded="true" />
+                <element signature="e#21695#21718#0" expanded="true" />
+                <element signature="e#22068#22106#0" expanded="true" />
+                <element signature="e#22389#22425#0" expanded="true" />
+                <element signature="e#22712#22748#0" expanded="true" />
+                <element signature="e#23032#23071#0" expanded="true" />
                 <element signature="method#menu_editModes#0;class#AllFilesActivity#0" expanded="false" />
-                <element signature="e#24496#24520#0" expanded="true" />
-                <element signature="e#24539#24563#0" expanded="true" />
-                <element signature="e#24582#24608#0" expanded="true" />
-                <element signature="e#24627#24653#0" expanded="true" />
-                <element signature="e#24785#24808#0" expanded="true" />
-                <element signature="e#25163#25187#0" expanded="true" />
-                <element signature="e#25426#25451#0" expanded="true" />
-                <element signature="e#25548#25572#0" expanded="true" />
-                <element signature="e#25614#25652#0" expanded="true" />
-                <element signature="e#25909#25935#0" expanded="true" />
-                <element signature="e#26253#26280#0" expanded="true" />
-                <element signature="e#26386#26410#0" expanded="true" />
-                <element signature="e#26507#26533#0" expanded="true" />
-                <element signature="e#26656#26671#0" expanded="true" />
-                <element signature="e#26763#26785#0" expanded="true" />
-                <element signature="e#27027#27047#0" expanded="true" />
-                <element signature="e#27132#27152#0" expanded="true" />
+                <element signature="e#23513#23537#0" expanded="true" />
+                <element signature="e#23556#23580#0" expanded="true" />
+                <element signature="e#23599#23625#0" expanded="true" />
+                <element signature="e#23644#23670#0" expanded="true" />
+                <element signature="e#23802#23825#0" expanded="true" />
+                <element signature="e#24180#24204#0" expanded="true" />
+                <element signature="e#24443#24468#0" expanded="true" />
+                <element signature="e#24565#24589#0" expanded="true" />
+                <element signature="e#24631#24669#0" expanded="true" />
+                <element signature="e#24926#24952#0" expanded="true" />
+                <element signature="e#25270#25297#0" expanded="true" />
+                <element signature="e#25403#25427#0" expanded="true" />
+                <element signature="e#25524#25550#0" expanded="true" />
+                <element signature="e#25673#25688#0" expanded="true" />
+                <element signature="e#25780#25802#0" expanded="true" />
+                <element signature="e#26044#26064#0" expanded="true" />
+                <element signature="e#26149#26169#0" expanded="true" />
                 <element signature="method#onContextItemSelected#0;class#AllFilesActivity#0" expanded="false" />
-                <element signature="e#28010#28019#0" expanded="false" />
-                <element signature="e#32162#32168#0" expanded="false" />
-                <element signature="e#35888#35930#0" expanded="true" />
-                <element signature="e#36473#36515#0" expanded="true" />
+                <element signature="e#27027#27036#0" expanded="false" />
+                <element signature="e#31179#31185#0" expanded="false" />
+                <element signature="e#34905#34945#0" expanded="true" />
+                <element signature="e#35526#35568#0" expanded="true" />
                 <element signature="class#fileItemClickListener#0;class#AllFilesActivity#0" expanded="false" />
                 <element signature="method#floatingActionButtonClickListener#0;class#AllFilesActivity#0" expanded="false" />
-                <element signature="e#38883#38908#0" expanded="true" />
-                <element signature="e#39050#39072#0" expanded="true" />
-                <element signature="e#39528#39552#0" expanded="true" />
+                <element signature="e#37515#37540#0" expanded="true" />
+                <element signature="e#37682#37704#0" expanded="true" />
+                <element signature="e#38160#38184#0" expanded="true" />
                 <element signature="class#fileItemLongClickListener#0;class#AllFilesActivity#0" expanded="false" />
-                <element signature="e#39923#39949#0" expanded="true" />
-                <element signature="e#39996#40020#0" expanded="true" />
-                <element signature="e#40440#40483#0" expanded="true" />
+                <element signature="e#38555#38581#0" expanded="true" />
+                <element signature="e#38628#38652#0" expanded="true" />
+                <element signature="e#39072#39115#0" expanded="true" />
                 <element signature="class#dialogOnCancelClickListener#0;class#AllFilesActivity#0" expanded="false" />
                 <element signature="class#dialogOnConfirmClickListener#0;class#AllFilesActivity#0" expanded="false" />
-                <element signature="e#42071#42104#0" expanded="true" />
+                <element signature="e#40703#40736#0" expanded="true" />
                 <element signature="method#viewUpdate#0;class#AllFilesActivity#0" expanded="false" />
                 <element signature="method#onKeyDown#0;class#AllFilesActivity#0" expanded="false" />
                 <element signature="method#dp2px#0;class#AllFilesActivity#0" expanded="false" />
@@ -134,54 +129,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HotSpotSendTask.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/HotSpotSendTask.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36750787">
-              <caret line="45" column="27" selection-start-line="45" selection-start-column="27" selection-end-line="45" selection-end-column="27" />
-              <folding>
-                <element signature="e#991#1140#0" expanded="true" />
-                <element signature="e#1139#1140#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MyTask.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/MyTask.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AsyncTask.java" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/os/AsyncTask.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="533" column="0" selection-start-line="533" selection-start-column="0" selection-end-line="533" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HotSpotImp.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/communication/HotSpotImp.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="HotSpotRcvTask.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/HotSpotRcvTask.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="39" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
+              <caret line="56" column="21" selection-start-line="56" selection-start-column="21" selection-end-line="56" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -1964,7 +1916,7 @@
     <option name="modificationStamps">
       <map>
         <entry key="$PROJECT_DIR$" value="5848027856000" />
-        <entry key="C:\Users\lenovo\AndroidStudioProjects\FT" value="5848632548649" />
+        <entry key="C:\Users\lenovo\AndroidStudioProjects\FT" value="5852098887937" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -2231,14 +2183,14 @@
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/external/lombok/lombok-ast/0.2.3/lombok-ast-0.2.3-sources.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/external/lombok/lombok-ast/0.2.3/lombok-ast-0.2.3.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/appcompat-v7/23.2.1/appcompat-v7-23.2.1.aar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/design/23.2.1/design-23.2.1.aar" />
+                            <option value="E:/Android/sdk/extras/android/m2repository/com/android/support/appcompat-v7/23.2.1/appcompat-v7-23.2.1.aar" />
+                            <option value="E:/Android/sdk/extras/android/m2repository/com/android/support/design/23.2.1/design-23.2.1.aar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/23.2.1/support-v4-23.2.1.aar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/animated-vector-drawable/23.2.1/animated-vector-drawable-23.2.1.aar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-vector-drawable/23.2.1/support-vector-drawable-23.2.1.aar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/recyclerview-v7/23.2.1/recyclerview-v7-23.2.1.aar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.2.1/support-annotations-23.2.1.jar" />
+                            <option value="E:/Android/sdk/extras/android/m2repository/com/android/support/support-v4/23.2.1/support-v4-23.2.1.aar" />
+                            <option value="E:/Android/sdk/extras/android/m2repository/com/android/support/animated-vector-drawable/23.2.1/animated-vector-drawable-23.2.1.aar" />
+                            <option value="E:/Android/sdk/extras/android/m2repository/com/android/support/support-vector-drawable/23.2.1/support-vector-drawable-23.2.1.aar" />
+                            <option value="E:/Android/sdk/extras/android/m2repository/com/android/support/recyclerview-v7/23.2.1/recyclerview-v7-23.2.1.aar" />
+                            <option value="E:/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.2.1/support-annotations-23.2.1.jar" />
                           </list>
                         </option>
                         <option name="path" value="$PROJECT_DIR$/app" />
@@ -2387,24 +2339,25 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/view/test.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/hotspot/WifiManageUtils.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/view/ClassifiedFileActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/androidTest/java/com/jcx/UtilTest.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/util/Util.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/UdpTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/HotSpotTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/HotSpotSendTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/UdpSendTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/UdpRcvTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/HotSpotRcvTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/communication/TransBasic.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/communication/InetUDP.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/communication/HotSpot.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/communication/InetUDPImp.java" />
         <option value="$PROJECT_DIR$/app/src/androidTest/java/com/jcx/ApplicationTest.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/HotSpotSendTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/communication/TransBasic.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/util/Util.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/rudp/DatagramRecive.java" />
+        <option value="$PROJECT_DIR$/app/src/androidTest/java/com/jcx/UtilTest.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/util/NetworkDetect.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/HotSpotRcvTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/UdpRcvTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/communication/HotSpotImp.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/view/AllFilesActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/MyTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/communication/InetUDPImp.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/jcx/view/AllFilesActivity.java" />
       </list>
     </option>
   </component>
@@ -2415,14 +2368,36 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="MavenProjectNavigator">
+    <treeState />
+  </component>
   <component name="NamedScopeManager">
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="4" />
-    <option name="y" value="22" />
-    <option name="width" value="1276" />
-    <option name="height" value="778" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Android Lint</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>AndroidLintHandlerLeak</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -2447,8 +2422,9 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane" />
       <pane id="AndroidView">
         <subPane>
@@ -2547,54 +2523,6 @@
               <option name="myItemId" value="jcx" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="util" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FT" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jcx" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rudp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FT" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jcx" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hotspot" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -2624,25 +2552,20 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
+              <option name="myItemId" value="BarCodeTest 2" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="manifests" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="project.scopes" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="3935D6AB90E400EC" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Nexus_5_API_21" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="b3059749" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Nexus_5_API_22" />
     <property name="FullScreen" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="OverrideImplement.combined" value="true" />
@@ -2659,7 +2582,6 @@
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="ACTIVITY_CLASS" value="" />
-      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="DEPLOY" value="true" />
       <option name="ARTIFACT_NAME" value="" />
@@ -2674,8 +2596,7 @@
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="0" />
       <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="SELECTED_CLOUD_DEVICE_CONFIGURATION_ID" value="0" />
@@ -2705,8 +2626,7 @@
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="0" />
       <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="SELECTED_CLOUD_DEVICE_CONFIGURATION_ID" value="0" />
@@ -2798,7 +2718,6 @@
     <configuration default="false" name="app" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="app" />
       <option name="ACTIVITY_CLASS" value="" />
-      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="DEPLOY" value="true" />
       <option name="ARTIFACT_NAME" value="" />
@@ -2813,8 +2732,7 @@
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
       <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="Please select a project..." />
       <option name="SELECTED_CLOUD_DEVICE_CONFIGURATION_ID" value="-1" />
@@ -2844,8 +2762,7 @@
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
       <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="Please select a project..." />
       <option name="SELECTED_CLOUD_DEVICE_CONFIGURATION_ID" value="-1" />
@@ -2897,38 +2814,38 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="4" y="22" width="1276" height="778" extended-state="0" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="false" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.489426" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44561934" sideWeight="0.49513775" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3383686" sideWeight="0.50486225" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32779455" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3270869" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24659607" sideWeight="0.50596255" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3383686" sideWeight="0.50486225" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39011925" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24659607" sideWeight="0.49403748" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2471637" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.79909366" sideWeight="0.49675852" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298217" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3270869" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33560476" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.489426" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44463372" sideWeight="0.49513775" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298217" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.48040885" sideWeight="0.49675852" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3270869" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -2952,25 +2869,31 @@
           <option name="timeStamp" value="49" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/AllFilesActivity.java</url>
-          <line>629</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/jcx/communication/HotSpotImp.java</url>
+          <line>115</line>
           <properties />
-          <option name="timeStamp" value="61" />
+          <option name="timeStamp" value="67" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/MyTask.java</url>
-          <line>20</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/AllFilesActivity.java</url>
+          <line>333</line>
           <properties />
-          <option name="timeStamp" value="63" />
+          <option name="timeStamp" value="69" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/jcx/communication/HotSpotImp.java</url>
+          <line>47</line>
+          <properties />
+          <option name="timeStamp" value="74" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/HotSpotSendTask.java</url>
-          <line>37</line>
+          <line>55</line>
           <properties />
-          <option name="timeStamp" value="64" />
+          <option name="timeStamp" value="75" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="65" />
+      <option name="time" value="78" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="app">
@@ -2992,78 +2915,72 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="98" column="40" selection-start-line="98" selection-start-column="40" selection-end-line="98" selection-end-column="40" />
           <folding>
-            <element signature="method#getListfiles#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#initUI#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#5990#6022#0" expanded="true" />
-            <element signature="method#forceShowOverflowMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onMenuOpened#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateContextMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#9052#9092#0" expanded="true" />
-            <element signature="e#9119#9157#0" expanded="true" />
-            <element signature="e#9184#9222#0" expanded="true" />
-            <element signature="e#9249#9289#0" expanded="true" />
-            <element signature="e#9425#9450#0" expanded="true" />
-            <element signature="e#9856#9896#0" expanded="true" />
-            <element signature="e#9980#10018#0" expanded="true" />
-            <element signature="e#10956#11028#0" expanded="false" />
-            <element signature="e#14213#14255#0" expanded="true" />
-            <element signature="e#14651#14689#0" expanded="true" />
-            <element signature="e#15008#15050#0" expanded="true" />
-            <element signature="e#15850#15890#0" expanded="true" />
-            <element signature="e#16250#16274#0" expanded="true" />
-            <element signature="e#16358#16383#0" expanded="true" />
-            <element signature="e#16520#16540#0" expanded="true" />
-            <element signature="e#16631#16651#0" expanded="true" />
-            <element signature="e#17637#17663#0" expanded="true" />
-            <element signature="e#17778#17801#0" expanded="true" />
-            <element signature="e#17934#17961#0" expanded="true" />
-            <element signature="e#18173#18231#0" expanded="false" />
+            <element signature="e#6087#6119#0" expanded="true" />
+            <element signature="e#9149#9189#0" expanded="true" />
+            <element signature="e#9216#9254#0" expanded="true" />
+            <element signature="e#9281#9319#0" expanded="true" />
+            <element signature="e#9346#9386#0" expanded="true" />
+            <element signature="e#9522#9547#0" expanded="true" />
+            <element signature="e#9953#9993#0" expanded="true" />
+            <element signature="e#10077#10115#0" expanded="true" />
+            <element signature="e#10728#10800#0" expanded="false" />
+            <element signature="e#13913#13955#0" expanded="true" />
+            <element signature="e#14317#14355#0" expanded="true" />
+            <element signature="e#14602#14644#0" expanded="true" />
+            <element signature="e#14867#14907#0" expanded="true" />
+            <element signature="e#15267#15291#0" expanded="true" />
+            <element signature="e#15375#15400#0" expanded="true" />
+            <element signature="e#15537#15557#0" expanded="true" />
+            <element signature="e#15648#15668#0" expanded="true" />
+            <element signature="e#16654#16680#0" expanded="true" />
+            <element signature="e#16795#16818#0" expanded="true" />
+            <element signature="e#16951#16978#0" expanded="true" />
+            <element signature="e#17190#17248#0" expanded="false" />
             <element signature="method#menu_sendModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#22341#22379#0" expanded="true" />
-            <element signature="e#22398#22434#0" expanded="true" />
-            <element signature="e#22453#22489#0" expanded="true" />
-            <element signature="e#22508#22547#0" expanded="true" />
-            <element signature="e#22678#22701#0" expanded="true" />
-            <element signature="e#23051#23089#0" expanded="true" />
-            <element signature="e#23372#23408#0" expanded="true" />
-            <element signature="e#23695#23731#0" expanded="true" />
-            <element signature="e#24015#24054#0" expanded="true" />
+            <element signature="e#21358#21396#0" expanded="true" />
+            <element signature="e#21415#21451#0" expanded="true" />
+            <element signature="e#21470#21506#0" expanded="true" />
+            <element signature="e#21525#21564#0" expanded="true" />
+            <element signature="e#21695#21718#0" expanded="true" />
+            <element signature="e#22068#22106#0" expanded="true" />
+            <element signature="e#22389#22425#0" expanded="true" />
+            <element signature="e#22712#22748#0" expanded="true" />
+            <element signature="e#23032#23071#0" expanded="true" />
             <element signature="method#menu_editModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#24496#24520#0" expanded="true" />
-            <element signature="e#24539#24563#0" expanded="true" />
-            <element signature="e#24582#24608#0" expanded="true" />
-            <element signature="e#24627#24653#0" expanded="true" />
-            <element signature="e#24785#24808#0" expanded="true" />
-            <element signature="e#25163#25187#0" expanded="true" />
-            <element signature="e#25426#25451#0" expanded="true" />
-            <element signature="e#25548#25572#0" expanded="true" />
-            <element signature="e#25614#25652#0" expanded="true" />
-            <element signature="e#25909#25935#0" expanded="true" />
-            <element signature="e#26253#26280#0" expanded="true" />
-            <element signature="e#26386#26410#0" expanded="true" />
-            <element signature="e#26507#26533#0" expanded="true" />
-            <element signature="e#26656#26671#0" expanded="true" />
-            <element signature="e#26763#26785#0" expanded="true" />
-            <element signature="e#27027#27047#0" expanded="true" />
-            <element signature="e#27132#27152#0" expanded="true" />
+            <element signature="e#23513#23537#0" expanded="true" />
+            <element signature="e#23556#23580#0" expanded="true" />
+            <element signature="e#23599#23625#0" expanded="true" />
+            <element signature="e#23644#23670#0" expanded="true" />
+            <element signature="e#23802#23825#0" expanded="true" />
+            <element signature="e#24180#24204#0" expanded="true" />
+            <element signature="e#24443#24468#0" expanded="true" />
+            <element signature="e#24565#24589#0" expanded="true" />
+            <element signature="e#24631#24669#0" expanded="true" />
+            <element signature="e#24926#24952#0" expanded="true" />
+            <element signature="e#25270#25297#0" expanded="true" />
+            <element signature="e#25403#25427#0" expanded="true" />
+            <element signature="e#25524#25550#0" expanded="true" />
+            <element signature="e#25673#25688#0" expanded="true" />
+            <element signature="e#25780#25802#0" expanded="true" />
+            <element signature="e#26044#26064#0" expanded="true" />
+            <element signature="e#26149#26169#0" expanded="true" />
             <element signature="method#onContextItemSelected#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#28010#28019#0" expanded="false" />
-            <element signature="e#32162#32168#0" expanded="false" />
-            <element signature="e#35888#35930#0" expanded="true" />
-            <element signature="e#36473#36515#0" expanded="true" />
+            <element signature="e#27027#27036#0" expanded="false" />
+            <element signature="e#31179#31185#0" expanded="false" />
+            <element signature="e#34905#34945#0" expanded="true" />
+            <element signature="e#35526#35568#0" expanded="true" />
             <element signature="class#fileItemClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#floatingActionButtonClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#38883#38908#0" expanded="true" />
-            <element signature="e#39050#39072#0" expanded="true" />
-            <element signature="e#39528#39552#0" expanded="true" />
+            <element signature="e#37515#37540#0" expanded="true" />
+            <element signature="e#37682#37704#0" expanded="true" />
+            <element signature="e#38160#38184#0" expanded="true" />
             <element signature="class#fileItemLongClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#39923#39949#0" expanded="true" />
-            <element signature="e#39996#40020#0" expanded="true" />
-            <element signature="e#40440#40483#0" expanded="true" />
+            <element signature="e#38555#38581#0" expanded="true" />
+            <element signature="e#38628#38652#0" expanded="true" />
+            <element signature="e#39072#39115#0" expanded="true" />
             <element signature="class#dialogOnCancelClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="class#dialogOnConfirmClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#42071#42104#0" expanded="true" />
+            <element signature="e#40703#40736#0" expanded="true" />
             <element signature="method#viewUpdate#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#onKeyDown#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#dp2px#0;class#AllFilesActivity#0" expanded="false" />
@@ -3105,78 +3022,72 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="97" column="130" selection-start-line="96" selection-start-column="8" selection-end-line="97" selection-end-column="130" />
           <folding>
-            <element signature="method#getListfiles#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#initUI#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#5990#6022#0" expanded="true" />
-            <element signature="method#forceShowOverflowMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onMenuOpened#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateContextMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#9052#9092#0" expanded="true" />
-            <element signature="e#9119#9157#0" expanded="true" />
-            <element signature="e#9184#9222#0" expanded="true" />
-            <element signature="e#9249#9289#0" expanded="true" />
-            <element signature="e#9425#9450#0" expanded="true" />
-            <element signature="e#9856#9896#0" expanded="true" />
-            <element signature="e#9980#10018#0" expanded="true" />
-            <element signature="e#10956#11028#0" expanded="false" />
-            <element signature="e#14213#14255#0" expanded="true" />
-            <element signature="e#14651#14689#0" expanded="true" />
-            <element signature="e#15008#15050#0" expanded="true" />
-            <element signature="e#15850#15890#0" expanded="true" />
-            <element signature="e#16250#16274#0" expanded="true" />
-            <element signature="e#16358#16383#0" expanded="true" />
-            <element signature="e#16520#16540#0" expanded="true" />
-            <element signature="e#16631#16651#0" expanded="true" />
-            <element signature="e#17637#17663#0" expanded="true" />
-            <element signature="e#17778#17801#0" expanded="true" />
-            <element signature="e#17934#17961#0" expanded="true" />
-            <element signature="e#18173#18231#0" expanded="false" />
+            <element signature="e#6087#6119#0" expanded="true" />
+            <element signature="e#9149#9189#0" expanded="true" />
+            <element signature="e#9216#9254#0" expanded="true" />
+            <element signature="e#9281#9319#0" expanded="true" />
+            <element signature="e#9346#9386#0" expanded="true" />
+            <element signature="e#9522#9547#0" expanded="true" />
+            <element signature="e#9953#9993#0" expanded="true" />
+            <element signature="e#10077#10115#0" expanded="true" />
+            <element signature="e#10728#10800#0" expanded="false" />
+            <element signature="e#13913#13955#0" expanded="true" />
+            <element signature="e#14317#14355#0" expanded="true" />
+            <element signature="e#14602#14644#0" expanded="true" />
+            <element signature="e#14867#14907#0" expanded="true" />
+            <element signature="e#15267#15291#0" expanded="true" />
+            <element signature="e#15375#15400#0" expanded="true" />
+            <element signature="e#15537#15557#0" expanded="true" />
+            <element signature="e#15648#15668#0" expanded="true" />
+            <element signature="e#16654#16680#0" expanded="true" />
+            <element signature="e#16795#16818#0" expanded="true" />
+            <element signature="e#16951#16978#0" expanded="true" />
+            <element signature="e#17190#17248#0" expanded="false" />
             <element signature="method#menu_sendModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#22341#22379#0" expanded="true" />
-            <element signature="e#22398#22434#0" expanded="true" />
-            <element signature="e#22453#22489#0" expanded="true" />
-            <element signature="e#22508#22547#0" expanded="true" />
-            <element signature="e#22678#22701#0" expanded="true" />
-            <element signature="e#23051#23089#0" expanded="true" />
-            <element signature="e#23372#23408#0" expanded="true" />
-            <element signature="e#23695#23731#0" expanded="true" />
-            <element signature="e#24015#24054#0" expanded="true" />
+            <element signature="e#21358#21396#0" expanded="true" />
+            <element signature="e#21415#21451#0" expanded="true" />
+            <element signature="e#21470#21506#0" expanded="true" />
+            <element signature="e#21525#21564#0" expanded="true" />
+            <element signature="e#21695#21718#0" expanded="true" />
+            <element signature="e#22068#22106#0" expanded="true" />
+            <element signature="e#22389#22425#0" expanded="true" />
+            <element signature="e#22712#22748#0" expanded="true" />
+            <element signature="e#23032#23071#0" expanded="true" />
             <element signature="method#menu_editModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#24496#24520#0" expanded="true" />
-            <element signature="e#24539#24563#0" expanded="true" />
-            <element signature="e#24582#24608#0" expanded="true" />
-            <element signature="e#24627#24653#0" expanded="true" />
-            <element signature="e#24785#24808#0" expanded="true" />
-            <element signature="e#25163#25187#0" expanded="true" />
-            <element signature="e#25426#25451#0" expanded="true" />
-            <element signature="e#25548#25572#0" expanded="true" />
-            <element signature="e#25614#25652#0" expanded="true" />
-            <element signature="e#25909#25935#0" expanded="true" />
-            <element signature="e#26253#26280#0" expanded="true" />
-            <element signature="e#26386#26410#0" expanded="true" />
-            <element signature="e#26507#26533#0" expanded="true" />
-            <element signature="e#26656#26671#0" expanded="true" />
-            <element signature="e#26763#26785#0" expanded="true" />
-            <element signature="e#27027#27047#0" expanded="true" />
-            <element signature="e#27132#27152#0" expanded="true" />
+            <element signature="e#23513#23537#0" expanded="true" />
+            <element signature="e#23556#23580#0" expanded="true" />
+            <element signature="e#23599#23625#0" expanded="true" />
+            <element signature="e#23644#23670#0" expanded="true" />
+            <element signature="e#23802#23825#0" expanded="true" />
+            <element signature="e#24180#24204#0" expanded="true" />
+            <element signature="e#24443#24468#0" expanded="true" />
+            <element signature="e#24565#24589#0" expanded="true" />
+            <element signature="e#24631#24669#0" expanded="true" />
+            <element signature="e#24926#24952#0" expanded="true" />
+            <element signature="e#25270#25297#0" expanded="true" />
+            <element signature="e#25403#25427#0" expanded="true" />
+            <element signature="e#25524#25550#0" expanded="true" />
+            <element signature="e#25673#25688#0" expanded="true" />
+            <element signature="e#25780#25802#0" expanded="true" />
+            <element signature="e#26044#26064#0" expanded="true" />
+            <element signature="e#26149#26169#0" expanded="true" />
             <element signature="method#onContextItemSelected#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#28010#28019#0" expanded="false" />
-            <element signature="e#32162#32168#0" expanded="false" />
-            <element signature="e#35888#35930#0" expanded="true" />
-            <element signature="e#36473#36515#0" expanded="true" />
+            <element signature="e#27027#27036#0" expanded="false" />
+            <element signature="e#31179#31185#0" expanded="false" />
+            <element signature="e#34905#34945#0" expanded="true" />
+            <element signature="e#35526#35568#0" expanded="true" />
             <element signature="class#fileItemClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#floatingActionButtonClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#38883#38908#0" expanded="true" />
-            <element signature="e#39050#39072#0" expanded="true" />
-            <element signature="e#39528#39552#0" expanded="true" />
+            <element signature="e#37515#37540#0" expanded="true" />
+            <element signature="e#37682#37704#0" expanded="true" />
+            <element signature="e#38160#38184#0" expanded="true" />
             <element signature="class#fileItemLongClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#39923#39949#0" expanded="true" />
-            <element signature="e#39996#40020#0" expanded="true" />
-            <element signature="e#40440#40483#0" expanded="true" />
+            <element signature="e#38555#38581#0" expanded="true" />
+            <element signature="e#38628#38652#0" expanded="true" />
+            <element signature="e#39072#39115#0" expanded="true" />
             <element signature="class#dialogOnCancelClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="class#dialogOnConfirmClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#42071#42104#0" expanded="true" />
+            <element signature="e#40703#40736#0" expanded="true" />
             <element signature="method#viewUpdate#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#onKeyDown#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#dp2px#0;class#AllFilesActivity#0" expanded="false" />
@@ -3196,78 +3107,72 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="290" column="79" selection-start-line="290" selection-start-column="79" selection-end-line="290" selection-end-column="79" />
           <folding>
-            <element signature="method#getListfiles#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#initUI#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#5990#6022#0" expanded="true" />
-            <element signature="method#forceShowOverflowMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onMenuOpened#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateContextMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#9052#9092#0" expanded="true" />
-            <element signature="e#9119#9157#0" expanded="true" />
-            <element signature="e#9184#9222#0" expanded="true" />
-            <element signature="e#9249#9289#0" expanded="true" />
-            <element signature="e#9425#9450#0" expanded="true" />
-            <element signature="e#9856#9896#0" expanded="true" />
-            <element signature="e#9980#10018#0" expanded="true" />
-            <element signature="e#10956#11028#0" expanded="false" />
-            <element signature="e#14213#14255#0" expanded="true" />
-            <element signature="e#14651#14689#0" expanded="true" />
-            <element signature="e#15008#15050#0" expanded="true" />
-            <element signature="e#15850#15890#0" expanded="true" />
-            <element signature="e#16250#16274#0" expanded="true" />
-            <element signature="e#16358#16383#0" expanded="true" />
-            <element signature="e#16520#16540#0" expanded="true" />
-            <element signature="e#16631#16651#0" expanded="true" />
-            <element signature="e#17637#17663#0" expanded="true" />
-            <element signature="e#17778#17801#0" expanded="true" />
-            <element signature="e#17934#17961#0" expanded="true" />
-            <element signature="e#18173#18231#0" expanded="false" />
+            <element signature="e#6087#6119#0" expanded="true" />
+            <element signature="e#9149#9189#0" expanded="true" />
+            <element signature="e#9216#9254#0" expanded="true" />
+            <element signature="e#9281#9319#0" expanded="true" />
+            <element signature="e#9346#9386#0" expanded="true" />
+            <element signature="e#9522#9547#0" expanded="true" />
+            <element signature="e#9953#9993#0" expanded="true" />
+            <element signature="e#10077#10115#0" expanded="true" />
+            <element signature="e#10728#10800#0" expanded="false" />
+            <element signature="e#13913#13955#0" expanded="true" />
+            <element signature="e#14317#14355#0" expanded="true" />
+            <element signature="e#14602#14644#0" expanded="true" />
+            <element signature="e#14867#14907#0" expanded="true" />
+            <element signature="e#15267#15291#0" expanded="true" />
+            <element signature="e#15375#15400#0" expanded="true" />
+            <element signature="e#15537#15557#0" expanded="true" />
+            <element signature="e#15648#15668#0" expanded="true" />
+            <element signature="e#16654#16680#0" expanded="true" />
+            <element signature="e#16795#16818#0" expanded="true" />
+            <element signature="e#16951#16978#0" expanded="true" />
+            <element signature="e#17190#17248#0" expanded="false" />
             <element signature="method#menu_sendModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#22341#22379#0" expanded="true" />
-            <element signature="e#22398#22434#0" expanded="true" />
-            <element signature="e#22453#22489#0" expanded="true" />
-            <element signature="e#22508#22547#0" expanded="true" />
-            <element signature="e#22678#22701#0" expanded="true" />
-            <element signature="e#23051#23089#0" expanded="true" />
-            <element signature="e#23372#23408#0" expanded="true" />
-            <element signature="e#23695#23731#0" expanded="true" />
-            <element signature="e#24015#24054#0" expanded="true" />
+            <element signature="e#21358#21396#0" expanded="true" />
+            <element signature="e#21415#21451#0" expanded="true" />
+            <element signature="e#21470#21506#0" expanded="true" />
+            <element signature="e#21525#21564#0" expanded="true" />
+            <element signature="e#21695#21718#0" expanded="true" />
+            <element signature="e#22068#22106#0" expanded="true" />
+            <element signature="e#22389#22425#0" expanded="true" />
+            <element signature="e#22712#22748#0" expanded="true" />
+            <element signature="e#23032#23071#0" expanded="true" />
             <element signature="method#menu_editModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#24496#24520#0" expanded="true" />
-            <element signature="e#24539#24563#0" expanded="true" />
-            <element signature="e#24582#24608#0" expanded="true" />
-            <element signature="e#24627#24653#0" expanded="true" />
-            <element signature="e#24785#24808#0" expanded="true" />
-            <element signature="e#25163#25187#0" expanded="true" />
-            <element signature="e#25426#25451#0" expanded="true" />
-            <element signature="e#25548#25572#0" expanded="true" />
-            <element signature="e#25614#25652#0" expanded="true" />
-            <element signature="e#25909#25935#0" expanded="true" />
-            <element signature="e#26253#26280#0" expanded="true" />
-            <element signature="e#26386#26410#0" expanded="true" />
-            <element signature="e#26507#26533#0" expanded="true" />
-            <element signature="e#26656#26671#0" expanded="true" />
-            <element signature="e#26763#26785#0" expanded="true" />
-            <element signature="e#27027#27047#0" expanded="true" />
-            <element signature="e#27132#27152#0" expanded="true" />
+            <element signature="e#23513#23537#0" expanded="true" />
+            <element signature="e#23556#23580#0" expanded="true" />
+            <element signature="e#23599#23625#0" expanded="true" />
+            <element signature="e#23644#23670#0" expanded="true" />
+            <element signature="e#23802#23825#0" expanded="true" />
+            <element signature="e#24180#24204#0" expanded="true" />
+            <element signature="e#24443#24468#0" expanded="true" />
+            <element signature="e#24565#24589#0" expanded="true" />
+            <element signature="e#24631#24669#0" expanded="true" />
+            <element signature="e#24926#24952#0" expanded="true" />
+            <element signature="e#25270#25297#0" expanded="true" />
+            <element signature="e#25403#25427#0" expanded="true" />
+            <element signature="e#25524#25550#0" expanded="true" />
+            <element signature="e#25673#25688#0" expanded="true" />
+            <element signature="e#25780#25802#0" expanded="true" />
+            <element signature="e#26044#26064#0" expanded="true" />
+            <element signature="e#26149#26169#0" expanded="true" />
             <element signature="method#onContextItemSelected#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#28010#28019#0" expanded="false" />
-            <element signature="e#32162#32168#0" expanded="false" />
-            <element signature="e#35888#35930#0" expanded="true" />
-            <element signature="e#36473#36515#0" expanded="true" />
+            <element signature="e#27027#27036#0" expanded="false" />
+            <element signature="e#31179#31185#0" expanded="false" />
+            <element signature="e#34905#34945#0" expanded="true" />
+            <element signature="e#35526#35568#0" expanded="true" />
             <element signature="class#fileItemClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#floatingActionButtonClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#38883#38908#0" expanded="true" />
-            <element signature="e#39050#39072#0" expanded="true" />
-            <element signature="e#39528#39552#0" expanded="true" />
+            <element signature="e#37515#37540#0" expanded="true" />
+            <element signature="e#37682#37704#0" expanded="true" />
+            <element signature="e#38160#38184#0" expanded="true" />
             <element signature="class#fileItemLongClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#39923#39949#0" expanded="true" />
-            <element signature="e#39996#40020#0" expanded="true" />
-            <element signature="e#40440#40483#0" expanded="true" />
+            <element signature="e#38555#38581#0" expanded="true" />
+            <element signature="e#38628#38652#0" expanded="true" />
+            <element signature="e#39072#39115#0" expanded="true" />
             <element signature="class#dialogOnCancelClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="class#dialogOnConfirmClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#42071#42104#0" expanded="true" />
+            <element signature="e#40703#40736#0" expanded="true" />
             <element signature="method#viewUpdate#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#onKeyDown#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#dp2px#0;class#AllFilesActivity#0" expanded="false" />
@@ -3280,78 +3185,72 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="method#getListfiles#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#initUI#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#5990#6022#0" expanded="true" />
-            <element signature="method#forceShowOverflowMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onMenuOpened#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateContextMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#9052#9092#0" expanded="true" />
-            <element signature="e#9119#9157#0" expanded="true" />
-            <element signature="e#9184#9222#0" expanded="true" />
-            <element signature="e#9249#9289#0" expanded="true" />
-            <element signature="e#9425#9450#0" expanded="true" />
-            <element signature="e#9856#9896#0" expanded="true" />
-            <element signature="e#9980#10018#0" expanded="true" />
-            <element signature="e#10956#11028#0" expanded="false" />
-            <element signature="e#14213#14255#0" expanded="true" />
-            <element signature="e#14651#14689#0" expanded="true" />
-            <element signature="e#15008#15050#0" expanded="true" />
-            <element signature="e#15850#15890#0" expanded="true" />
-            <element signature="e#16250#16274#0" expanded="true" />
-            <element signature="e#16358#16383#0" expanded="true" />
-            <element signature="e#16520#16540#0" expanded="true" />
-            <element signature="e#16631#16651#0" expanded="true" />
-            <element signature="e#17637#17663#0" expanded="true" />
-            <element signature="e#17778#17801#0" expanded="true" />
-            <element signature="e#17934#17961#0" expanded="true" />
-            <element signature="e#18173#18231#0" expanded="false" />
+            <element signature="e#6087#6119#0" expanded="true" />
+            <element signature="e#9149#9189#0" expanded="true" />
+            <element signature="e#9216#9254#0" expanded="true" />
+            <element signature="e#9281#9319#0" expanded="true" />
+            <element signature="e#9346#9386#0" expanded="true" />
+            <element signature="e#9522#9547#0" expanded="true" />
+            <element signature="e#9953#9993#0" expanded="true" />
+            <element signature="e#10077#10115#0" expanded="true" />
+            <element signature="e#10728#10800#0" expanded="false" />
+            <element signature="e#13913#13955#0" expanded="true" />
+            <element signature="e#14317#14355#0" expanded="true" />
+            <element signature="e#14602#14644#0" expanded="true" />
+            <element signature="e#14867#14907#0" expanded="true" />
+            <element signature="e#15267#15291#0" expanded="true" />
+            <element signature="e#15375#15400#0" expanded="true" />
+            <element signature="e#15537#15557#0" expanded="true" />
+            <element signature="e#15648#15668#0" expanded="true" />
+            <element signature="e#16654#16680#0" expanded="true" />
+            <element signature="e#16795#16818#0" expanded="true" />
+            <element signature="e#16951#16978#0" expanded="true" />
+            <element signature="e#17190#17248#0" expanded="false" />
             <element signature="method#menu_sendModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#22341#22379#0" expanded="true" />
-            <element signature="e#22398#22434#0" expanded="true" />
-            <element signature="e#22453#22489#0" expanded="true" />
-            <element signature="e#22508#22547#0" expanded="true" />
-            <element signature="e#22678#22701#0" expanded="true" />
-            <element signature="e#23051#23089#0" expanded="true" />
-            <element signature="e#23372#23408#0" expanded="true" />
-            <element signature="e#23695#23731#0" expanded="true" />
-            <element signature="e#24015#24054#0" expanded="true" />
+            <element signature="e#21358#21396#0" expanded="true" />
+            <element signature="e#21415#21451#0" expanded="true" />
+            <element signature="e#21470#21506#0" expanded="true" />
+            <element signature="e#21525#21564#0" expanded="true" />
+            <element signature="e#21695#21718#0" expanded="true" />
+            <element signature="e#22068#22106#0" expanded="true" />
+            <element signature="e#22389#22425#0" expanded="true" />
+            <element signature="e#22712#22748#0" expanded="true" />
+            <element signature="e#23032#23071#0" expanded="true" />
             <element signature="method#menu_editModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#24496#24520#0" expanded="true" />
-            <element signature="e#24539#24563#0" expanded="true" />
-            <element signature="e#24582#24608#0" expanded="true" />
-            <element signature="e#24627#24653#0" expanded="true" />
-            <element signature="e#24785#24808#0" expanded="true" />
-            <element signature="e#25163#25187#0" expanded="true" />
-            <element signature="e#25426#25451#0" expanded="true" />
-            <element signature="e#25548#25572#0" expanded="true" />
-            <element signature="e#25614#25652#0" expanded="true" />
-            <element signature="e#25909#25935#0" expanded="true" />
-            <element signature="e#26253#26280#0" expanded="true" />
-            <element signature="e#26386#26410#0" expanded="true" />
-            <element signature="e#26507#26533#0" expanded="true" />
-            <element signature="e#26656#26671#0" expanded="true" />
-            <element signature="e#26763#26785#0" expanded="true" />
-            <element signature="e#27027#27047#0" expanded="true" />
-            <element signature="e#27132#27152#0" expanded="true" />
+            <element signature="e#23513#23537#0" expanded="true" />
+            <element signature="e#23556#23580#0" expanded="true" />
+            <element signature="e#23599#23625#0" expanded="true" />
+            <element signature="e#23644#23670#0" expanded="true" />
+            <element signature="e#23802#23825#0" expanded="true" />
+            <element signature="e#24180#24204#0" expanded="true" />
+            <element signature="e#24443#24468#0" expanded="true" />
+            <element signature="e#24565#24589#0" expanded="true" />
+            <element signature="e#24631#24669#0" expanded="true" />
+            <element signature="e#24926#24952#0" expanded="true" />
+            <element signature="e#25270#25297#0" expanded="true" />
+            <element signature="e#25403#25427#0" expanded="true" />
+            <element signature="e#25524#25550#0" expanded="true" />
+            <element signature="e#25673#25688#0" expanded="true" />
+            <element signature="e#25780#25802#0" expanded="true" />
+            <element signature="e#26044#26064#0" expanded="true" />
+            <element signature="e#26149#26169#0" expanded="true" />
             <element signature="method#onContextItemSelected#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#28010#28019#0" expanded="false" />
-            <element signature="e#32162#32168#0" expanded="false" />
-            <element signature="e#35888#35930#0" expanded="true" />
-            <element signature="e#36473#36515#0" expanded="true" />
+            <element signature="e#27027#27036#0" expanded="false" />
+            <element signature="e#31179#31185#0" expanded="false" />
+            <element signature="e#34905#34945#0" expanded="true" />
+            <element signature="e#35526#35568#0" expanded="true" />
             <element signature="class#fileItemClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#floatingActionButtonClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#38883#38908#0" expanded="true" />
-            <element signature="e#39050#39072#0" expanded="true" />
-            <element signature="e#39528#39552#0" expanded="true" />
+            <element signature="e#37515#37540#0" expanded="true" />
+            <element signature="e#37682#37704#0" expanded="true" />
+            <element signature="e#38160#38184#0" expanded="true" />
             <element signature="class#fileItemLongClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#39923#39949#0" expanded="true" />
-            <element signature="e#39996#40020#0" expanded="true" />
-            <element signature="e#40440#40483#0" expanded="true" />
+            <element signature="e#38555#38581#0" expanded="true" />
+            <element signature="e#38628#38652#0" expanded="true" />
+            <element signature="e#39072#39115#0" expanded="true" />
             <element signature="class#dialogOnCancelClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="class#dialogOnConfirmClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#42071#42104#0" expanded="true" />
+            <element signature="e#40703#40736#0" expanded="true" />
             <element signature="method#viewUpdate#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#onKeyDown#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#dp2px#0;class#AllFilesActivity#0" expanded="false" />
@@ -3372,78 +3271,72 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="332" column="60" selection-start-line="332" selection-start-column="60" selection-end-line="332" selection-end-column="60" />
           <folding>
-            <element signature="method#getListfiles#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#initUI#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#5990#6022#0" expanded="true" />
-            <element signature="method#forceShowOverflowMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onMenuOpened#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateContextMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#9052#9092#0" expanded="true" />
-            <element signature="e#9119#9157#0" expanded="true" />
-            <element signature="e#9184#9222#0" expanded="true" />
-            <element signature="e#9249#9289#0" expanded="true" />
-            <element signature="e#9425#9450#0" expanded="true" />
-            <element signature="e#9856#9896#0" expanded="true" />
-            <element signature="e#9980#10018#0" expanded="true" />
-            <element signature="e#10956#11028#0" expanded="false" />
-            <element signature="e#14213#14255#0" expanded="true" />
-            <element signature="e#14651#14689#0" expanded="true" />
-            <element signature="e#15008#15050#0" expanded="true" />
-            <element signature="e#15850#15890#0" expanded="true" />
-            <element signature="e#16250#16274#0" expanded="true" />
-            <element signature="e#16358#16383#0" expanded="true" />
-            <element signature="e#16520#16540#0" expanded="true" />
-            <element signature="e#16631#16651#0" expanded="true" />
-            <element signature="e#17637#17663#0" expanded="true" />
-            <element signature="e#17778#17801#0" expanded="true" />
-            <element signature="e#17934#17961#0" expanded="true" />
-            <element signature="e#18173#18231#0" expanded="false" />
+            <element signature="e#6087#6119#0" expanded="true" />
+            <element signature="e#9149#9189#0" expanded="true" />
+            <element signature="e#9216#9254#0" expanded="true" />
+            <element signature="e#9281#9319#0" expanded="true" />
+            <element signature="e#9346#9386#0" expanded="true" />
+            <element signature="e#9522#9547#0" expanded="true" />
+            <element signature="e#9953#9993#0" expanded="true" />
+            <element signature="e#10077#10115#0" expanded="true" />
+            <element signature="e#10728#10800#0" expanded="false" />
+            <element signature="e#13913#13955#0" expanded="true" />
+            <element signature="e#14317#14355#0" expanded="true" />
+            <element signature="e#14602#14644#0" expanded="true" />
+            <element signature="e#14867#14907#0" expanded="true" />
+            <element signature="e#15267#15291#0" expanded="true" />
+            <element signature="e#15375#15400#0" expanded="true" />
+            <element signature="e#15537#15557#0" expanded="true" />
+            <element signature="e#15648#15668#0" expanded="true" />
+            <element signature="e#16654#16680#0" expanded="true" />
+            <element signature="e#16795#16818#0" expanded="true" />
+            <element signature="e#16951#16978#0" expanded="true" />
+            <element signature="e#17190#17248#0" expanded="false" />
             <element signature="method#menu_sendModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#22341#22379#0" expanded="true" />
-            <element signature="e#22398#22434#0" expanded="true" />
-            <element signature="e#22453#22489#0" expanded="true" />
-            <element signature="e#22508#22547#0" expanded="true" />
-            <element signature="e#22678#22701#0" expanded="true" />
-            <element signature="e#23051#23089#0" expanded="true" />
-            <element signature="e#23372#23408#0" expanded="true" />
-            <element signature="e#23695#23731#0" expanded="true" />
-            <element signature="e#24015#24054#0" expanded="true" />
+            <element signature="e#21358#21396#0" expanded="true" />
+            <element signature="e#21415#21451#0" expanded="true" />
+            <element signature="e#21470#21506#0" expanded="true" />
+            <element signature="e#21525#21564#0" expanded="true" />
+            <element signature="e#21695#21718#0" expanded="true" />
+            <element signature="e#22068#22106#0" expanded="true" />
+            <element signature="e#22389#22425#0" expanded="true" />
+            <element signature="e#22712#22748#0" expanded="true" />
+            <element signature="e#23032#23071#0" expanded="true" />
             <element signature="method#menu_editModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#24496#24520#0" expanded="true" />
-            <element signature="e#24539#24563#0" expanded="true" />
-            <element signature="e#24582#24608#0" expanded="true" />
-            <element signature="e#24627#24653#0" expanded="true" />
-            <element signature="e#24785#24808#0" expanded="true" />
-            <element signature="e#25163#25187#0" expanded="true" />
-            <element signature="e#25426#25451#0" expanded="true" />
-            <element signature="e#25548#25572#0" expanded="true" />
-            <element signature="e#25614#25652#0" expanded="true" />
-            <element signature="e#25909#25935#0" expanded="true" />
-            <element signature="e#26253#26280#0" expanded="true" />
-            <element signature="e#26386#26410#0" expanded="true" />
-            <element signature="e#26507#26533#0" expanded="true" />
-            <element signature="e#26656#26671#0" expanded="true" />
-            <element signature="e#26763#26785#0" expanded="true" />
-            <element signature="e#27027#27047#0" expanded="true" />
-            <element signature="e#27132#27152#0" expanded="true" />
+            <element signature="e#23513#23537#0" expanded="true" />
+            <element signature="e#23556#23580#0" expanded="true" />
+            <element signature="e#23599#23625#0" expanded="true" />
+            <element signature="e#23644#23670#0" expanded="true" />
+            <element signature="e#23802#23825#0" expanded="true" />
+            <element signature="e#24180#24204#0" expanded="true" />
+            <element signature="e#24443#24468#0" expanded="true" />
+            <element signature="e#24565#24589#0" expanded="true" />
+            <element signature="e#24631#24669#0" expanded="true" />
+            <element signature="e#24926#24952#0" expanded="true" />
+            <element signature="e#25270#25297#0" expanded="true" />
+            <element signature="e#25403#25427#0" expanded="true" />
+            <element signature="e#25524#25550#0" expanded="true" />
+            <element signature="e#25673#25688#0" expanded="true" />
+            <element signature="e#25780#25802#0" expanded="true" />
+            <element signature="e#26044#26064#0" expanded="true" />
+            <element signature="e#26149#26169#0" expanded="true" />
             <element signature="method#onContextItemSelected#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#28010#28019#0" expanded="false" />
-            <element signature="e#32162#32168#0" expanded="false" />
-            <element signature="e#35888#35930#0" expanded="true" />
-            <element signature="e#36473#36515#0" expanded="true" />
+            <element signature="e#27027#27036#0" expanded="false" />
+            <element signature="e#31179#31185#0" expanded="false" />
+            <element signature="e#34905#34945#0" expanded="true" />
+            <element signature="e#35526#35568#0" expanded="true" />
             <element signature="class#fileItemClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#floatingActionButtonClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#38883#38908#0" expanded="true" />
-            <element signature="e#39050#39072#0" expanded="true" />
-            <element signature="e#39528#39552#0" expanded="true" />
+            <element signature="e#37515#37540#0" expanded="true" />
+            <element signature="e#37682#37704#0" expanded="true" />
+            <element signature="e#38160#38184#0" expanded="true" />
             <element signature="class#fileItemLongClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#39923#39949#0" expanded="true" />
-            <element signature="e#39996#40020#0" expanded="true" />
-            <element signature="e#40440#40483#0" expanded="true" />
+            <element signature="e#38555#38581#0" expanded="true" />
+            <element signature="e#38628#38652#0" expanded="true" />
+            <element signature="e#39072#39115#0" expanded="true" />
             <element signature="class#dialogOnCancelClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="class#dialogOnConfirmClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#42071#42104#0" expanded="true" />
+            <element signature="e#40703#40736#0" expanded="true" />
             <element signature="method#viewUpdate#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#onKeyDown#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#dp2px#0;class#AllFilesActivity#0" expanded="false" />
@@ -3456,78 +3349,72 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="method#getListfiles#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#initUI#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#5990#6022#0" expanded="true" />
-            <element signature="method#forceShowOverflowMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onMenuOpened#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateContextMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#9052#9092#0" expanded="true" />
-            <element signature="e#9119#9157#0" expanded="true" />
-            <element signature="e#9184#9222#0" expanded="true" />
-            <element signature="e#9249#9289#0" expanded="true" />
-            <element signature="e#9425#9450#0" expanded="true" />
-            <element signature="e#9856#9896#0" expanded="true" />
-            <element signature="e#9980#10018#0" expanded="true" />
-            <element signature="e#10956#11028#0" expanded="false" />
-            <element signature="e#14213#14255#0" expanded="true" />
-            <element signature="e#14651#14689#0" expanded="true" />
-            <element signature="e#15008#15050#0" expanded="true" />
-            <element signature="e#15850#15890#0" expanded="true" />
-            <element signature="e#16250#16274#0" expanded="true" />
-            <element signature="e#16358#16383#0" expanded="true" />
-            <element signature="e#16520#16540#0" expanded="true" />
-            <element signature="e#16631#16651#0" expanded="true" />
-            <element signature="e#17637#17663#0" expanded="true" />
-            <element signature="e#17778#17801#0" expanded="true" />
-            <element signature="e#17934#17961#0" expanded="true" />
-            <element signature="e#18173#18231#0" expanded="false" />
+            <element signature="e#6087#6119#0" expanded="true" />
+            <element signature="e#9149#9189#0" expanded="true" />
+            <element signature="e#9216#9254#0" expanded="true" />
+            <element signature="e#9281#9319#0" expanded="true" />
+            <element signature="e#9346#9386#0" expanded="true" />
+            <element signature="e#9522#9547#0" expanded="true" />
+            <element signature="e#9953#9993#0" expanded="true" />
+            <element signature="e#10077#10115#0" expanded="true" />
+            <element signature="e#10728#10800#0" expanded="false" />
+            <element signature="e#13913#13955#0" expanded="true" />
+            <element signature="e#14317#14355#0" expanded="true" />
+            <element signature="e#14602#14644#0" expanded="true" />
+            <element signature="e#14867#14907#0" expanded="true" />
+            <element signature="e#15267#15291#0" expanded="true" />
+            <element signature="e#15375#15400#0" expanded="true" />
+            <element signature="e#15537#15557#0" expanded="true" />
+            <element signature="e#15648#15668#0" expanded="true" />
+            <element signature="e#16654#16680#0" expanded="true" />
+            <element signature="e#16795#16818#0" expanded="true" />
+            <element signature="e#16951#16978#0" expanded="true" />
+            <element signature="e#17190#17248#0" expanded="false" />
             <element signature="method#menu_sendModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#22341#22379#0" expanded="true" />
-            <element signature="e#22398#22434#0" expanded="true" />
-            <element signature="e#22453#22489#0" expanded="true" />
-            <element signature="e#22508#22547#0" expanded="true" />
-            <element signature="e#22678#22701#0" expanded="true" />
-            <element signature="e#23051#23089#0" expanded="true" />
-            <element signature="e#23372#23408#0" expanded="true" />
-            <element signature="e#23695#23731#0" expanded="true" />
-            <element signature="e#24015#24054#0" expanded="true" />
+            <element signature="e#21358#21396#0" expanded="true" />
+            <element signature="e#21415#21451#0" expanded="true" />
+            <element signature="e#21470#21506#0" expanded="true" />
+            <element signature="e#21525#21564#0" expanded="true" />
+            <element signature="e#21695#21718#0" expanded="true" />
+            <element signature="e#22068#22106#0" expanded="true" />
+            <element signature="e#22389#22425#0" expanded="true" />
+            <element signature="e#22712#22748#0" expanded="true" />
+            <element signature="e#23032#23071#0" expanded="true" />
             <element signature="method#menu_editModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#24496#24520#0" expanded="true" />
-            <element signature="e#24539#24563#0" expanded="true" />
-            <element signature="e#24582#24608#0" expanded="true" />
-            <element signature="e#24627#24653#0" expanded="true" />
-            <element signature="e#24785#24808#0" expanded="true" />
-            <element signature="e#25163#25187#0" expanded="true" />
-            <element signature="e#25426#25451#0" expanded="true" />
-            <element signature="e#25548#25572#0" expanded="true" />
-            <element signature="e#25614#25652#0" expanded="true" />
-            <element signature="e#25909#25935#0" expanded="true" />
-            <element signature="e#26253#26280#0" expanded="true" />
-            <element signature="e#26386#26410#0" expanded="true" />
-            <element signature="e#26507#26533#0" expanded="true" />
-            <element signature="e#26656#26671#0" expanded="true" />
-            <element signature="e#26763#26785#0" expanded="true" />
-            <element signature="e#27027#27047#0" expanded="true" />
-            <element signature="e#27132#27152#0" expanded="true" />
+            <element signature="e#23513#23537#0" expanded="true" />
+            <element signature="e#23556#23580#0" expanded="true" />
+            <element signature="e#23599#23625#0" expanded="true" />
+            <element signature="e#23644#23670#0" expanded="true" />
+            <element signature="e#23802#23825#0" expanded="true" />
+            <element signature="e#24180#24204#0" expanded="true" />
+            <element signature="e#24443#24468#0" expanded="true" />
+            <element signature="e#24565#24589#0" expanded="true" />
+            <element signature="e#24631#24669#0" expanded="true" />
+            <element signature="e#24926#24952#0" expanded="true" />
+            <element signature="e#25270#25297#0" expanded="true" />
+            <element signature="e#25403#25427#0" expanded="true" />
+            <element signature="e#25524#25550#0" expanded="true" />
+            <element signature="e#25673#25688#0" expanded="true" />
+            <element signature="e#25780#25802#0" expanded="true" />
+            <element signature="e#26044#26064#0" expanded="true" />
+            <element signature="e#26149#26169#0" expanded="true" />
             <element signature="method#onContextItemSelected#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#28010#28019#0" expanded="false" />
-            <element signature="e#32162#32168#0" expanded="false" />
-            <element signature="e#35888#35930#0" expanded="true" />
-            <element signature="e#36473#36515#0" expanded="true" />
+            <element signature="e#27027#27036#0" expanded="false" />
+            <element signature="e#31179#31185#0" expanded="false" />
+            <element signature="e#34905#34945#0" expanded="true" />
+            <element signature="e#35526#35568#0" expanded="true" />
             <element signature="class#fileItemClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#floatingActionButtonClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#38883#38908#0" expanded="true" />
-            <element signature="e#39050#39072#0" expanded="true" />
-            <element signature="e#39528#39552#0" expanded="true" />
+            <element signature="e#37515#37540#0" expanded="true" />
+            <element signature="e#37682#37704#0" expanded="true" />
+            <element signature="e#38160#38184#0" expanded="true" />
             <element signature="class#fileItemLongClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#39923#39949#0" expanded="true" />
-            <element signature="e#39996#40020#0" expanded="true" />
-            <element signature="e#40440#40483#0" expanded="true" />
+            <element signature="e#38555#38581#0" expanded="true" />
+            <element signature="e#38628#38652#0" expanded="true" />
+            <element signature="e#39072#39115#0" expanded="true" />
             <element signature="class#dialogOnCancelClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="class#dialogOnConfirmClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#42071#42104#0" expanded="true" />
+            <element signature="e#40703#40736#0" expanded="true" />
             <element signature="method#viewUpdate#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#onKeyDown#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#dp2px#0;class#AllFilesActivity#0" expanded="false" />
@@ -3540,78 +3427,72 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="method#getListfiles#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#initUI#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#5990#6022#0" expanded="true" />
-            <element signature="method#forceShowOverflowMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onMenuOpened#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateContextMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#9052#9092#0" expanded="true" />
-            <element signature="e#9119#9157#0" expanded="true" />
-            <element signature="e#9184#9222#0" expanded="true" />
-            <element signature="e#9249#9289#0" expanded="true" />
-            <element signature="e#9425#9450#0" expanded="true" />
-            <element signature="e#9856#9896#0" expanded="true" />
-            <element signature="e#9980#10018#0" expanded="true" />
-            <element signature="e#10956#11028#0" expanded="false" />
-            <element signature="e#14213#14255#0" expanded="true" />
-            <element signature="e#14651#14689#0" expanded="true" />
-            <element signature="e#15008#15050#0" expanded="true" />
-            <element signature="e#15850#15890#0" expanded="true" />
-            <element signature="e#16250#16274#0" expanded="true" />
-            <element signature="e#16358#16383#0" expanded="true" />
-            <element signature="e#16520#16540#0" expanded="true" />
-            <element signature="e#16631#16651#0" expanded="true" />
-            <element signature="e#17637#17663#0" expanded="true" />
-            <element signature="e#17778#17801#0" expanded="true" />
-            <element signature="e#17934#17961#0" expanded="true" />
-            <element signature="e#18173#18231#0" expanded="false" />
+            <element signature="e#6087#6119#0" expanded="true" />
+            <element signature="e#9149#9189#0" expanded="true" />
+            <element signature="e#9216#9254#0" expanded="true" />
+            <element signature="e#9281#9319#0" expanded="true" />
+            <element signature="e#9346#9386#0" expanded="true" />
+            <element signature="e#9522#9547#0" expanded="true" />
+            <element signature="e#9953#9993#0" expanded="true" />
+            <element signature="e#10077#10115#0" expanded="true" />
+            <element signature="e#10728#10800#0" expanded="false" />
+            <element signature="e#13913#13955#0" expanded="true" />
+            <element signature="e#14317#14355#0" expanded="true" />
+            <element signature="e#14602#14644#0" expanded="true" />
+            <element signature="e#14867#14907#0" expanded="true" />
+            <element signature="e#15267#15291#0" expanded="true" />
+            <element signature="e#15375#15400#0" expanded="true" />
+            <element signature="e#15537#15557#0" expanded="true" />
+            <element signature="e#15648#15668#0" expanded="true" />
+            <element signature="e#16654#16680#0" expanded="true" />
+            <element signature="e#16795#16818#0" expanded="true" />
+            <element signature="e#16951#16978#0" expanded="true" />
+            <element signature="e#17190#17248#0" expanded="false" />
             <element signature="method#menu_sendModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#22341#22379#0" expanded="true" />
-            <element signature="e#22398#22434#0" expanded="true" />
-            <element signature="e#22453#22489#0" expanded="true" />
-            <element signature="e#22508#22547#0" expanded="true" />
-            <element signature="e#22678#22701#0" expanded="true" />
-            <element signature="e#23051#23089#0" expanded="true" />
-            <element signature="e#23372#23408#0" expanded="true" />
-            <element signature="e#23695#23731#0" expanded="true" />
-            <element signature="e#24015#24054#0" expanded="true" />
+            <element signature="e#21358#21396#0" expanded="true" />
+            <element signature="e#21415#21451#0" expanded="true" />
+            <element signature="e#21470#21506#0" expanded="true" />
+            <element signature="e#21525#21564#0" expanded="true" />
+            <element signature="e#21695#21718#0" expanded="true" />
+            <element signature="e#22068#22106#0" expanded="true" />
+            <element signature="e#22389#22425#0" expanded="true" />
+            <element signature="e#22712#22748#0" expanded="true" />
+            <element signature="e#23032#23071#0" expanded="true" />
             <element signature="method#menu_editModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#24496#24520#0" expanded="true" />
-            <element signature="e#24539#24563#0" expanded="true" />
-            <element signature="e#24582#24608#0" expanded="true" />
-            <element signature="e#24627#24653#0" expanded="true" />
-            <element signature="e#24785#24808#0" expanded="true" />
-            <element signature="e#25163#25187#0" expanded="true" />
-            <element signature="e#25426#25451#0" expanded="true" />
-            <element signature="e#25548#25572#0" expanded="true" />
-            <element signature="e#25614#25652#0" expanded="true" />
-            <element signature="e#25909#25935#0" expanded="true" />
-            <element signature="e#26253#26280#0" expanded="true" />
-            <element signature="e#26386#26410#0" expanded="true" />
-            <element signature="e#26507#26533#0" expanded="true" />
-            <element signature="e#26656#26671#0" expanded="true" />
-            <element signature="e#26763#26785#0" expanded="true" />
-            <element signature="e#27027#27047#0" expanded="true" />
-            <element signature="e#27132#27152#0" expanded="true" />
+            <element signature="e#23513#23537#0" expanded="true" />
+            <element signature="e#23556#23580#0" expanded="true" />
+            <element signature="e#23599#23625#0" expanded="true" />
+            <element signature="e#23644#23670#0" expanded="true" />
+            <element signature="e#23802#23825#0" expanded="true" />
+            <element signature="e#24180#24204#0" expanded="true" />
+            <element signature="e#24443#24468#0" expanded="true" />
+            <element signature="e#24565#24589#0" expanded="true" />
+            <element signature="e#24631#24669#0" expanded="true" />
+            <element signature="e#24926#24952#0" expanded="true" />
+            <element signature="e#25270#25297#0" expanded="true" />
+            <element signature="e#25403#25427#0" expanded="true" />
+            <element signature="e#25524#25550#0" expanded="true" />
+            <element signature="e#25673#25688#0" expanded="true" />
+            <element signature="e#25780#25802#0" expanded="true" />
+            <element signature="e#26044#26064#0" expanded="true" />
+            <element signature="e#26149#26169#0" expanded="true" />
             <element signature="method#onContextItemSelected#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#28010#28019#0" expanded="false" />
-            <element signature="e#32162#32168#0" expanded="false" />
-            <element signature="e#35888#35930#0" expanded="true" />
-            <element signature="e#36473#36515#0" expanded="true" />
+            <element signature="e#27027#27036#0" expanded="false" />
+            <element signature="e#31179#31185#0" expanded="false" />
+            <element signature="e#34905#34945#0" expanded="true" />
+            <element signature="e#35526#35568#0" expanded="true" />
             <element signature="class#fileItemClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#floatingActionButtonClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#38883#38908#0" expanded="true" />
-            <element signature="e#39050#39072#0" expanded="true" />
-            <element signature="e#39528#39552#0" expanded="true" />
+            <element signature="e#37515#37540#0" expanded="true" />
+            <element signature="e#37682#37704#0" expanded="true" />
+            <element signature="e#38160#38184#0" expanded="true" />
             <element signature="class#fileItemLongClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#39923#39949#0" expanded="true" />
-            <element signature="e#39996#40020#0" expanded="true" />
-            <element signature="e#40440#40483#0" expanded="true" />
+            <element signature="e#38555#38581#0" expanded="true" />
+            <element signature="e#38628#38652#0" expanded="true" />
+            <element signature="e#39072#39115#0" expanded="true" />
             <element signature="class#dialogOnCancelClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="class#dialogOnConfirmClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#42071#42104#0" expanded="true" />
+            <element signature="e#40703#40736#0" expanded="true" />
             <element signature="method#viewUpdate#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#onKeyDown#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#dp2px#0;class#AllFilesActivity#0" expanded="false" />
@@ -3632,78 +3513,72 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="513" column="43" selection-start-line="513" selection-start-column="43" selection-end-line="513" selection-end-column="43" />
           <folding>
-            <element signature="method#getListfiles#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#initUI#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#5990#6022#0" expanded="true" />
-            <element signature="method#forceShowOverflowMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onMenuOpened#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateContextMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#9052#9092#0" expanded="true" />
-            <element signature="e#9119#9157#0" expanded="true" />
-            <element signature="e#9184#9222#0" expanded="true" />
-            <element signature="e#9249#9289#0" expanded="true" />
-            <element signature="e#9425#9450#0" expanded="true" />
-            <element signature="e#9856#9896#0" expanded="true" />
-            <element signature="e#9980#10018#0" expanded="true" />
-            <element signature="e#10956#11028#0" expanded="false" />
-            <element signature="e#14213#14255#0" expanded="true" />
-            <element signature="e#14651#14689#0" expanded="true" />
-            <element signature="e#15008#15050#0" expanded="true" />
-            <element signature="e#15850#15890#0" expanded="true" />
-            <element signature="e#16250#16274#0" expanded="true" />
-            <element signature="e#16358#16383#0" expanded="true" />
-            <element signature="e#16520#16540#0" expanded="true" />
-            <element signature="e#16631#16651#0" expanded="true" />
-            <element signature="e#17637#17663#0" expanded="true" />
-            <element signature="e#17778#17801#0" expanded="true" />
-            <element signature="e#17934#17961#0" expanded="true" />
-            <element signature="e#18173#18231#0" expanded="false" />
+            <element signature="e#6087#6119#0" expanded="true" />
+            <element signature="e#9149#9189#0" expanded="true" />
+            <element signature="e#9216#9254#0" expanded="true" />
+            <element signature="e#9281#9319#0" expanded="true" />
+            <element signature="e#9346#9386#0" expanded="true" />
+            <element signature="e#9522#9547#0" expanded="true" />
+            <element signature="e#9953#9993#0" expanded="true" />
+            <element signature="e#10077#10115#0" expanded="true" />
+            <element signature="e#10728#10800#0" expanded="false" />
+            <element signature="e#13913#13955#0" expanded="true" />
+            <element signature="e#14317#14355#0" expanded="true" />
+            <element signature="e#14602#14644#0" expanded="true" />
+            <element signature="e#14867#14907#0" expanded="true" />
+            <element signature="e#15267#15291#0" expanded="true" />
+            <element signature="e#15375#15400#0" expanded="true" />
+            <element signature="e#15537#15557#0" expanded="true" />
+            <element signature="e#15648#15668#0" expanded="true" />
+            <element signature="e#16654#16680#0" expanded="true" />
+            <element signature="e#16795#16818#0" expanded="true" />
+            <element signature="e#16951#16978#0" expanded="true" />
+            <element signature="e#17190#17248#0" expanded="false" />
             <element signature="method#menu_sendModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#22341#22379#0" expanded="true" />
-            <element signature="e#22398#22434#0" expanded="true" />
-            <element signature="e#22453#22489#0" expanded="true" />
-            <element signature="e#22508#22547#0" expanded="true" />
-            <element signature="e#22678#22701#0" expanded="true" />
-            <element signature="e#23051#23089#0" expanded="true" />
-            <element signature="e#23372#23408#0" expanded="true" />
-            <element signature="e#23695#23731#0" expanded="true" />
-            <element signature="e#24015#24054#0" expanded="true" />
+            <element signature="e#21358#21396#0" expanded="true" />
+            <element signature="e#21415#21451#0" expanded="true" />
+            <element signature="e#21470#21506#0" expanded="true" />
+            <element signature="e#21525#21564#0" expanded="true" />
+            <element signature="e#21695#21718#0" expanded="true" />
+            <element signature="e#22068#22106#0" expanded="true" />
+            <element signature="e#22389#22425#0" expanded="true" />
+            <element signature="e#22712#22748#0" expanded="true" />
+            <element signature="e#23032#23071#0" expanded="true" />
             <element signature="method#menu_editModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#24496#24520#0" expanded="true" />
-            <element signature="e#24539#24563#0" expanded="true" />
-            <element signature="e#24582#24608#0" expanded="true" />
-            <element signature="e#24627#24653#0" expanded="true" />
-            <element signature="e#24785#24808#0" expanded="true" />
-            <element signature="e#25163#25187#0" expanded="true" />
-            <element signature="e#25426#25451#0" expanded="true" />
-            <element signature="e#25548#25572#0" expanded="true" />
-            <element signature="e#25614#25652#0" expanded="true" />
-            <element signature="e#25909#25935#0" expanded="true" />
-            <element signature="e#26253#26280#0" expanded="true" />
-            <element signature="e#26386#26410#0" expanded="true" />
-            <element signature="e#26507#26533#0" expanded="true" />
-            <element signature="e#26656#26671#0" expanded="true" />
-            <element signature="e#26763#26785#0" expanded="true" />
-            <element signature="e#27027#27047#0" expanded="true" />
-            <element signature="e#27132#27152#0" expanded="true" />
+            <element signature="e#23513#23537#0" expanded="true" />
+            <element signature="e#23556#23580#0" expanded="true" />
+            <element signature="e#23599#23625#0" expanded="true" />
+            <element signature="e#23644#23670#0" expanded="true" />
+            <element signature="e#23802#23825#0" expanded="true" />
+            <element signature="e#24180#24204#0" expanded="true" />
+            <element signature="e#24443#24468#0" expanded="true" />
+            <element signature="e#24565#24589#0" expanded="true" />
+            <element signature="e#24631#24669#0" expanded="true" />
+            <element signature="e#24926#24952#0" expanded="true" />
+            <element signature="e#25270#25297#0" expanded="true" />
+            <element signature="e#25403#25427#0" expanded="true" />
+            <element signature="e#25524#25550#0" expanded="true" />
+            <element signature="e#25673#25688#0" expanded="true" />
+            <element signature="e#25780#25802#0" expanded="true" />
+            <element signature="e#26044#26064#0" expanded="true" />
+            <element signature="e#26149#26169#0" expanded="true" />
             <element signature="method#onContextItemSelected#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#28010#28019#0" expanded="false" />
-            <element signature="e#32162#32168#0" expanded="false" />
-            <element signature="e#35888#35930#0" expanded="true" />
-            <element signature="e#36473#36515#0" expanded="true" />
+            <element signature="e#27027#27036#0" expanded="false" />
+            <element signature="e#31179#31185#0" expanded="false" />
+            <element signature="e#34905#34945#0" expanded="true" />
+            <element signature="e#35526#35568#0" expanded="true" />
             <element signature="class#fileItemClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#floatingActionButtonClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#38883#38908#0" expanded="true" />
-            <element signature="e#39050#39072#0" expanded="true" />
-            <element signature="e#39528#39552#0" expanded="true" />
+            <element signature="e#37515#37540#0" expanded="true" />
+            <element signature="e#37682#37704#0" expanded="true" />
+            <element signature="e#38160#38184#0" expanded="true" />
             <element signature="class#fileItemLongClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#39923#39949#0" expanded="true" />
-            <element signature="e#39996#40020#0" expanded="true" />
-            <element signature="e#40440#40483#0" expanded="true" />
+            <element signature="e#38555#38581#0" expanded="true" />
+            <element signature="e#38628#38652#0" expanded="true" />
+            <element signature="e#39072#39115#0" expanded="true" />
             <element signature="class#dialogOnCancelClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="class#dialogOnConfirmClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#42071#42104#0" expanded="true" />
+            <element signature="e#40703#40736#0" expanded="true" />
             <element signature="method#viewUpdate#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#onKeyDown#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#dp2px#0;class#AllFilesActivity#0" expanded="false" />
@@ -3719,23 +3594,23 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/allfiles_main.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.14876033">
           <caret line="47" column="25" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="25" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_view.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_view.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/util/QRcodeUtil.java">
@@ -3745,53 +3620,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/jcx/UtilTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.20612814">
-          <caret line="11" column="21" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
-          <folding>
-            <element signature="e#246#247#0" expanded="false" />
-            <element signature="e#286#287#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/util/Util.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.2258065">
-          <caret line="108" column="47" selection-start-line="108" selection-start-column="47" selection-end-line="108" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/Config.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.1702509">
           <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/ClassifiedFileActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="96" column="42" selection-start-line="96" selection-start-column="42" selection-end-line="96" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.034050178">
-          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/communication/TransBasic.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5323741">
-          <caret line="41" column="48" selection-start-line="41" selection-start-column="48" selection-end-line="41" selection-end-column="48" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3817,39 +3649,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6151419">
           <caret line="37" column="55" selection-start-line="37" selection-start-column="49" selection-end-line="37" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/communication/InetUDPImp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="23" selection-start-line="42" selection-start-column="23" selection-end-line="42" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/jcx/ApplicationTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="43" column="44" selection-start-line="43" selection-start-column="44" selection-end-line="43" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/app/Instrumentation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="160" column="0" selection-start-line="160" selection-start-column="0" selection-end-line="160" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/util/NetworkDetect.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.97003156">
-          <caret line="60" column="27" selection-start-line="60" selection-start-column="27" selection-end-line="60" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3865,7 +3664,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.18927445">
           <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3873,14 +3671,191 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.18927445">
           <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/file_settings_menu_icon.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://E:/Android/sdk/sources/android-23/android/app/ActivityThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2279" column="0" selection-start-line="2279" selection-start-column="0" selection-end-line="2279" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/Android/sdk/sources/android-23/android/app/Activity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="5389" column="0" selection-start-line="5389" selection-start-column="0" selection-end-line="5389" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/util/GetFileSize.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.074074">
+          <caret line="54" column="26" selection-start-line="54" selection-start-column="26" selection-end-line="54" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/Android/sdk/sources/android-23/android/os/MessageQueue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/communication/TransBasic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.23835126">
+          <caret line="31" column="25" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/hotspot/WifiManageUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.26936027">
+          <caret line="283" column="45" selection-start-line="283" selection-start-column="45" selection-end-line="283" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.44265231">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/ClassifiedFileActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.2473118">
+          <caret line="110" column="22" selection-start-line="110" selection-start-column="22" selection-end-line="110" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/rudp/DatagramReceive.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4032258">
+          <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/jcx/UtilTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.74910396">
+          <caret line="29" column="45" selection-start-line="29" selection-start-column="45" selection-end-line="29" selection-end-column="45" />
+          <folding>
+            <element signature="e#305#306#0" expanded="true" />
+            <element signature="e#345#346#0" expanded="true" />
+            <element signature="e#399#550#0" expanded="true" />
+            <element signature="e#549#550#0" expanded="true" />
+            <element signature="e#575#904#0" expanded="true" />
+            <element signature="e#903#904#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/util/NetworkDetect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.55734766">
+          <caret line="71" column="45" selection-start-line="71" selection-start-column="45" selection-end-line="71" selection-end-column="45" />
+          <folding>
+            <element signature="e#2370#2506#0" expanded="true" />
+            <element signature="e#2505#2506#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/jcx/ApplicationTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.54480284">
+          <caret line="128" column="27" selection-start-line="128" selection-start-column="27" selection-end-line="128" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/util/Util.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="89" column="17" selection-start-line="89" selection-start-column="17" selection-end-line="89" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BarCodeTest 2/src/com/ericssonlabs/BarCodeTestActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.13620071">
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BarCodeTest 2/src/com/zxing/camera/CameraManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.3010752">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BarCodeTest 2/src/com/zxing/activity/CaptureActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1702509">
+          <caret line="137" column="19" selection-start-line="137" selection-start-column="19" selection-end-line="137" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/communication/HotSpotImp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.39784947">
+          <caret line="35" column="29" selection-start-line="35" selection-start-column="29" selection-end-line="35" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/MyTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.42114696">
+          <caret line="26" column="35" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/UdpRcvTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.61290324">
+          <caret line="28" column="45" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="45" />
+          <folding>
+            <element signature="e#1329#1471#0" expanded="true" />
+            <element signature="e#1470#1471#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/communication/InetUDPImp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.72759855">
+          <caret line="36" column="49" selection-start-line="36" selection-start-column="49" selection-end-line="36" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/HotSpotSendTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.62544805">
+          <caret line="68" column="32" selection-start-line="68" selection-start-column="32" selection-end-line="68" selection-end-column="32" />
           <folding />
         </state>
       </provider>
@@ -3888,134 +3863,85 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/HotSpotRcvTask.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="39" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/app/Activity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="5198" column="0" selection-start-line="5198" selection-start-column="0" selection-end-line="5198" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/app/ActivityThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="3147" column="0" selection-start-line="3147" selection-start-column="0" selection-end-line="3147" selection-end-column="0" />
+          <caret line="56" column="21" selection-start-line="56" selection-start-column="21" selection-end-line="56" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/AllFilesActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="748" column="13" selection-start-line="748" selection-start-column="13" selection-end-line="748" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.27240142">
+          <caret line="82" column="30" selection-start-line="82" selection-start-column="30" selection-end-line="82" selection-end-column="30" />
           <folding>
-            <element signature="method#getListfiles#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#initUI#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#5990#6022#0" expanded="true" />
-            <element signature="method#forceShowOverflowMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onMenuOpened#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="method#onCreateContextMenu#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#9052#9092#0" expanded="true" />
-            <element signature="e#9119#9157#0" expanded="true" />
-            <element signature="e#9184#9222#0" expanded="true" />
-            <element signature="e#9249#9289#0" expanded="true" />
-            <element signature="e#9425#9450#0" expanded="true" />
-            <element signature="e#9856#9896#0" expanded="true" />
-            <element signature="e#9980#10018#0" expanded="true" />
-            <element signature="e#10956#11028#0" expanded="false" />
-            <element signature="e#14213#14255#0" expanded="true" />
-            <element signature="e#14651#14689#0" expanded="true" />
-            <element signature="e#15008#15050#0" expanded="true" />
-            <element signature="e#15850#15890#0" expanded="true" />
-            <element signature="e#16250#16274#0" expanded="true" />
-            <element signature="e#16358#16383#0" expanded="true" />
-            <element signature="e#16520#16540#0" expanded="true" />
-            <element signature="e#16631#16651#0" expanded="true" />
-            <element signature="e#17637#17663#0" expanded="true" />
-            <element signature="e#17778#17801#0" expanded="true" />
-            <element signature="e#17934#17961#0" expanded="true" />
-            <element signature="e#18173#18231#0" expanded="false" />
+            <element signature="e#6087#6119#0" expanded="true" />
+            <element signature="e#9149#9189#0" expanded="true" />
+            <element signature="e#9216#9254#0" expanded="true" />
+            <element signature="e#9281#9319#0" expanded="true" />
+            <element signature="e#9346#9386#0" expanded="true" />
+            <element signature="e#9522#9547#0" expanded="true" />
+            <element signature="e#9953#9993#0" expanded="true" />
+            <element signature="e#10077#10115#0" expanded="true" />
+            <element signature="e#10728#10800#0" expanded="false" />
+            <element signature="e#13913#13955#0" expanded="true" />
+            <element signature="e#14317#14355#0" expanded="true" />
+            <element signature="e#14602#14644#0" expanded="true" />
+            <element signature="e#14867#14907#0" expanded="true" />
+            <element signature="e#15267#15291#0" expanded="true" />
+            <element signature="e#15375#15400#0" expanded="true" />
+            <element signature="e#15537#15557#0" expanded="true" />
+            <element signature="e#15648#15668#0" expanded="true" />
+            <element signature="e#16654#16680#0" expanded="true" />
+            <element signature="e#16795#16818#0" expanded="true" />
+            <element signature="e#16951#16978#0" expanded="true" />
+            <element signature="e#17190#17248#0" expanded="false" />
             <element signature="method#menu_sendModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#22341#22379#0" expanded="true" />
-            <element signature="e#22398#22434#0" expanded="true" />
-            <element signature="e#22453#22489#0" expanded="true" />
-            <element signature="e#22508#22547#0" expanded="true" />
-            <element signature="e#22678#22701#0" expanded="true" />
-            <element signature="e#23051#23089#0" expanded="true" />
-            <element signature="e#23372#23408#0" expanded="true" />
-            <element signature="e#23695#23731#0" expanded="true" />
-            <element signature="e#24015#24054#0" expanded="true" />
+            <element signature="e#21358#21396#0" expanded="true" />
+            <element signature="e#21415#21451#0" expanded="true" />
+            <element signature="e#21470#21506#0" expanded="true" />
+            <element signature="e#21525#21564#0" expanded="true" />
+            <element signature="e#21695#21718#0" expanded="true" />
+            <element signature="e#22068#22106#0" expanded="true" />
+            <element signature="e#22389#22425#0" expanded="true" />
+            <element signature="e#22712#22748#0" expanded="true" />
+            <element signature="e#23032#23071#0" expanded="true" />
             <element signature="method#menu_editModes#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#24496#24520#0" expanded="true" />
-            <element signature="e#24539#24563#0" expanded="true" />
-            <element signature="e#24582#24608#0" expanded="true" />
-            <element signature="e#24627#24653#0" expanded="true" />
-            <element signature="e#24785#24808#0" expanded="true" />
-            <element signature="e#25163#25187#0" expanded="true" />
-            <element signature="e#25426#25451#0" expanded="true" />
-            <element signature="e#25548#25572#0" expanded="true" />
-            <element signature="e#25614#25652#0" expanded="true" />
-            <element signature="e#25909#25935#0" expanded="true" />
-            <element signature="e#26253#26280#0" expanded="true" />
-            <element signature="e#26386#26410#0" expanded="true" />
-            <element signature="e#26507#26533#0" expanded="true" />
-            <element signature="e#26656#26671#0" expanded="true" />
-            <element signature="e#26763#26785#0" expanded="true" />
-            <element signature="e#27027#27047#0" expanded="true" />
-            <element signature="e#27132#27152#0" expanded="true" />
+            <element signature="e#23513#23537#0" expanded="true" />
+            <element signature="e#23556#23580#0" expanded="true" />
+            <element signature="e#23599#23625#0" expanded="true" />
+            <element signature="e#23644#23670#0" expanded="true" />
+            <element signature="e#23802#23825#0" expanded="true" />
+            <element signature="e#24180#24204#0" expanded="true" />
+            <element signature="e#24443#24468#0" expanded="true" />
+            <element signature="e#24565#24589#0" expanded="true" />
+            <element signature="e#24631#24669#0" expanded="true" />
+            <element signature="e#24926#24952#0" expanded="true" />
+            <element signature="e#25270#25297#0" expanded="true" />
+            <element signature="e#25403#25427#0" expanded="true" />
+            <element signature="e#25524#25550#0" expanded="true" />
+            <element signature="e#25673#25688#0" expanded="true" />
+            <element signature="e#25780#25802#0" expanded="true" />
+            <element signature="e#26044#26064#0" expanded="true" />
+            <element signature="e#26149#26169#0" expanded="true" />
             <element signature="method#onContextItemSelected#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#28010#28019#0" expanded="false" />
-            <element signature="e#32162#32168#0" expanded="false" />
-            <element signature="e#35888#35930#0" expanded="true" />
-            <element signature="e#36473#36515#0" expanded="true" />
+            <element signature="e#27027#27036#0" expanded="false" />
+            <element signature="e#31179#31185#0" expanded="false" />
+            <element signature="e#34905#34945#0" expanded="true" />
+            <element signature="e#35526#35568#0" expanded="true" />
             <element signature="class#fileItemClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#floatingActionButtonClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#38883#38908#0" expanded="true" />
-            <element signature="e#39050#39072#0" expanded="true" />
-            <element signature="e#39528#39552#0" expanded="true" />
+            <element signature="e#37515#37540#0" expanded="true" />
+            <element signature="e#37682#37704#0" expanded="true" />
+            <element signature="e#38160#38184#0" expanded="true" />
             <element signature="class#fileItemLongClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#39923#39949#0" expanded="true" />
-            <element signature="e#39996#40020#0" expanded="true" />
-            <element signature="e#40440#40483#0" expanded="true" />
+            <element signature="e#38555#38581#0" expanded="true" />
+            <element signature="e#38628#38652#0" expanded="true" />
+            <element signature="e#39072#39115#0" expanded="true" />
             <element signature="class#dialogOnCancelClickListener#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="class#dialogOnConfirmClickListener#0;class#AllFilesActivity#0" expanded="false" />
-            <element signature="e#42071#42104#0" expanded="true" />
+            <element signature="e#40703#40736#0" expanded="true" />
             <element signature="method#viewUpdate#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#onKeyDown#0;class#AllFilesActivity#0" expanded="false" />
             <element signature="method#dp2px#0;class#AllFilesActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/MyTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/os/AsyncTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="533" column="0" selection-start-line="533" selection-start-column="0" selection-end-line="533" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jcx/view/task/HotSpotSendTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36750787">
-          <caret line="45" column="27" selection-start-line="45" selection-start-column="27" selection-end-line="45" selection-end-column="27" />
-          <folding>
-            <element signature="e#991#1140#0" expanded="true" />
-            <element signature="e#1139#1140#0" expanded="true" />
           </folding>
         </state>
       </provider>
