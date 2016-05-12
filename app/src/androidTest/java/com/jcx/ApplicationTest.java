@@ -41,7 +41,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
             @Override
             public void run() {
                 InetUDPImp inetUDPImp = new InetUDPImp("127.0.0.1");
-                inetUDPImp.getQRCode();
+                inetUDPImp.getQRCode(300,300);
                 assertEquals(inetUDPImp.connect(), TransBasic.CONNECT_OK);
                 assertTrue(inetUDPImp.receiFile() == TransBasic.RECI_OK);
             }
