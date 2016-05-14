@@ -803,7 +803,6 @@ public class AllFilesActivity extends AppCompatActivity{
 //                    });
                     if (progressDialog == null) {
                         progressDialog = new ProgressDialog(context);
-
                     }
                     progressDialog.setTitle(getString(R.string.sending_dialog_title));
                     progressDialog.setCancelable(true);//不允许退出

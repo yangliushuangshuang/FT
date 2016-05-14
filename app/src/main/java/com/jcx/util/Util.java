@@ -136,7 +136,9 @@ public class Util {
             char[] buf = new char[HELLOSHAKE_SIZE];
             int len;
             while((len=reader.read(buf,0,buf.length))!=-1)builder.append(buf,0,len);
+            builder.append(SPLITER+client.getLocalAddress().getHostAddress());
             reader.close();
+            client.close();
             /*DatagramSocket socket = new DatagramSocket(port);
             byte[] buf = new byte[Util.HELLOSHAKE_SIZE];
             DatagramPacket packet = new DatagramPacket(buf,buf.length);

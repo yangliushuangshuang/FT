@@ -13,12 +13,11 @@ import android.net.wifi.WifiManager;
 
 public class WifiManageUtils
 {
-    private static WifiManager wifiManager;
-    private static WifiInfo wifiInfo=null;
+    private WifiManager wifiManager;
+    private WifiInfo wifiInfo=null;
     private static List<ScanResult> wifiScanlist;
     private static List<WifiConfiguration> wifiConfigurationlist;
-    private static DhcpInfo wifiDhcpInfo;
-
+    private DhcpInfo wifiDhcpInfo;
     public WifiManageUtils(Context context)
     {
         // 取得WifiManager对象
@@ -49,7 +48,15 @@ public class WifiManageUtils
         wifiDhcpInfo = wifiManager.getDhcpInfo();
         return wifiDhcpInfo;
     }
-
+    public WifiConfiguration isExist(String ssid){
+        List<WifiConfiguration> list = getConfiguration();
+        for (WifiConfiguration existingConfig : list) {
+            if (existingConfig.SSID.equals("\"" + ssid + "\"")) {
+                return existingConfig;
+            }
+        }
+        return null;
+    }
     /**
      * 开启热点作为服务端的配置
      *
@@ -278,11 +285,16 @@ public class WifiManageUtils
     }
     public boolean addNetwork(WifiConfiguration wcg){
         int wcgID = wifiManager.addNetwork(wcg);
-        return wifiManager.enableNetwork(wcgID, true);
+        boolean res = wifiManager.enableNetwork(wcgID, true);
+        wifiManager.reconnect();
+        return res;
     }
     public boolean isConnected(String uusid){
         WifiInfo info = getWifiConnectInfo();
         return info!=null&&(info.getSSID().equals(uusid)||info.getSSID().equals("\""+uusid+"\""));
+    }
+    public void removeNetwork(int netId){
+        wifiManager.removeNetwork(netId);
     }
     public void openWifi(){
         wifiManager.setWifiEnabled(true);
@@ -292,5 +304,8 @@ public class WifiManageUtils
     }
     public void startscan(){
         wifiManager.startScan();
+    }
+    public int getWifiState(){
+        return wifiManager.getWifiState();
     }
 }

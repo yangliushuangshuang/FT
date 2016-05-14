@@ -27,6 +27,7 @@ public class InetUDPImp implements InetUDP {
 	private long length;
 	private String name;
 	private int port = new Configuration().getP2PPort();
+	private final static String HAND_SHAKE="hello";
 	/**
 	 *
 	 * @param inetString 本机IP地址
@@ -40,12 +41,12 @@ public class InetUDPImp implements InetUDP {
 		if(!file.exists()||file.isDirectory())return TRANS_FAIL;
 		if(!Util.sendInfo(rmInetAddr,rmPort,file.getName()+Util.SPLITER+file.getTotalSpace()))return TRANS_FAIL;
 		try {
-			new DatagramSend(file,inetAddr,rmInetAddr,new Configuration().getP2PPort(),rmPort);
-			return TRANS_OK;
+			new DatagramSend(file,inetAddr,rmInetAddr,port,rmPort);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return TRANS_FAIL;
 		}
-		return TRANS_FAIL;
+		return TRANS_OK;
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class InetUDPImp implements InetUDP {
 			e.printStackTrace();
 		}
 		String info=Util.receiveInfo(socket);
-		if(info==null)return RECI_FAIL;
+		if(info.equals(""))return RECI_FAIL;
 		String[] fileInfo = info.split(Util.SPLITER);
 		name = fileInfo[0];
 		length = Long.parseLong(fileInfo[1]);
@@ -101,7 +102,7 @@ public class InetUDPImp implements InetUDP {
 			byte[] hello =new byte[Util.HELLOSHAKE_SIZE];
 			DatagramPacket receive = new DatagramPacket(hello,hello.length);
 			datagramSocket.receive(receive);
-			if(receive.getData().toString().equals("hello")){
+			if(receive.getData().toString().lastIndexOf(HAND_SHAKE)>-1){
 				InetAddress addr = receive.getAddress();
 				int rmPort = receive.getPort();
 				byte[] sure = "sure".getBytes();
@@ -132,7 +133,7 @@ public class InetUDPImp implements InetUDP {
 		try {
 			DatagramSocket datagramSocket = new DatagramSocket(rmPort);
 			InetAddress address = InetAddress.getByAddress(Util.ipToBytes(rmInetAddr));
-			byte[] hello ="hello".getBytes();
+			byte[] hello =(HAND_SHAKE+Util.SPLITER+port).getBytes();
 			DatagramPacket send = new DatagramPacket(hello,hello.length,address,rmPort);
 			datagramSocket.send(send);
 			Log.d("InetUDP", "连接开始");
