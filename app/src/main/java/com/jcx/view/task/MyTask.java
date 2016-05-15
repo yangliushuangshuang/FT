@@ -16,8 +16,6 @@ public abstract class MyTask extends AsyncTask<String,Integer,String> {
     }
     @Override
     protected void onPreExecute(){
-        Util.rcvIndex=0;
-        Util.sendIndex=0;
         if(!progressDialog.isShowing())
             progressDialog.show();
     }

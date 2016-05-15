@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,8 @@ import com.jcx.view.myListView.SwipeMenu;
 import com.jcx.view.myListView.SwipeMenuCreator;
 import com.jcx.view.myListView.SwipeMenuItem;
 import com.jcx.view.myListView.SwipeMenuListView;
+import com.jcx.view.task.HotSpotRcvTask;
+import com.jcx.view.task.UdpRcvTask;
 import com.zxing.activity.CaptureActivity;
 
 import java.io.File;
@@ -137,12 +140,33 @@ public class ClassifiedFileActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 break;
-            case R.id.actionbar_fileAccept:
-                items=new CharSequence[4];
-                items[0]=getString(R.string.fileAccept_bluetooth);
-                items[1]=getString(R.string.fileAccept_hotspot);
-                items[2]=getString(R.string.fileAccept_network);
-                items[3]=getString(R.string.fileAccept_wifidiect);
+            case R.id.actionbar_fileAccept_pc_ph://TODO 从电脑接收文件
+                items=new CharSequence[2];
+                items[0]=getString(R.string.fileAccept_hotspot);
+                items[1]=getString(R.string.fileAccept_network);
+
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(
+                        ClassifiedFileActivity.this);
+                builder1.setTitle(R.string.acceptFile_title).setIcon(R.drawable.file_accept_menu_icon);
+                //items使用全局的finalCharSequenece数组声明
+                builder1.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String select_item = items[which].toString();
+                        if (select_item.equals(getString(R.string.fileAccept_hotspot))) {
+                            //TODO---------->通过开热点接收文件
+
+                        } else if (select_item.equals(getString(R.string.fileAccept_network))) {
+                            //TODO--------->通过网络接收文件
+                        }
+                    }
+                });
+                builder1.show();
+                break;
+            case R.id.actionbar_fileAccept://TODO 从手机端接收文件
+                items=new CharSequence[2];
+                items[0]=getString(R.string.fileAccept_hotspot);
+                items[1]=getString(R.string.fileAccept_network);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(
                         ClassifiedFileActivity.this);
@@ -152,16 +176,31 @@ public class ClassifiedFileActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String select_item = items[which].toString();
-                        if (select_item.equals(getString(R.string.fileAccept_bluetooth))) {
-                            //TODO -------->通过蓝牙接受文件
-
-                        } else if (select_item.equals(getString(R.string.fileAccept_hotspot))) {
+                        if (select_item.equals(getString(R.string.fileAccept_hotspot))) {
                             //TODO---------->通过开热点接收文件
+                            View  view=(LinearLayout) getLayoutInflater().inflate(R.layout.dialog_view,null);
+                            AlertDialog.Builder builder =new AlertDialog.Builder(ClassifiedFileActivity.this);
+                            ImageView iv_qrcode= (ImageView) view.findViewById(R.id.dialog_QRCode_image);
+                            iv_qrcode.setImageBitmap(hotSpotImp.getQRCode(500,500));
+                            builder.setView(view);
+                            builder.create();
+                            final AlertDialog qrcodeDialog=builder.show();
 
+                            if (progressDialog == null) {
+                                progressDialog = new ProgressDialog(ClassifiedFileActivity.this);
+                            }
+                            progressDialog.setTitle(getString(R.string.accepting_dialog_title));
+                            progressDialog.setCancelable(true);//不允许退出
+
+                            new HotSpotRcvTask(progressDialog,ClassifiedFileActivity.this).execute();
                         } else if (select_item.equals(getString(R.string.fileAccept_network))) {
                             //TODO--------->通过网络接收文件
-                        } else if (select_item.equals(getString(R.string.fileAccept_wifidiect))) {
-                            //TODO --------->WIFIDirect 接收文件
+                            if (progressDialog == null) {
+                                progressDialog = new ProgressDialog(ClassifiedFileActivity.this);
+                            }
+                            progressDialog.setTitle(getString(R.string.accepting_dialog_title));
+                            progressDialog.setCancelable(true);//不允许退出
+                            new UdpRcvTask(progressDialog,inetUDPImp.getLoaclAddr()).execute();
                         }
                     }
                 });
@@ -300,11 +339,9 @@ public class ClassifiedFileActivity extends AppCompatActivity {
      * 发送文件的发送方式选择菜单
      */
     private void menu_sendModes(){
-        items=new CharSequence[4];
-        items[0]=getString(R.string.fileSend_bluetooth);
-        items[1]=getString(R.string.fileSend_hotspot);
-        items[2]=getString(R.string.fileSend_network);
-        items[3]=getString(R.string.fileSend_WIFIDirect);
+        items=new CharSequence[2];
+        items[0]=getString(R.string.fileSend_hotspot);
+        items[1]=getString(R.string.fileSend_network);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(
                 ClassifiedFileActivity.this);
@@ -314,13 +351,7 @@ public class ClassifiedFileActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String select_item = items[which].toString();
-                if (select_item.equals(getString(R.string.fileSend_bluetooth))) {
-                    //TODO -------->通过蓝牙发送文件
-                    Intent intent=new Intent(ClassifiedFileActivity.this, CaptureActivity.class);
-                    startActivityForResult(intent, 0);
-                    resultTypeOfScan=0;
-
-                }else if (select_item.equals(getString(R.string.fileSend_hotspot))) {
+                if (select_item.equals(getString(R.string.fileSend_hotspot))) {
                     //TODO---------->通过开热点发送文件
                     Intent intent1=new Intent(ClassifiedFileActivity.this, CaptureActivity.class);
                     startActivityForResult(intent1, 0);
@@ -331,37 +362,11 @@ public class ClassifiedFileActivity extends AppCompatActivity {
                     Intent intent2=new Intent(ClassifiedFileActivity.this, CaptureActivity.class);
                     startActivityForResult(intent2, 0);
                     resultTypeOfScan=2;
-                }else if (select_item.equals(getString(R.string.fileSend_WIFIDirect))){
-                    //TODO---------->WIFIDirect 发送文件
-                    Intent intent3=new Intent(ClassifiedFileActivity.this, CaptureActivity.class);
-                    startActivityForResult(intent3, 0);
-                    resultTypeOfScan=3;
-
                 }
             }
         });
         builder.show();
     }
-
-    private Handler handlerForGetTransFilesResult =new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if ((int)(msg.obj)==TransBasic.TRANS_OK) {
-                Toast.makeText(ClassifiedFileActivity.this,"热点传输文件成功",Toast.LENGTH_SHORT).show();
-            }
-            progressDialog.hide();
-            progressDialog=null;
-            hotSpotImp.disconnect();
-        }
-    };
-    private Handler handlerFroUpdateProgressBar=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            progressDialog.setProgress(msg.what);
-        }
-    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -374,61 +379,6 @@ public class ClassifiedFileActivity extends AppCompatActivity {
                     resultTypeOfScan = -1;
                     break;
                 case 1: //TODO 通过热点发送文件
-                    final int[] connectResult = new int[1];
-                    ll_classifiedFile_waiting.setVisibility(View.VISIBLE);
-                    //开启线程用于连接
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            super.run();
-                            connectResult[0] = hotSpotImp.connect(result);
-                        }
-                    }.start();
-                    ll_classifiedFile_waiting.setVisibility(View.GONE);
-                    if (connectResult[0] == TransBasic.CONNECT_OK) {
-                        //获得要发送文件的路径
-                        srcFilePath = filePath_WillBeSend;
-                        //压缩文件
-                        ZipUtil zipUtil = new ZipUtil();
-                        String zipedFilePath = srcFilePath.substring(0, srcFilePath.lastIndexOf(".")) + ".zip";
-                        zipFilePath_WillBeSend = zipUtil.getZipedFile(srcFilePath, zipedFilePath);
-                        final File zip_file = new File(zipFilePath_WillBeSend);
-
-                        if (zipFilePath_WillBeSend != null) {
-                            progressDialog = new ProgressDialog(this);
-                            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                            progressDialog.setTitle(getString(R.string.accepting_dialog_title));
-                            progressDialog.setCancelable(false);//不允许退出
-                            progressDialog.setMessage(zip_file.getName());
-                            progressDialog.setMax((int) (zip_file.length() / 1024));
-                            progressDialog.show();
-                        }
-                        //开启线程监听接收文件的大小更新progressbar
-                        new Thread() {
-                            @Override
-                            public void run() {
-                                super.run();
-                                do {
-                                    int progress = (int) (Util.getRcvIndex() * 1016 * 2);
-                                    Message message = Message.obtain();
-                                    message.what = progress;
-                                    handlerFroUpdateProgressBar.sendMessage(message);
-                                } while (hotSpotImp.getlength() <= Util.getRcvIndex() * 1016 * 2);
-                            }
-                        }.start();
-
-                        //开启线程传送文件
-                        new Thread() {
-                            @Override
-                            public void run() {
-                                super.run();
-                                int transResult = hotSpotImp.transFile(zip_file);
-                                Message message = Message.obtain();
-                                message.obj = transResult;
-                                handlerForGetTransFilesResult.sendMessage(message);
-                            }
-                        }.start();
-                    }
                     resultTypeOfScan = -1;
                     break;
                 case 2:

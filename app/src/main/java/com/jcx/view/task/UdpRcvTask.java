@@ -66,4 +66,9 @@ public class UdpRcvTask extends MyTask{
         }
         return rcvRes[0]==TransBasic.RECI_OK?"发送成功":"发送失败";
     }
+
+    @Override
+    protected void onPostExecute(String b) {
+
+    }
 }

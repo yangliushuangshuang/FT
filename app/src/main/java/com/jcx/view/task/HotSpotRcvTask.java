@@ -68,4 +68,8 @@ public class HotSpotRcvTask extends MyTask {
         hotSpotImp.disconnect();
         return rcvRes[0]==TransBasic.RECI_OK?"发送成功":"发送失败";
     }
+    @Override
+    public void onPreExecute(){
+
+    }
 }

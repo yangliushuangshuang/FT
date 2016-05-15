@@ -3,9 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
+    <item android:id="@+id/actionbar_fileAccept_pc_ph"
+        android:icon="@drawable/pc_ph_rec"
+        android:title="@string/menu_file_accept_formPC"
+        android:orderInCategory="100"
+        app:showAsAction="always"/>
     <item android:id="@+id/actionbar_fileAccept"
-        android:icon="@drawable/file_accept"
-        android:title="@string/menu_file_accept"
+        android:icon="@drawable/ph_ph_rec"
+        android:title="@string/menu_file_accept_fromPh"
         android:orderInCategory="100"
         app:showAsAction="always"/>
 </menu>

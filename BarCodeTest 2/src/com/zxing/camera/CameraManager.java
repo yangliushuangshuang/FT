@@ -23,6 +23,7 @@ import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -41,7 +42,7 @@ public final class CameraManager {
   private static final int MIN_FRAME_WIDTH = 240;
   private static final int MIN_FRAME_HEIGHT = 240;
   private static final int MAX_FRAME_WIDTH = 480;
-  private static final int MAX_FRAME_HEIGHT = 360;
+  private static final int MAX_FRAME_HEIGHT = 480;
 
   private static CameraManager cameraManager;
 
@@ -215,25 +216,50 @@ public final class CameraManager {
    * @return The rectangle to draw on screen in window coordinates.
    */
   public Rect getFramingRect() {
+//    Point screenResolution = configManager.getScreenResolution();
+//    if (framingRect == null) {
+//      if (camera == null) {
+//        return null;
+//      }
+//      int width = screenResolution.x * 3 / 4;
+//      if (width < MIN_FRAME_WIDTH) {
+//        width = MIN_FRAME_WIDTH;
+//      } else if (width > MAX_FRAME_WIDTH) {
+//        width = MAX_FRAME_WIDTH;
+//      }
+//      int height = screenResolution.y * 3 / 4;
+//      if (height < MIN_FRAME_HEIGHT) {
+//        height = MIN_FRAME_HEIGHT;
+//      } else if (height > MAX_FRAME_HEIGHT) {
+//        height = MAX_FRAME_HEIGHT;
+//      }
+//      int leftOffset = (screenResolution.x - width) / 2;
+//      int topOffset = (screenResolution.y - height) / 2;
+//      framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
+//      Log.d(TAG, "Calculated framing rect: " + framingRect);
+//    }
     Point screenResolution = configManager.getScreenResolution();
     if (framingRect == null) {
       if (camera == null) {
         return null;
       }
-      int width = screenResolution.x * 3 / 4;
-      if (width < MIN_FRAME_WIDTH) {
-        width = MIN_FRAME_WIDTH;
-      } else if (width > MAX_FRAME_WIDTH) {
-        width = MAX_FRAME_WIDTH;
-      }
-      int height = screenResolution.y * 3 / 4;
-      if (height < MIN_FRAME_HEIGHT) {
-        height = MIN_FRAME_HEIGHT;
-      } else if (height > MAX_FRAME_HEIGHT) {
-        height = MAX_FRAME_HEIGHT;
-      }
-      int leftOffset = (screenResolution.x - width) / 2;
-      int topOffset = (screenResolution.y - height) / 2;
+//      int width = screenResolution.x * 2 / 3;//设定框框宽度大小
+//      if (width < MIN_FRAME_WIDTH) {
+//        width = MIN_FRAME_WIDTH;
+//      } else if (width > MAX_FRAME_WIDTH) {
+//        width = MAX_FRAME_WIDTH;
+//      }
+//      int height = screenResolution.y * 2/ 4;//设定框框高度大小
+//      if (height < MIN_FRAME_HEIGHT) {
+//        height = MIN_FRAME_HEIGHT;
+//      } else if (height > MAX_FRAME_HEIGHT) {
+//        height = MAX_FRAME_HEIGHT;
+//      }
+      DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+      int width = (int) (metrics.widthPixels * 0.8);
+      int height = (int) (width);
+      int leftOffset = (screenResolution.x - width) / 2;//设定框框离左边相对位置
+      int topOffset = (screenResolution.y - height) / 2;//设定框框离顶部相对位置
       framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
       Log.d(TAG, "Calculated framing rect: " + framingRect);
     }

@@ -9,14 +9,10 @@
     <string name="move">移动</string>
     <string name="delete">删除</string>
     <string name="file_send">发送</string>
-    <string name="fileSend_bluetooth">蓝牙发送</string>
     <string name="fileSend_hotspot">开热点</string>
     <string name="fileSend_network">2G/3G/WIFI发送</string>
-    <string name="fileSend_WIFIDirect">WIFIDirect发送</string>
-    <string name="fileAccept_bluetooth">蓝牙接收</string>
     <string name="fileAccept_hotspot">热点</string>
     <string name="fileAccept_network">2G/3G/WIFI</string>
-    <string name="fileAccept_wifidiect">WIFIDircet接收</string>
     <string name="rename">重命名</string>
     <string name="input_newname">请输入新名字</string>
     <string name="input_folderName">请输入文件名</string>
@@ -38,7 +34,7 @@
     <string name="fileMove_success">移动文件成功</string>
     <string name="fileMove_fail">移动文件失败</string>
 
-    <string name="menu_file_accept">接收文件</string>
+    <string name="menu_file_accept_fromPh">从手机接收文件</string>
     <string name="menu_new_folder">新建文件夹</string>
     <string name="menu_file_paste">粘贴</string>
     <string name="menu_cancel">取消</string>
@@ -95,4 +91,5 @@
     <string name="title_zip">压缩包</string>
     <string name="title_others">其他</string>
     <string name="tv_connecting">正在连接...</string>
+    <string name="menu_file_accept_formPC">从电脑接收文件</string>
 </resources>

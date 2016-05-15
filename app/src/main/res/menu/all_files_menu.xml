@@ -2,28 +2,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
+    <item android:id="@+id/action_fileAccept_pc_ph"
+        android:icon="@drawable/pc_ph_rec"
+        android:title="@string/menu_file_accept_formPC"
+        android:orderInCategory="100"
+        app:showAsAction="always"/>
     <item android:id="@+id/action_fileAccept"
-        android:icon="@drawable/file_accept"
-        android:title="@string/menu_file_accept"
+        android:icon="@drawable/ph_ph_rec"
+        android:title="@string/menu_file_accept_fromPh"
         android:orderInCategory="100"
         app:showAsAction="always"/>
 
-    <!--<item-->
-        <!--android:id="@+id/action_creatqrcode"-->
-        <!--android:icon="@drawable/file_accept"-->
-        <!--android:title="@string/menu_generate_qrcode"-->
-        <!--android:orderInCategory="100"-->
-        <!--app:showAsAction="never"/>-->
-    <!--<item-->
-        <!--android:id="@+id/action_scanqrcode"-->
-        <!--android:title="@string/menu_scan_qrcode"-->
-        <!--android:orderInCategory="100"-->
-        <!--app:showAsAction="never"/>-->
-    <!-- orderincategory属性的作用：每个item的优先级，值越大，优先级越低，不会放到overflow中 -->
-    <!--<item android:id="@+id/downloading_file_manager"-->
-        <!--android:title="@string/downloading_file_manager"-->
-        <!--android:orderInCategory="100"-->
-        <!--app:showAsAction="never"/>-->
     <item
         android:id="@+id/action_new_folder"
         android:title="@string/menu_new_folder"

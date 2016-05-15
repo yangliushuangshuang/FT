@@ -91,12 +91,22 @@ public final class ViewfinderView extends View {
       System.out.println(frame.left + "," + frame.top);
     } else {
 
-      // Draw a two pixel solid black border inside the framing rect
+      // Draw four right angles border inside the framing rect
       paint.setColor(frameColor);
-      canvas.drawRect(frame.left, frame.top, frame.right + 1, frame.top + 2, paint);
-      canvas.drawRect(frame.left, frame.top + 2, frame.left + 2, frame.bottom - 1, paint);
-      canvas.drawRect(frame.right - 1, frame.top, frame.right + 1, frame.bottom - 1, paint);
-      canvas.drawRect(frame.left, frame.bottom - 1, frame.right + 1, frame.bottom + 1, paint);
+//      canvas.drawRect(frame.left, frame.top, frame.right + 1, frame.top + 2, paint);
+//      canvas.drawRect(frame.left, frame.top + 2, frame.left + 2, frame.bottom - 1, paint);
+//      canvas.drawRect(frame.right - 1, frame.top, frame.right + 1, frame.bottom - 1, paint);
+//      canvas.drawRect(frame.left, frame.bottom - 1, frame.right + 1, frame.bottom + 1, paint);
+      int linewidht=3;
+      int lineheight=50;
+      canvas.drawRect(frame.left+1, frame.top+1,(frame.left+lineheight+1), (frame.top+linewidht+1), paint);
+      canvas.drawRect(frame.left+1, frame.top+1,(frame.left+linewidht+1), (frame.top+lineheight+1), paint);
+      canvas.drawRect(frame.right,frame.top+1,(frame.right-lineheight),(frame.top+linewidht+1), paint);
+      canvas.drawRect(frame.right,frame.top+1,(frame.right-linewidht),(frame.top+lineheight+1), paint);
+      canvas.drawRect(frame.left+1,frame.bottom,(frame.left+linewidht+1),(frame.bottom-lineheight),paint);
+      canvas.drawRect(frame.left+1,frame.bottom,(frame.left+lineheight+1),(frame.bottom-linewidht), paint);
+      canvas.drawRect(frame.right,frame.bottom,(frame.right-lineheight),(frame.bottom-linewidht), paint);
+      canvas.drawRect(frame.right,frame.bottom,(frame.right-linewidht),(frame.bottom-lineheight), paint);
 
       // Draw a red "laser scanner" line through the middle to show decoding is active
       paint.setColor(laserColor);
