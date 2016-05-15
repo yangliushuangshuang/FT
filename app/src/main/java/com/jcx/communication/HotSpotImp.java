@@ -7,16 +7,11 @@ import android.net.DhcpInfo;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.util.Log;
-import android.widget.Toast;
-
 import com.jcx.hotspot.WifiManageUtils;
 import com.jcx.util.Configuration;
 import com.jcx.util.NetworkDetect;
 import com.jcx.util.QRcodeUtil;
 import com.jcx.util.Util;
-
-import org.junit.internal.runners.statements.RunAfters;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -29,7 +24,7 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class HotSpotImp implements HotSpot {
+public class HotSpotImp extends Transmission {
 	private Activity context;
 	private String wifiName;
 	private String psw;
@@ -42,6 +37,8 @@ public class HotSpotImp implements HotSpot {
 	private long length;
 	private final static String HAND_SHAKE= "handshake";
 	private ServerSocket socket;
+	public int sendIndex;
+	public int rcvIndex;
 	public HotSpotImp(Activity context){
 		this.context = context;
 		wifiManageUtils = new WifiManageUtils(context);
@@ -58,7 +55,7 @@ public class HotSpotImp implements HotSpot {
 			socket.connect(new InetSocketAddress(rmAddr,rmPort),Util.SOCKET_TIMEOUT);
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			if(Util.copyFile(br,bw,false)){
+			if(Util.copyFile(br,bw,false,this)){
 				socket.close();
 				return TRANS_OK;
 			}
@@ -84,7 +81,7 @@ public class HotSpotImp implements HotSpot {
 			if(!file.getParentFile().exists())if(!file.getParentFile().mkdirs())return RECI_FAIL;
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
 			BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
-			Util.copyFile(br, bw, true);
+			Util.copyFile(br, bw, true,this);
 			client.close();
 			if(file.exists())return RECI_OK;
 		} catch (IOException e) {

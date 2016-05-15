@@ -2,6 +2,11 @@ package com.jcx.util;
 
 import android.os.Environment;
 
+import com.jcx.communication.HotSpotImp;
+import com.jcx.communication.InetUDPImp;
+import com.jcx.communication.TransBasic;
+import com.jcx.communication.Transmission;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -32,8 +37,7 @@ public class Util {
     public final static int SOCKET_TIMEOUT=12000;
     public final static int BLOCK_SIZE=1024*10;
     public final static int HELLOSHAKE_SIZE=64;
-    public static long rcvIndex;
-    public static long sendIndex;
+
     public final static int HEAD_LEN = Long.SIZE/8;
     public static String intToIp(int i) {
 
@@ -71,21 +75,22 @@ public class Util {
      * @param writer 输出字节流
      * @return 是否成功
      */
-    public static boolean copyFile(Reader reader,Writer writer,boolean isIn){
+    public static boolean copyFile(Reader reader,Writer writer,boolean isIn,Transmission trans){
         char buf[] = new char[BLOCK_SIZE+HEAD_LEN];
+
         int len;
         try {
-            sendIndex = 0;
-            rcvIndex = 0;
+            trans.sendIndex = 0;
+            trans.rcvIndex = 0;
             while ((len = reader.read(buf,HEAD_LEN,BLOCK_SIZE)) != -1) {
                 int offset=HEAD_LEN;
                 if(isIn){
                     byte[] a = new byte[HEAD_LEN];
                     for(int i=0;i<HEAD_LEN;i++)a[i]=(byte)buf[i];
-                    rcvIndex = bytes2long(a);
+                    trans.rcvIndex = (int)bytes2long(a);
                 }
                 else {
-                    byte[] a = long2bytes(++sendIndex);
+                    byte[] a = long2bytes(++trans.sendIndex);
                     for(int i=0;i<a.length;i++)buf[i] = (char) a[i];
                 }
                 writer.write(buf, offset, len);
@@ -98,12 +103,7 @@ public class Util {
         }
         return true;
     }
-    public static long getSendIndex(){
-        return sendIndex;
-    }
-    public static long getRcvIndex(){
-        return rcvIndex;
-    }
+
     public static byte[] long2bytes(long num) {
         byte[] b = new byte[HEAD_LEN];
         for (int i=0;i<HEAD_LEN;i++) {

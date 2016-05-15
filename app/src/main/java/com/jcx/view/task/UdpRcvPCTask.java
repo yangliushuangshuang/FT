@@ -7,31 +7,31 @@ import com.jcx.communication.TransBasic;
 import com.jcx.util.Util;
 
 /**
- * Created by lenovo on 2016/5/11.
+ * Created by lenovo on 2016/5/15.
  */
-public class UdpRcvTask extends MyTask{
+public class UdpRcvPCTask extends  MyTask{
     String localAddr;
     InetUDPImp inetUDPImp;
     int max;
-    public UdpRcvTask(ProgressDialog progressDialog,String localAddr) {
+    public UdpRcvPCTask(ProgressDialog progressDialog,String localAddr) {
         super(progressDialog);
         this.localAddr = localAddr;
         max = progressDialog.getMax();
     }
-
     /**
      * rudp方式，接受文件。
-     * @param params 空
+     * @param params 二维码的结果
      * @return 接收文件是否成功
      */
     @Override
     protected String doInBackground(String... params) {
         inetUDPImp = new InetUDPImp(localAddr);
         final int[] rcvRes = new int[1];
+        final String content = params[0];
         Thread connect = new Thread(){
             @Override
             public void run(){
-                rcvRes[0] = inetUDPImp.connect();
+                rcvRes[0] = inetUDPImp.connect(content);
             }
         };
         connect.start();

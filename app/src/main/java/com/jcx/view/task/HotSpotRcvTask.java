@@ -56,7 +56,7 @@ public class HotSpotRcvTask extends MyTask {
 
         int rcvIndex;
         do{
-            rcvIndex = (int) Util.rcvIndex;
+            rcvIndex = hotSpotImp.rcvIndex;
             publishProgress(rcvIndex);
         }while (rcvIndex<max);
 
@@ -67,10 +67,5 @@ public class HotSpotRcvTask extends MyTask {
         }
         hotSpotImp.disconnect();
         return rcvRes[0]==TransBasic.RECI_OK?"发送成功":"发送失败";
-    }
-    @Override
-    protected void onPreExecute(){
-        Util.sendIndex=0;
-        Util.rcvIndex=0;
     }
 }
