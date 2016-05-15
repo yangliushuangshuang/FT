@@ -1,6 +1,7 @@
 package com.jcx.view;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,11 +14,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jcx.R;
+import com.jcx.communication.HotSpotImp;
+import com.jcx.communication.InetUDPImp;
+import com.jcx.view.task.HotSpotRcvTask;
+import com.jcx.view.task.UdpRcvTask;
 
 import java.util.jar.Manifest;
 
@@ -25,6 +31,8 @@ import java.util.jar.Manifest;
  * Created by Cui on 16-4-26.
  */
 public class MainActivity extends AppCompatActivity {
+    private HotSpotImp hotSpotImp;
+    private InetUDPImp inetUDPImp;
 
     private RelativeLayout rl_allFiles;
     private LinearLayout ll_main_waiting;
@@ -32,30 +40,17 @@ public class MainActivity extends AppCompatActivity {
     private String FLAG="flag";
     private String flag=null;//mainActivity与CreatQRCodeActivity通信的标志
     private CharSequence[] items;//发送选择菜单和编辑方式选择菜单的列表集合
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        initCustomActionBar();
+        getSupportActionBar().setTitle(R.string.app_name);
+
+        hotSpotImp=new HotSpotImp(this);
 
         initView();
-    }
-    private boolean initCustomActionBar(){
-        android.support.v7.app.ActionBar mActionBar=getSupportActionBar();
-        if (mActionBar == null) {
-            return false;
-        }
-        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.CENTER | Gravity.CENTER_HORIZONTAL);
-
-        View myView= LayoutInflater.from(this).inflate(R.layout.custom_action_bar,null);
-        mActionBar.setCustomView(myView, lp);
-        mActionBar.setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
-        TextView tv_title= (TextView) mActionBar.getCustomView().findViewById(R.id.title);
-        tv_title.setText(R.string.title_file_transfer);
-        return true;
     }
 
     private void initView() {
@@ -132,12 +127,54 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.actionbar_fileAccept:
-                items=new CharSequence[4];
-                items[0]=getString(R.string.fileAccept_bluetooth);
-                items[1]=getString(R.string.fileAccept_hotspot);
-                items[2]=getString(R.string.fileAccept_network);
-                items[3]=getString(R.string.fileAccept_wifidiect);
+            case R.id.actionbar_fileAccept_pc_ph://TODO 从电脑接收文件
+                items=new CharSequence[2];
+                items[0]=getString(R.string.fileAccept_hotspot);
+                items[1]=getString(R.string.fileAccept_network);
+
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(
+                        MainActivity.this);
+                builder1.setTitle(R.string.acceptFile_title).setIcon(R.drawable.file_accept_menu_icon);
+                //items使用全局的finalCharSequenece数组声明
+                builder1.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String select_item = items[which].toString();
+                        if (select_item.equals(getString(R.string.fileAccept_hotspot))) {
+                            //TODO---------->通过热点从电脑接收文件
+                            View  view=(LinearLayout) getLayoutInflater().inflate(R.layout.dialog_view,null);
+                            AlertDialog.Builder builder =new AlertDialog.Builder(MainActivity.this);
+                            ImageView iv_qrcode= (ImageView) view.findViewById(R.id.dialog_QRCode_image);
+                            iv_qrcode.setImageBitmap(hotSpotImp.getQRCode(500,500));
+                            builder.setView(view);
+                            builder.create();
+                            final AlertDialog qrcodeDialog=builder.show();
+
+                            if (progressDialog == null) {
+                                progressDialog = new ProgressDialog(MainActivity.this);
+                            }
+                            progressDialog.setTitle(getString(R.string.accepting_dialog_title));
+                            progressDialog.setCancelable(true);//不允许退出
+
+                            new HotSpotRcvTask(progressDialog,MainActivity.this).execute();
+
+                        } else if (select_item.equals(getString(R.string.fileAccept_network))) {
+                            //TODO--------->通过网络从电脑接收文件
+                            if (progressDialog == null) {
+                                progressDialog = new ProgressDialog(MainActivity.this);
+                            }
+                            progressDialog.setTitle(getString(R.string.accepting_dialog_title));
+                            progressDialog.setCancelable(true);//不允许退出
+                            new UdpRcvTask(progressDialog,inetUDPImp.getLoaclAddr()).execute();
+                        }
+                    }
+                });
+                builder1.show();
+                break;
+            case R.id.actionbar_fileAccept://TODO 从手机接收文件
+                items=new CharSequence[2];
+                items[0]=getString(R.string.fileAccept_hotspot);
+                items[1]=getString(R.string.fileAccept_network);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(
                         MainActivity.this);
@@ -147,16 +184,32 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String select_item = items[which].toString();
-                        if (select_item.equals(getString(R.string.fileAccept_bluetooth))) {
-                            //TODO -------->通过蓝牙接受文件
+                        if (select_item.equals(getString(R.string.fileAccept_hotspot))) {
+                            //TODO---------->通过热点从手机接收文件
+                            View  view=(LinearLayout) getLayoutInflater().inflate(R.layout.dialog_view,null);
+                            AlertDialog.Builder builder =new AlertDialog.Builder(MainActivity.this);
+                            ImageView iv_qrcode= (ImageView) view.findViewById(R.id.dialog_QRCode_image);
+                            iv_qrcode.setImageBitmap(hotSpotImp.getQRCode(500,500));
+                            builder.setView(view);
+                            builder.create();
+                            final AlertDialog qrcodeDialog=builder.show();
 
-                        } else if (select_item.equals(getString(R.string.fileAccept_hotspot))) {
-                            //TODO---------->通过开热点接收文件
+                            if (progressDialog == null) {
+                                progressDialog = new ProgressDialog(MainActivity.this);
+                            }
+                            progressDialog.setTitle(getString(R.string.accepting_dialog_title));
+                            progressDialog.setCancelable(true);//不允许退出
+
+                            new HotSpotRcvTask(progressDialog,MainActivity.this).execute();
 
                         } else if (select_item.equals(getString(R.string.fileAccept_network))) {
-                            //TODO--------->通过网络接收文件
-                        } else if (select_item.equals(getString(R.string.fileAccept_wifidiect))) {
-                            //TODO --------->WIFIDirect 接收文件
+                            //TODO--------->通过网络从手机接收文件
+                            if (progressDialog == null) {
+                                progressDialog = new ProgressDialog(MainActivity.this);
+                            }
+                            progressDialog.setTitle(getString(R.string.accepting_dialog_title));
+                            progressDialog.setCancelable(true);//不允许退出
+                            new UdpRcvTask(progressDialog,inetUDPImp.getLoaclAddr()).execute();
                         }
                     }
                 });

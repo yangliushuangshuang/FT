@@ -23,10 +23,12 @@
   <color name="status_view">#50000000</color>
   <color name="status_text">#ffffffff</color>
   <color name="transparent">#00000000</color>
-  <color name="viewfinder_frame">#ff000000</color>
+  <color name="viewfinder_frame">#FF3F51B5</color>
   <color name="viewfinder_laser">#ffff0000</color>
   <color name="viewfinder_mask">#60000000</color>
   <color name="header">#58567D</color>
   <color name="grgray">#686868</color>
-      
+  <color name="fully_transparent">#FF3F51ff</color>
+  <color name="ligt_transparent">#FF3F51B5</color>
+
 </resources>
