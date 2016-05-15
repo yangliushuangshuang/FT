@@ -5,9 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
 import android.util.Log;
-import android.widget.Toast;
-
 import com.jcx.hotspot.WifiManageUtils;
 import com.jcx.util.Configuration;
 import com.jcx.util.NetworkDetect;
@@ -25,17 +24,21 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class HotSpotImp implements HotSpot {
+public class HotSpotImp extends Transmission {
 	private Activity context;
 	private String wifiName;
 	private String psw;
 	private String rmAddr;
+	private String addr;
 	private int port;
 	private int rmPort;
 	private WifiManageUtils wifiManageUtils;
-	private String fileName;
+	private String fileName="";
 	private long length;
 	private final static String HAND_SHAKE= "handshake";
+	private ServerSocket socket;
+	public int sendIndex;
+	public int rcvIndex;
 	public HotSpotImp(Activity context){
 		this.context = context;
 		wifiManageUtils = new WifiManageUtils(context);
@@ -52,7 +55,7 @@ public class HotSpotImp implements HotSpot {
 			socket.connect(new InetSocketAddress(rmAddr,rmPort),Util.SOCKET_TIMEOUT);
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			if(Util.copyFile(br,bw,false)){
+			if(Util.copyFile(br,bw,false,this)){
 				socket.close();
 				return TRANS_OK;
 			}
@@ -66,23 +69,20 @@ public class HotSpotImp implements HotSpot {
 	@Override
 	public int receiFile() {
 		try {
-			String fileInfo = Util.receiveInfo(port);
-			if(fileInfo==null)return RECI_FAIL;
+			String fileInfo = Util.receiveInfo(socket);
+			if(fileInfo.equals(""))return RECI_FAIL;
 			String[] fileInfos = fileInfo.split(Util.SPLITER);
 			fileName = fileInfos[0];
-			//TODO
+			Log.d("rcv","接收到文件信息"+length);
 			length = Long.parseLong(fileInfos[1]);
-			Toast.makeText(context,String.valueOf(length),Toast.LENGTH_SHORT).show();
-			ServerSocket socket = new ServerSocket(port);
 			Socket client = socket.accept();
 			Log.d("reciFile","通过了阻塞，即socket通信开始");
 			File file = new File(Util.RECEIVE_DIR+File.separator+fileName);
 			if(!file.getParentFile().exists())if(!file.getParentFile().mkdirs())return RECI_FAIL;
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
 			BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
-			Util.copyFile(br,bw,true);
+			Util.copyFile(br, bw, true,this);
 			client.close();
-			socket.close();
 			if(file.exists())return RECI_OK;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -90,8 +90,17 @@ public class HotSpotImp implements HotSpot {
 		return RECI_FAIL;
 	}
 	public int connect(){
-		String res = Util.receiveInfo(port);
-		return res!=null&&res.equals(HAND_SHAKE)?CONNECT_OK:CONNECT_FAIL;
+		try {
+			socket = new ServerSocket(port);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String[] info = Util.receiveInfo(socket).split(Util.SPLITER);
+		if(info.length>0){
+			rmAddr = info[1];
+			rmPort = Integer.parseInt(info[2]);
+		}
+		return info[0].equals(HAND_SHAKE)?CONNECT_OK:CONNECT_FAIL;
 	}
 	@Override
 	public int connect(Drawable qrCode) {
@@ -107,20 +116,19 @@ public class HotSpotImp implements HotSpot {
 		String[] info = content.split(Util.SPLITER);
 		String wifiName = info[0],psw=info[1];
 		rmPort = Integer.parseInt(info[2]);
-		wifiManageUtils.closeWifi();
-		wifiManageUtils.openWifi();
-		wifiManageUtils.startscan();
-		WifiConfiguration netConfig = wifiManageUtils.getCustomeWifiClientConfiguration(wifiName, psw, 3);
-		for(int i=0;i<1000&&!wifiManageUtils.isConnected(wifiName);i++){
-			wifiManageUtils.startscan();
-			wifiManageUtils.addNetwork(netConfig);
+		ConnectRunnable connect = new ConnectRunnable(wifiName,psw,3);
+		Thread connectThread = new Thread(connect);
+		connectThread.start();
+		try {
+			connectThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 		if(!wifiManageUtils.isConnected(wifiName))return CONNECT_FAIL;
+		addr = NetworkDetect.getLocalIpAddress();
 		boolean iptoready =false;
-		int i = 0;
-		while (!iptoready&&i++<10)
+		while (!iptoready)
 		{
-			wifiManageUtils.startscan();
 			try
 			{
 				// 为了避免程序一直while循环，让它睡个100毫秒在检测……
@@ -141,13 +149,38 @@ public class HotSpotImp implements HotSpot {
 				iptoready = true;
 			}
 		}
-		if(iptoready){
-			Util.sendInfo(rmAddr,rmPort,HAND_SHAKE);
-			return CONNECT_OK;
-		}
-		return CONNECT_FAIL;
+		Util.sendInfo(rmAddr,rmPort,HAND_SHAKE+Util.SPLITER+port);
+		return CONNECT_OK;
 	}
-
+	class ConnectRunnable implements Runnable{
+		private String wifiName;
+		private String psw;
+		private int type;
+		public ConnectRunnable(String wifiName,String psw,int type){
+			this.psw = psw;
+			this.type = type;
+			this.wifiName = wifiName;
+		}
+		@Override
+		public void run() {
+			wifiManageUtils.openWifi();
+			WifiConfiguration config = wifiManageUtils.isExist(wifiName);
+			if(config!=null)wifiManageUtils.removeNetwork(config.networkId);
+			while(wifiManageUtils.getWifiState()== WifiManager.WIFI_STATE_ENABLING){
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			wifiManageUtils.startscan();
+			WifiConfiguration netConfig = wifiManageUtils.getCustomeWifiClientConfiguration(wifiName, psw, type);
+			for(int i=0;i<100&&!wifiManageUtils.isConnected(wifiName);i++){
+				wifiManageUtils.startscan();
+				wifiManageUtils.addNetwork(netConfig);
+			}
+		}
+	}
 	/**
 	 * 接收文件端调用
 	 * @return 二维码
@@ -155,8 +188,8 @@ public class HotSpotImp implements HotSpot {
 	@Override
 	public Bitmap getQRCode(int heigth,int width) {
 		WifiManageUtils wifiManageUtils = new WifiManageUtils(context);
-		//psw = Util.randPsw(10);
-		psw="123456789";
+		psw = Util.randPsw(10);
+		//psw="123456789";
 		wifiManageUtils.closeWifi();
 		wifiManageUtils.stratWifiAp(wifiName, psw,3);
 		String content = wifiName+Util.SPLITER+psw+Util.SPLITER+port;
@@ -169,6 +202,13 @@ public class HotSpotImp implements HotSpot {
 		if(wifiManageUtils!=null){
 			wifiManageUtils.closeWifiAp();
 			wifiManageUtils.closeWifi();
+			WifiConfiguration config = wifiManageUtils.isExist(wifiName);
+			if(config!=null)wifiManageUtils.removeNetwork(config.networkId);
+		}
+		if(socket!=null) try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	public String getFileName(){

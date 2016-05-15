@@ -55,7 +55,7 @@ public class UdpSendTask extends MyTask{
         thread.start();
         int currentIndex;
         do {
-            currentIndex = (int) Util.getSendIndex();
+            currentIndex = inetUDPImp.sendIndex;
             publishProgress(currentIndex);
         }while (currentIndex<progressDialog.getMax());
 

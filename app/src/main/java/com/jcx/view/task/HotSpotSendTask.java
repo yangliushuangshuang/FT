@@ -3,7 +3,6 @@ package com.jcx.view.task;
 import android.app.Activity;
 import android.app.ProgressDialog;
 
-import com.jcx.communication.HotSpot;
 import com.jcx.communication.HotSpotImp;
 import com.jcx.communication.TransBasic;
 import com.jcx.util.Util;
@@ -27,7 +26,7 @@ public class HotSpotSendTask extends MyTask{
 
     /**
      * 热点方式 发送方的异步操作。需要两个字符串参数，第一个是二维码的结果。第二个是文件路劲。
-     * @param params 空
+     * @param params 第一个是二维码的结果。第二个是文件路劲。
      * @return 传输是否成功。
      */
     @Override
@@ -59,7 +58,7 @@ public class HotSpotSendTask extends MyTask{
         thread.start();
         int currentIndex;
         do {
-            currentIndex = (int)Util.getSendIndex();
+            currentIndex = hotSpotImp.sendIndex;
             publishProgress(currentIndex);
         }while (currentIndex<progressDialog.getMax());
 

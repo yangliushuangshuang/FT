@@ -12,9 +12,11 @@ import com.jcx.util.Util;
 public class UdpRcvTask extends MyTask{
     String localAddr;
     InetUDPImp inetUDPImp;
+    int max;
     public UdpRcvTask(ProgressDialog progressDialog,String localAddr) {
         super(progressDialog);
         this.localAddr = localAddr;
+        max = progressDialog.getMax();
     }
 
     /**
@@ -40,7 +42,7 @@ public class UdpRcvTask extends MyTask{
             rcvRes[0] = TransBasic.CONNECT_FAIL;
         }
         if(rcvRes[0]== TransBasic.CONNECT_FAIL)return "连接失败";
-        else if(rcvRes[0]==TransBasic.CONNECT_OK)publishProgress(-1);
+        else if(rcvRes[0]==TransBasic.CONNECT_OK)publishProgress(-1,(int)Math.ceil(inetUDPImp.getLength() / Util.BLOCK_SIZE));
 
 
         Thread thread = new Thread(){
@@ -53,9 +55,9 @@ public class UdpRcvTask extends MyTask{
 
         int rcvIndex;
         do{
-            rcvIndex = (int) Util.rcvIndex;
+            rcvIndex = inetUDPImp.rcvIndex;
             publishProgress(rcvIndex);
-        }while (rcvIndex>progressDialog.getMax());
+        }while (rcvIndex<max);
 
         try {
             thread.join();
@@ -63,10 +65,5 @@ public class UdpRcvTask extends MyTask{
             e.printStackTrace();
         }
         return rcvRes[0]==TransBasic.RECI_OK?"发送成功":"发送失败";
-    }
-    @Override
-    protected void onPreExecute(){
-        Util.sendIndex=0;
-        Util.rcvIndex=0;
     }
 }

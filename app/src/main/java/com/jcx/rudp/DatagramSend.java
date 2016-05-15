@@ -4,6 +4,7 @@ package com.jcx.rudp;
  * Created by lenovo on 2016/4/6.
  */
 
+import com.jcx.communication.Transmission;
 import com.jcx.util.Util;
 
 import java.io.File;
@@ -31,15 +32,17 @@ public class DatagramSend {
     private DatagramSocket dSender; //发送的Socket对象
     private SocketAddress destAddr; //目标地址
     private File file;
+    private Transmission trans;
     //本地缓存已发送的消息Map  key为消息ID  value为消息对象本身
     Map<Integer,NetJavaMsg> msgQueue=new ConcurrentHashMap();
 
 
-    public DatagramSend(File file,String localIp,String rmIp,int localPort,int rmPort) throws Exception{
+    public DatagramSend(File file,String localIp,String rmIp,int localPort,int rmPort,Transmission trans) throws Exception{
         localAddr=new InetSocketAddress(localIp, localPort);
         dSender=new DatagramSocket(localAddr);
         destAddr=new InetSocketAddress(rmIp,rmPort);
         this.file = file;
+        this.trans = trans;
         //启动三个线程
         startSendThread();
         startRecvResponseThread();
@@ -99,7 +102,7 @@ public class DatagramSend {
 
             msgQueue.put(id, sendMsg);
             System.out.println("客户端-数据已发送" + sendMsg);
-            Util.sendIndex = id;
+            trans.sendIndex = id;
             //Thread.sleep(1000);
         }
     }

@@ -23,6 +23,7 @@ public abstract class MyTask extends AsyncTask<String,Integer,String> {
     }
     @Override
     protected void onPostExecute(String b){
+        if(!progressDialog.isShowing())progressDialog.show();
         progressDialog.setTitle(b);
         try {
             Thread.sleep(1000);
@@ -34,6 +35,7 @@ public abstract class MyTask extends AsyncTask<String,Integer,String> {
     @Override
     protected void onProgressUpdate(Integer... param){
         if(param[0]==-1){
+            progressDialog.setMax(param[1]);
             if(!progressDialog.isShowing())progressDialog.show();
         }else if(param[0]>0){
             progressDialog.setProgress(param[0]);

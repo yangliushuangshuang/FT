@@ -5,28 +5,29 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import com.jcx.rudp.DatagramRecive;
+import com.jcx.rudp.DatagramReceive;
 import com.jcx.rudp.DatagramSend;
 import com.jcx.util.Configuration;
 import com.jcx.util.QRcodeUtil;
 import com.jcx.util.Util;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.SocketException;
 
 
-public class InetUDPImp implements InetUDP {
+public class InetUDPImp extends Transmission {
 	private String inetAddr;
 	private String rmInetAddr;
 	private int rmPort;
 	private long length;
 	private String name;
+	private int port = new Configuration().getP2PPort();
+	private final static String HAND_SHAKE="hello";
 	/**
 	 *
 	 * @param inetString 本机IP地址
@@ -34,25 +35,30 @@ public class InetUDPImp implements InetUDP {
 	public InetUDPImp(String inetString) {
 		inetAddr = inetString;
 	}
-
+	public String getLoaclAddr(){return inetAddr;}
 	@Override
 	public int transFile(File file) {
 		if(!file.exists()||file.isDirectory())return TRANS_FAIL;
 		if(!Util.sendInfo(rmInetAddr,rmPort,file.getName()+Util.SPLITER+file.getTotalSpace()))return TRANS_FAIL;
 		try {
-			new DatagramSend(file,inetAddr,rmInetAddr,new Configuration().getP2PPort(),rmPort);
-			return TRANS_OK;
+			new DatagramSend(file,inetAddr,rmInetAddr,port,rmPort,this);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return TRANS_FAIL;
 		}
-		return TRANS_FAIL;
+		return TRANS_OK;
 	}
 
 	@Override
 	public int receiFile() {
-		int port = new Configuration().getP2PPort();
-		String info=Util.receiveInfo(port);
-		if(info==null)return RECI_FAIL;
+		ServerSocket socket = null;
+		try {
+			socket = new ServerSocket(port);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String info=Util.receiveInfo(socket);
+		if(info.equals(""))return RECI_FAIL;
 		String[] fileInfo = info.split(Util.SPLITER);
 		name = fileInfo[0];
 		length = Long.parseLong(fileInfo[1]);
@@ -60,7 +66,7 @@ public class InetUDPImp implements InetUDP {
 			File file = new File(Util.RECEIVE_DIR,name);
 			if(file.exists())file.delete();
 			file.createNewFile();
-			new DatagramRecive(file,inetAddr,port);
+			new DatagramReceive(file,inetAddr,port,this);
 			return RECI_OK;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -71,7 +77,7 @@ public class InetUDPImp implements InetUDP {
 	@Override
 	public Bitmap getQRCode(int heigth , int width) {
 		String content = inetAddr + Util.SPLITER + new Configuration().getP2PPort();
-		return QRcodeUtil.encode(content, heigth, width);
+		return QRcodeUtil.encode(content,width, heigth);
 	}
 
 	@Override
@@ -90,14 +96,13 @@ public class InetUDPImp implements InetUDP {
 	 * @return CONNECT_OK表示成功，反之则CONNECT_FAIL
 	 */
 	public int connect(){
-		int port =new Configuration().getP2PPort();
 		try {
 			Log.d("Shake","开始");
 			DatagramSocket datagramSocket = new DatagramSocket(port);
 			byte[] hello =new byte[Util.HELLOSHAKE_SIZE];
 			DatagramPacket receive = new DatagramPacket(hello,hello.length);
 			datagramSocket.receive(receive);
-			if(receive.getData().toString().equals("hello")){
+			if(new String(receive.getData()).lastIndexOf(HAND_SHAKE)>-1){
 				InetAddress addr = receive.getAddress();
 				int rmPort = receive.getPort();
 				byte[] sure = "sure".getBytes();
@@ -128,19 +133,19 @@ public class InetUDPImp implements InetUDP {
 		try {
 			DatagramSocket datagramSocket = new DatagramSocket(rmPort);
 			InetAddress address = InetAddress.getByAddress(Util.ipToBytes(rmInetAddr));
-			byte[] hello ="hello".getBytes();
+			byte[] hello =(HAND_SHAKE+Util.SPLITER+port).getBytes();
 			DatagramPacket send = new DatagramPacket(hello,hello.length,address,rmPort);
 			datagramSocket.send(send);
-			Log.d("InetUDP", "连接开始");
+			Log.d("InetUDPImp", "连接开始");
 
 			byte[] shake=new byte[Util.HELLOSHAKE_SIZE];
 			DatagramPacket receive = new DatagramPacket(shake,shake.length);
 			datagramSocket.receive(receive);
-			if(receive.getData().toString().equals("sure"))return CONNECT_OK;
+			if(new String(receive.getData()).equals("sure"))return CONNECT_OK;
 			else return CONNECT_FAIL;
 		} catch (IOException e) {
 			e.printStackTrace();
-			Log.d("InetUDP", "连接失败");
+			Log.d("InetUDPImp", "连接失败");
 		}
 		return CONNECT_FAIL;
 	}

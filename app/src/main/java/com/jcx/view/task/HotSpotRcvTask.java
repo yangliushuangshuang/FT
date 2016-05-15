@@ -7,14 +7,19 @@ import com.jcx.communication.HotSpotImp;
 import com.jcx.communication.TransBasic;
 import com.jcx.util.Util;
 
+import java.net.ServerSocket;
+
 /**
  * Created by churongShaw on 2016/5/11.
  */
 public class HotSpotRcvTask extends MyTask {
-    HotSpotImp hotSpotImp;
+    private HotSpotImp hotSpotImp;
+    private int max;
+
     public HotSpotRcvTask(ProgressDialog progressDialog,Activity activity) {
         super(progressDialog);
         hotSpotImp = new HotSpotImp(activity);
+        max = progressDialog.getMax();
     }
 
     /**
@@ -39,7 +44,7 @@ public class HotSpotRcvTask extends MyTask {
             rcvRes[0] = TransBasic.CONNECT_FAIL;
         }
         if(rcvRes[0]== TransBasic.CONNECT_FAIL)return "连接失败";
-        else if(rcvRes[0]==TransBasic.CONNECT_OK)publishProgress(-1);
+        else if(rcvRes[0]==TransBasic.CONNECT_OK)publishProgress(-1,(int)Math.ceil(hotSpotImp.getlength() / Util.BLOCK_SIZE));
 
         Thread thread = new Thread(){
             @Override
@@ -51,20 +56,16 @@ public class HotSpotRcvTask extends MyTask {
 
         int rcvIndex;
         do{
-            rcvIndex = (int) Util.rcvIndex;
+            rcvIndex = hotSpotImp.rcvIndex;
             publishProgress(rcvIndex);
-        }while (rcvIndex>progressDialog.getMax());
+        }while (rcvIndex<max);
 
         try {
             thread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        hotSpotImp.disconnect();
         return rcvRes[0]==TransBasic.RECI_OK?"发送成功":"发送失败";
-    }
-    @Override
-    protected void onPreExecute(){
-        Util.sendIndex=0;
-        Util.rcvIndex=0;
     }
 }

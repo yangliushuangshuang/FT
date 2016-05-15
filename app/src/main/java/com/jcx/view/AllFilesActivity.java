@@ -47,6 +47,7 @@ import com.jcx.view.myListView.SwipeMenuItem;
 import com.jcx.view.myListView.SwipeMenuListView;
 import com.jcx.view.task.HotSpotRcvTask;
 import com.jcx.view.task.HotSpotSendTask;
+import com.jcx.view.task.UdpRcvTask;
 import com.jcx.view.task.UdpSendTask;
 import com.zxing.activity.CaptureActivity;
 
@@ -97,7 +98,8 @@ public class AllFilesActivity extends AppCompatActivity{
         setContentView(R.layout.allfiles_main);
 
         String netType = NetworkDetect.getCurrentNetType(this);
-        String localAddr = netType=="2g"||netType=="3g"||netType=="4g"?NetworkDetect.getLocalIpAddress():NetworkDetect.getNetIp();
+        String localAddr = "127.0.0.1";
+        if(!netType.equals("null"))localAddr = netType=="2g"||netType=="3g"||netType=="4g"?NetworkDetect.getLocalIpAddress():NetworkDetect.getNetIp();
         hotSpotImp=new HotSpotImp(this);
         inetUDPImp=new InetUDPImp(localAddr);
         getFileSize=new GetFileSize();
@@ -267,10 +269,6 @@ public class AllFilesActivity extends AppCompatActivity{
 
                         } else if (select_item.equals(getString(R.string.fileAccept_hotspot))) { //TODO---------->通过开热点接收文件
 
-//                            Bitmap qrCodeBitmap = hotSpotImp.getQRCode();
-//                            Intent intent=new Intent(AllFilesActivity.this,ShowQRCodeActivity.class);
-//                            intent.putExtra(Config.KEY, Config.VALUE_HOTSPOT);
-//                            startActivityForResult(intent,1);
                             View  view=(LinearLayout) getLayoutInflater().inflate(R.layout.dialog_view,null);
                             AlertDialog.Builder builder =new AlertDialog.Builder(AllFilesActivity.this);
                             ImageView iv_qrcode= (ImageView) view.findViewById(R.id.dialog_QRCode_image);
@@ -327,10 +325,9 @@ public class AllFilesActivity extends AppCompatActivity{
 //                            });
                             if (progressDialog == null) {
                                 progressDialog = new ProgressDialog(context);
-                                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                                progressDialog.setTitle(getString(R.string.accepting_dialog_title));
-                                progressDialog.setCancelable(true);//不允许退出
                             }
+                            progressDialog.setTitle(getString(R.string.accepting_dialog_title));
+                            progressDialog.setCancelable(true);//不允许退出
 
 //                            progressDialog.setMessage(hotSpotImp.getFileName());
 //                            progressDialog.show();
@@ -340,19 +337,10 @@ public class AllFilesActivity extends AppCompatActivity{
                         }else if (select_item.equals(getString(R.string.fileAccept_network))) {//TODO--------->通过网络接收文件
                             if (progressDialog == null) {
                                 progressDialog = new ProgressDialog(context);
-                                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                                progressDialog.setTitle(getString(R.string.accepting_dialog_title));
-                                progressDialog.setCancelable(true);//不允许退出
                             }
-                            String netType=NetworkDetect.getCurrentNetType(context);
-
-                            if (netType.equals("wifi")){
-                                new UdpSendTask(progressDialog,NetworkDetect.getLocalIpAddress()).execute();
-                            }else if (netType.equals("2g")||netType.equals("3g")||netType.equals("4g")) {
-                                new UdpSendTask(progressDialog,NetworkDetect.getNetIp()).execute();
-                            }else if (netType == null) {
-                                Toast.makeText(context,"为扫描到任何信息",Toast.LENGTH_SHORT).show();
-                            }
+                            progressDialog.setTitle(getString(R.string.accepting_dialog_title));
+                            progressDialog.setCancelable(true);//不允许退出
+                            new UdpRcvTask(progressDialog,inetUDPImp.getLoaclAddr()).execute();
 
                         }else if(select_item.equals(getString(R.string.fileAccept_wifidiect))){
                             //TODO --------->WIFIDirect 接收文件
@@ -815,10 +803,10 @@ public class AllFilesActivity extends AppCompatActivity{
 //                    });
                     if (progressDialog == null) {
                         progressDialog = new ProgressDialog(context);
-
                     }
-                    progressDialog.setTitle(getString(R.string.accepting_dialog_title));
+                    progressDialog.setTitle(getString(R.string.sending_dialog_title));
                     progressDialog.setCancelable(true);//不允许退出
+                    progressDialog.setMax((int) Math.ceil(new File(srcFilePath).length() / Util.BLOCK_SIZE));
 
                     new HotSpotSendTask(progressDialog,AllFilesActivity.this).execute(result,srcFilePath);
 
@@ -828,20 +816,11 @@ public class AllFilesActivity extends AppCompatActivity{
                 case 2://TODO 通过网络传输文件
                     if (progressDialog == null) {
                         progressDialog = new ProgressDialog(context);
-                        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                        progressDialog.setTitle(getString(R.string.accepting_dialog_title));
-                        progressDialog.setCancelable(true);//不允许退出
                     }
-                    String netType=NetworkDetect.getCurrentNetType(context);
-
-                    if (netType.equals("wifi")){
-                        new UdpSendTask(progressDialog,NetworkDetect.getLocalIpAddress()).execute(result,srcFilePath);
-                    }else if (netType.equals("2g")||netType.equals("3g")||netType.equals("4g")) {
-                        new UdpSendTask(progressDialog,NetworkDetect.getNetIp()).execute(result,srcFilePath);
-                    }else if (netType == null) {
-                        Toast.makeText(context,"为扫描到任何信息",Toast.LENGTH_SHORT).show();
-                    }
-
+                    progressDialog.setTitle(getString(R.string.accepting_dialog_title));
+                    progressDialog.setCancelable(true);//不允许退出
+                    progressDialog.setMax((int) Math.ceil(new File(srcFilePath).length() / Util.BLOCK_SIZE));
+                    new UdpSendTask(progressDialog,inetUDPImp.getLoaclAddr()).execute(result,srcFilePath);
                     resultTypeOfScan = -1;
                     break;
                 case 3:// TODO 通过WIFIDIRECT 发送文件
