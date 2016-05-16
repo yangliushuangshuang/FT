@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/Cui/Documents/FT/BarCodeTest%202/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/lenovo/AndroidStudioProjects/FT/BarCodeTest%202/res/values/colors.xml -->
     <eat-comment/>
     <color name="bg_color">#EDEDED</color>
     <color name="contents_text">#ff000000</color>
@@ -31,7 +31,7 @@
     <color name="viewfinder_frame">#FF3F51B5</color>
     <color name="viewfinder_laser">#ffff0000</color>
     <color name="viewfinder_mask">#60000000</color>
-    <!-- From: file:/Users/Cui/Documents/FT/BarCodeTest%202/res/values/ids.xml -->
+    <!-- From: file:/C:/Users/lenovo/AndroidStudioProjects/FT/BarCodeTest%202/res/values/ids.xml -->
     <eat-comment/>
     <item name="auto_focus" type="id"/>
     <item name="decode" type="id"/>
@@ -45,7 +45,7 @@
     <item name="return_scan_result" type="id"/>
     <item name="search_book_contents_failed" type="id"/>
     <item name="search_book_contents_succeeded" type="id"/>
-    <!-- From: file:/Users/Cui/Documents/FT/BarCodeTest%202/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/lenovo/AndroidStudioProjects/FT/BarCodeTest%202/res/values/strings.xml -->
     <eat-comment/>
     <string name="app_name">BarCodeTest</string>
     <string name="hello">Hello World, BarCodeTestActivity!</string>

@@ -68,7 +68,7 @@
     <string name="downloading_file_name">下载的文件名</string>
     <string name="downloading_file_manager">接收</string>
     <string name="downloading_file_manager_activity_title">正在接收的文件</string>
-    <string name="accepting_dialog_title">正在接收的文件...</string>
+    <string name="accepting_dialog_title">正在的连接.</string>
     <string name="sending_dialog_title">正在发送的文件...</string>
     <string name="tv_apk">安装包</string>
     <string name="tv_picture">图片</string>

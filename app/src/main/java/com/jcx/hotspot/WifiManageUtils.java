@@ -50,6 +50,7 @@ public class WifiManageUtils
     }
     public WifiConfiguration isExist(String ssid){
         List<WifiConfiguration> list = getConfiguration();
+        if(list==null)return null;
         for (WifiConfiguration existingConfig : list) {
             if (existingConfig.SSID.equals("\"" + ssid + "\"")) {
                 return existingConfig;
@@ -208,6 +209,7 @@ public class WifiManageUtils
 
     public Boolean stratWifiAp(String ssid, String psd, int type)
     {
+        closeWifiAp();
         Method method1 = null;
         try
         {
@@ -286,7 +288,9 @@ public class WifiManageUtils
     public boolean addNetwork(WifiConfiguration wcg){
         int wcgID = wifiManager.addNetwork(wcg);
         boolean res = wifiManager.enableNetwork(wcgID, true);
+        wifiManager.disconnect();
         wifiManager.reconnect();
+        //wifiManager.reconnect();
         return res;
     }
     public boolean isConnected(String uusid){

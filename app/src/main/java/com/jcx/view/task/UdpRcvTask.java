@@ -1,5 +1,6 @@
 package com.jcx.view.task;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 
 import com.jcx.communication.InetUDPImp;
@@ -10,13 +11,15 @@ import com.jcx.util.Util;
  * Created by lenovo on 2016/5/11.
  */
 public class UdpRcvTask extends MyTask{
-    String localAddr;
-    InetUDPImp inetUDPImp;
-    int max;
-    public UdpRcvTask(ProgressDialog progressDialog,String localAddr) {
+    private String localAddr;
+    private InetUDPImp inetUDPImp;
+    private int max;
+    private AlertDialog alertDialog;
+    public UdpRcvTask(ProgressDialog progressDialog,String localAddr,AlertDialog alertDialog) {
         super(progressDialog);
         this.localAddr = localAddr;
         max = progressDialog.getMax();
+        this.alertDialog = alertDialog;
     }
 
     /**
@@ -26,23 +29,32 @@ public class UdpRcvTask extends MyTask{
      */
     @Override
     protected String doInBackground(String... params) {
-        inetUDPImp = new InetUDPImp(localAddr);
-        final int[] rcvRes = new int[1];
-        Thread connect = new Thread(){
+        inetUDPImp = new InetUDPImp(localAddr) {
             @Override
-            public void run(){
-                rcvRes[0] = inetUDPImp.connect();
+            public void onConnect() {
+                publishProgress(-1);
+            }
+
+            @Override
+            public void onSendBegin() {
+
+            }
+
+            @Override
+            public void onRcvBegin(String fileName, long length) {
+                int max;
+                if(length<=Util.BLOCK_SIZE)max = 1;
+                else max = (int)Math.ceil(length/Util.BLOCK_SIZE);
+                publishProgress(-3,max);
+            }
+
+            @Override
+            public void onUpdate(int index) {
+                publishProgress(index);
             }
         };
-        connect.start();
-        try {
-            connect.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            rcvRes[0] = TransBasic.CONNECT_FAIL;
-        }
-        if(rcvRes[0]== TransBasic.CONNECT_FAIL)return "连接失败";
-        else if(rcvRes[0]==TransBasic.CONNECT_OK)publishProgress(-1,(int)Math.ceil(inetUDPImp.getLength() / Util.BLOCK_SIZE));
+        final int[] rcvRes = new int[1];
+        if(inetUDPImp.connect() == TransBasic.CONNECT_FAIL)return "连接失败";
 
 
         Thread thread = new Thread(){
@@ -53,12 +65,6 @@ public class UdpRcvTask extends MyTask{
         };
         thread.start();
 
-        int rcvIndex;
-        do{
-            rcvIndex = inetUDPImp.rcvIndex;
-            publishProgress(rcvIndex);
-        }while (rcvIndex<max);
-
         try {
             thread.join();
         } catch (InterruptedException e) {
@@ -66,9 +72,13 @@ public class UdpRcvTask extends MyTask{
         }
         return rcvRes[0]==TransBasic.RECI_OK?"发送成功":"发送失败";
     }
+    @Override
+    public void onPreExecute(){
 
+    }
     @Override
     protected void onPostExecute(String b) {
-
+        super.onPostExecute(b);
+        alertDialog.dismiss();
     }
 }

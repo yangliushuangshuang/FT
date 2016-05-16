@@ -1,6 +1,7 @@
 package com.jcx.rudp;
 
 
+import com.jcx.communication.InetUDPImp;
 import com.jcx.communication.Transmission;
 import com.jcx.util.Util;
 
@@ -19,12 +20,12 @@ public class DatagramReceive {
     private SocketAddress localAddr;
     private DatagramSocket dSender;
     private File file;
-    Transmission trans;
-    public DatagramReceive(File file, String localIp, int port,Transmission trans) throws Exception{
+    private InetUDPImp inetUDPImp;
+    public DatagramReceive(File file, String localIp, int port,InetUDPImp inetUDPImp) throws Exception{
         localAddr=new InetSocketAddress(localIp,port);
         dSender=new DatagramSocket(localAddr);
         this.file = file;
-        this.trans = trans;
+        this.inetUDPImp = inetUDPImp;
         //启动接收线程
         startRecvThread();
     }
@@ -58,7 +59,7 @@ public class DatagramReceive {
             out.write(recvMsg.getData());
             NetJavaRespMsg resp=new NetJavaRespMsg(recvMsg.getId(),(byte)0,System.currentTimeMillis());
 
-            trans.rcvIndex = recvMsg.getId();
+            inetUDPImp.onUpdate(recvMsg.getId());
             byte[] data=resp.toByte();
             DatagramPacket dp=new DatagramPacket(data,data.length,recvPacket.getSocketAddress());
             dSender.send(dp);

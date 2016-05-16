@@ -33,6 +33,7 @@ import com.jcx.R;
 import com.jcx.communication.HotSpotImp;
 import com.jcx.communication.InetUDPImp;
 import com.jcx.communication.TransBasic;
+import com.jcx.hotspot.WifiManageUtils;
 import com.jcx.util.FileFilter;
 import com.jcx.util.FileOper;
 import com.jcx.util.FileUtil;
@@ -81,8 +82,6 @@ public class AllFilesActivity extends AppCompatActivity{
     private CharSequence[] items;//发送选择菜单和编辑方式选择菜单的列表集合
 
     private FileOper fileOper;
-    private HotSpotImp hotSpotImp;
-    private InetUDPImp inetUDPImp;
     private GetFileSize getFileSize;
 
     private String flag;//mainActivity与CreatQRCodeActivity通信的标志
@@ -90,18 +89,17 @@ public class AllFilesActivity extends AppCompatActivity{
     private int hotSpotSendIsConnected=-1;
 
     private RelativeLayout rl_waiting;
-
+    private String localAddr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.allfiles_main);
 
+        localAddr = "127.0.0.1";
         String netType = NetworkDetect.getCurrentNetType(this);
-        String localAddr = "127.0.0.1";
-        if(!netType.equals("null"))localAddr = netType=="2g"||netType=="3g"||netType=="4g"?NetworkDetect.getLocalIpAddress():NetworkDetect.getNetIp();
-        hotSpotImp=new HotSpotImp(this);
-        inetUDPImp=new InetUDPImp(localAddr);
+        localAddr = netType.endsWith("2g")|| netType.equals("3g") ||netType.equals("4g")?NetworkDetect.getLocalIpAddress():NetworkDetect.getNetIp();
+
         getFileSize=new GetFileSize();
 
         if (progressDialog == null) {
@@ -265,26 +263,33 @@ public class AllFilesActivity extends AppCompatActivity{
                             View  view=(LinearLayout) getLayoutInflater().inflate(R.layout.dialog_view,null);
                             AlertDialog.Builder builder =new AlertDialog.Builder(AllFilesActivity.this);
                             ImageView iv_qrcode= (ImageView) view.findViewById(R.id.dialog_QRCode_image);
-                            iv_qrcode.setImageBitmap(hotSpotImp.getQRCode(500,500));
+                            iv_qrcode.setImageBitmap(HotSpotImp.getQRCode(500,500,AllFilesActivity.this));
                             builder.setView(view);
                             builder.create();
                             final AlertDialog qrcodeDialog=builder.show();
-
+                            qrcodeDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                    new WifiManageUtils(AllFilesActivity.this).closeWifiAp();
+                                }
+                            });
                             if (progressDialog == null) {
                                 progressDialog = new ProgressDialog(context);
                             }
+                            progressDialog.setProgress(0);
                             progressDialog.setTitle(getString(R.string.accepting_dialog_title));
-                            progressDialog.setCancelable(true);//不允许退出
+                            progressDialog.setCancelable(false);//不允许退出
 
-                            new HotSpotRcvTask(progressDialog,AllFilesActivity.this).execute();
+                            new HotSpotRcvTask(progressDialog,AllFilesActivity.this,qrcodeDialog).execute();
 
                         }else if (select_item.equals(getString(R.string.fileAccept_network))) {//TODO--------->通过网络从电脑端接收文件
                             if (progressDialog == null) {
                                 progressDialog = new ProgressDialog(context);
                             }
+                            progressDialog.setProgress(0);
                             progressDialog.setTitle(getString(R.string.accepting_dialog_title));
-                            progressDialog.setCancelable(true);//不允许退出
-                            new UdpRcvTask(progressDialog,inetUDPImp.getLoaclAddr()).execute();
+                            progressDialog.setCancelable(false);//不允许退出
+                            //new UdpRcvTask(progressDialog,localAddr,null).execute();
                         }
                     }
                 });
@@ -308,28 +313,50 @@ public class AllFilesActivity extends AppCompatActivity{
                             View  view=(LinearLayout) getLayoutInflater().inflate(R.layout.dialog_view,null);
                             AlertDialog.Builder builder =new AlertDialog.Builder(AllFilesActivity.this);
                             ImageView iv_qrcode= (ImageView) view.findViewById(R.id.dialog_QRCode_image);
-                            iv_qrcode.setImageBitmap(hotSpotImp.getQRCode(500,500));
+                            iv_qrcode.setImageBitmap(HotSpotImp.getQRCode(500,500,AllFilesActivity.this));
                             builder.setView(view);
                             builder.create();
                             final AlertDialog qrcodeDialog=builder.show();
-
+                            qrcodeDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                    new WifiManageUtils(AllFilesActivity.this).closeWifiAp();
+                                }
+                            });
                             if (progressDialog == null) {
                                 progressDialog = new ProgressDialog(context);
                             }
+                            progressDialog.setProgress(0);
                             progressDialog.setTitle(getString(R.string.accepting_dialog_title));
-                            progressDialog.setCancelable(true);//不允许退出
-
-                            new HotSpotRcvTask(progressDialog,AllFilesActivity.this).execute();
+                            progressDialog.setCancelable(false);//不允许退出
+                            new HotSpotRcvTask(progressDialog,AllFilesActivity.this,qrcodeDialog).execute();
 
 
                         }else if (select_item.equals(getString(R.string.fileAccept_network))) {//TODO--------->通过网络从手机端接收文件
+
+                            View  view=(LinearLayout) getLayoutInflater().inflate(R.layout.dialog_view,null);
+                            AlertDialog.Builder builder =new AlertDialog.Builder(AllFilesActivity.this);
+                            ImageView iv_qrcode= (ImageView) view.findViewById(R.id.dialog_QRCode_image);
+                            iv_qrcode.setImageBitmap(InetUDPImp.getQRCode(500,500,localAddr));
+                            builder.setView(view);
+                            builder.create();
+                            final AlertDialog qrcodeDialog=builder.show();
+                            final UdpRcvTask udpRcvTask =  new UdpRcvTask(progressDialog,localAddr,qrcodeDialog);
+
+                            qrcodeDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                    progressDialog.cancel();
+                                    udpRcvTask.cancel(true);
+                                }
+                            });
                             if (progressDialog == null) {
                                 progressDialog = new ProgressDialog(context);
                             }
+                            progressDialog.setProgress(0);
                             progressDialog.setTitle(getString(R.string.accepting_dialog_title));
-                            progressDialog.setCancelable(true);//不允许退出
-                            new UdpRcvTask(progressDialog,inetUDPImp.getLoaclAddr()).execute();
-
+                            progressDialog.setCancelable(false);//不允许退出
+                            udpRcvTask.execute();
                         }
                     }
                 });
@@ -498,9 +525,14 @@ public class AllFilesActivity extends AppCompatActivity{
                     if (progressDialog == null) {
                         progressDialog = new ProgressDialog(context);
                     }
+                    progressDialog.setProgress(0);
                     progressDialog.setTitle(getString(R.string.sending_dialog_title));
-                    progressDialog.setCancelable(true);//不允许退出
-                    progressDialog.setMax((int) Math.ceil(new File(srcFilePath).length() / Util.BLOCK_SIZE));
+                    progressDialog.setCancelable(false);//不允许退出
+                    long len = new File(srcFilePath).length();
+                    if(len<Util.BLOCK_SIZE){
+                        len = 1;
+                    }else len = (long)Math.ceil(len/Util.BLOCK_SIZE);
+                    progressDialog.setMax((int) len);
 
                     new HotSpotSendTask(progressDialog,AllFilesActivity.this).execute(result,srcFilePath);
 
@@ -511,10 +543,15 @@ public class AllFilesActivity extends AppCompatActivity{
                     if (progressDialog == null) {
                         progressDialog = new ProgressDialog(context);
                     }
+                    progressDialog.setProgress(0);
                     progressDialog.setTitle(getString(R.string.accepting_dialog_title));
-                    progressDialog.setCancelable(true);//不允许退出
-                    progressDialog.setMax((int) Math.ceil(new File(srcFilePath).length() / Util.BLOCK_SIZE));
-                    new UdpSendTask(progressDialog,inetUDPImp.getLoaclAddr()).execute(result,srcFilePath);
+                    progressDialog.setCancelable(false);//不允许退出
+                    long len2 = new File(srcFilePath).length();
+                    if(len2<Util.BLOCK_SIZE){
+                        len2 = 1;
+                    }else len2 = (long)Math.ceil(len2/Util.BLOCK_SIZE);
+                    progressDialog.setMax((int) len2);
+                    new UdpSendTask(progressDialog,localAddr).execute(result,srcFilePath);
                     resultTypeOfScan = -1;
                     break;
             }

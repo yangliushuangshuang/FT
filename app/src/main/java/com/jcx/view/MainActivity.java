@@ -22,6 +22,8 @@ import android.widget.TextView;
 import com.jcx.R;
 import com.jcx.communication.HotSpotImp;
 import com.jcx.communication.InetUDPImp;
+import com.jcx.hotspot.WifiManageUtils;
+import com.jcx.util.NetworkDetect;
 import com.jcx.view.task.HotSpotRcvTask;
 import com.jcx.view.task.UdpRcvTask;
 
@@ -31,8 +33,6 @@ import java.util.jar.Manifest;
  * Created by Cui on 16-4-26.
  */
 public class MainActivity extends AppCompatActivity {
-    private HotSpotImp hotSpotImp;
-    private InetUDPImp inetUDPImp;
 
     private RelativeLayout rl_allFiles;
     private LinearLayout ll_main_waiting;
@@ -41,15 +41,16 @@ public class MainActivity extends AppCompatActivity {
     private String flag=null;//mainActivity与CreatQRCodeActivity通信的标志
     private CharSequence[] items;//发送选择菜单和编辑方式选择菜单的列表集合
     private ProgressDialog progressDialog;
+    private String localAddr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
         getSupportActionBar().setTitle(R.string.app_name);
-
-        hotSpotImp=new HotSpotImp(this);
-
+        localAddr = "127.0.0.1";
+        String netType = NetworkDetect.getCurrentNetType(this);
+        localAddr = netType.endsWith("2g")|| netType.equals("3g") ||netType.equals("4g")?NetworkDetect.getLocalIpAddress():NetworkDetect.getNetIp();
         initView();
     }
 
@@ -145,27 +146,34 @@ public class MainActivity extends AppCompatActivity {
                             View  view=(LinearLayout) getLayoutInflater().inflate(R.layout.dialog_view,null);
                             AlertDialog.Builder builder =new AlertDialog.Builder(MainActivity.this);
                             ImageView iv_qrcode= (ImageView) view.findViewById(R.id.dialog_QRCode_image);
-                            iv_qrcode.setImageBitmap(hotSpotImp.getQRCode(500,500));
+                            iv_qrcode.setImageBitmap(HotSpotImp.getQRCode(500,500,MainActivity.this));
                             builder.setView(view);
                             builder.create();
                             final AlertDialog qrcodeDialog=builder.show();
-
+                            qrcodeDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                    new WifiManageUtils(MainActivity.this).closeWifiAp();
+                                }
+                            });
                             if (progressDialog == null) {
                                 progressDialog = new ProgressDialog(MainActivity.this);
                             }
+                            progressDialog.setProgress(0);
                             progressDialog.setTitle(getString(R.string.accepting_dialog_title));
                             progressDialog.setCancelable(true);//不允许退出
 
-                            new HotSpotRcvTask(progressDialog,MainActivity.this).execute();
+                            new HotSpotRcvTask(progressDialog,MainActivity.this,qrcodeDialog).execute();
 
                         } else if (select_item.equals(getString(R.string.fileAccept_network))) {
                             //TODO--------->通过网络从电脑接收文件
                             if (progressDialog == null) {
                                 progressDialog = new ProgressDialog(MainActivity.this);
                             }
+                            progressDialog.setProgress(0);
                             progressDialog.setTitle(getString(R.string.accepting_dialog_title));
                             progressDialog.setCancelable(true);//不允许退出
-                            new UdpRcvTask(progressDialog,inetUDPImp.getLoaclAddr()).execute();
+                            //new UdpRcvTask(progressDialog,localAddr).execute();
                         }
                     }
                 });
@@ -189,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                             View  view=(LinearLayout) getLayoutInflater().inflate(R.layout.dialog_view,null);
                             AlertDialog.Builder builder =new AlertDialog.Builder(MainActivity.this);
                             ImageView iv_qrcode= (ImageView) view.findViewById(R.id.dialog_QRCode_image);
-                            iv_qrcode.setImageBitmap(hotSpotImp.getQRCode(500,500));
+                            iv_qrcode.setImageBitmap(HotSpotImp.getQRCode(500,500,MainActivity.this));
                             builder.setView(view);
                             builder.create();
                             final AlertDialog qrcodeDialog=builder.show();
@@ -197,19 +205,28 @@ public class MainActivity extends AppCompatActivity {
                             if (progressDialog == null) {
                                 progressDialog = new ProgressDialog(MainActivity.this);
                             }
+                            progressDialog.setProgress(0);
                             progressDialog.setTitle(getString(R.string.accepting_dialog_title));
                             progressDialog.setCancelable(true);//不允许退出
 
-                            new HotSpotRcvTask(progressDialog,MainActivity.this).execute();
+                            new HotSpotRcvTask(progressDialog,MainActivity.this,qrcodeDialog).execute();
 
                         } else if (select_item.equals(getString(R.string.fileAccept_network))) {
                             //TODO--------->通过网络从手机接收文件
+                            View  view=(LinearLayout) getLayoutInflater().inflate(R.layout.dialog_view,null);
+                            AlertDialog.Builder builder =new AlertDialog.Builder(MainActivity.this);
+                            ImageView iv_qrcode= (ImageView) view.findViewById(R.id.dialog_QRCode_image);
+                            iv_qrcode.setImageBitmap(InetUDPImp.getQRCode(500,500,localAddr));
+                            builder.setView(view);
+                            builder.create();
+                            final AlertDialog qrcodeDialog=builder.show();
                             if (progressDialog == null) {
                                 progressDialog = new ProgressDialog(MainActivity.this);
                             }
+                            progressDialog.setProgress(0);
                             progressDialog.setTitle(getString(R.string.accepting_dialog_title));
                             progressDialog.setCancelable(true);//不允许退出
-                            new UdpRcvTask(progressDialog,inetUDPImp.getLoaclAddr()).execute();
+                            new UdpRcvTask(progressDialog,localAddr,qrcodeDialog).execute();
                         }
                     }
                 });

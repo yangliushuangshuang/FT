@@ -1,6 +1,7 @@
 package com.jcx.view.task;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 
 import com.jcx.communication.HotSpotImp;
@@ -13,9 +14,11 @@ import com.jcx.util.Util;
 public class HotSpotRcvPCTask extends MyTask{
     private HotSpotImp hotSpotImp;
     private int max;
+    Activity activity;
     public HotSpotRcvPCTask(ProgressDialog progressDialog,Activity activity) {
         super(progressDialog);
-        hotSpotImp = new HotSpotImp(activity);
+        this.activity = activity;
+
         max = progressDialog.getMax();
     }
     /**
@@ -25,45 +28,37 @@ public class HotSpotRcvPCTask extends MyTask{
      */
     @Override
     protected String doInBackground(String... params) {
-        final int[] rcvRes = new int[1];
         final String content = params[0];
-        Thread connect = new Thread(){
+        hotSpotImp = new HotSpotImp(activity) {
             @Override
-            public void run(){
-                rcvRes[0] = hotSpotImp.connect(content);
+            public void onConnect() {
+                publishProgress(-1);
+            }
+
+            @Override
+            public void onUpdate(int index) {
+                publishProgress(index);
+            }
+
+            @Override
+            public void onSendBegin() {
+
+            }
+
+            @Override
+            public void onRcvBegin(String fileName, long length) {
+                int max;
+                if(length<=Util.BLOCK_SIZE)max = 1;
+                else max = (int)Math.ceil(length/Util.BLOCK_SIZE);
+                publishProgress(-3, max);
             }
         };
-        connect.start();
-        try {
-            connect.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            rcvRes[0] = TransBasic.CONNECT_FAIL;
-        }
-        if(rcvRes[0]== TransBasic.CONNECT_FAIL)return "连接失败";
-        else if(rcvRes[0]==TransBasic.CONNECT_OK)publishProgress(-1,(int)Math.ceil(hotSpotImp.getlength() / Util.BLOCK_SIZE));
+        if(hotSpotImp.connect(content) == TransBasic.CONNECT_FAIL)return "连接失败";
 
-        Thread thread = new Thread(){
-            @Override
-            public void run(){
-                rcvRes[0] = hotSpotImp.receiFile();
-            }
-        };
-        thread.start();
+        int res = hotSpotImp.receiFile();
 
-        int rcvIndex;
-        do{
-            rcvIndex = hotSpotImp.rcvIndex;
-            publishProgress(rcvIndex);
-        }while (rcvIndex<max);
-
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         hotSpotImp.disconnect();
-        return rcvRes[0]==TransBasic.RECI_OK?"发送成功":"发送失败";
+        return res ==TransBasic.RECI_OK?"发送成功":"发送失败";
     }
     @Override
     public void onPreExecute(){

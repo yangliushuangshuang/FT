@@ -22,6 +22,7 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.net.SocketTimeoutException;
 import java.nio.CharBuffer;
 import java.util.HashMap;
 import java.util.List;
@@ -69,41 +70,6 @@ public class Util {
         return str.toString();
     }
 
-    /**
-     * Reader到Writer
-     * @param reader 输入字符流
-     * @param writer 输出字节流
-     * @return 是否成功
-     */
-    public static boolean copyFile(Reader reader,Writer writer,boolean isIn,Transmission trans){
-        char buf[] = new char[BLOCK_SIZE+HEAD_LEN];
-
-        int len;
-        try {
-            trans.sendIndex = 0;
-            trans.rcvIndex = 0;
-            while ((len = reader.read(buf,HEAD_LEN,BLOCK_SIZE)) != -1) {
-                int offset=HEAD_LEN;
-                if(isIn){
-                    byte[] a = new byte[HEAD_LEN];
-                    for(int i=0;i<HEAD_LEN;i++)a[i]=(byte)buf[i];
-                    trans.rcvIndex = (int)bytes2long(a);
-                }
-                else {
-                    byte[] a = long2bytes(++trans.sendIndex);
-                    for(int i=0;i<a.length;i++)buf[i] = (char) a[i];
-                }
-                writer.write(buf, offset, len);
-                writer.flush();
-            }
-            writer.close();
-            reader.close();
-        } catch (IOException e) {
-            return false;
-        }
-        return true;
-    }
-
     public static byte[] long2bytes(long num) {
         byte[] b = new byte[HEAD_LEN];
         for (int i=0;i<HEAD_LEN;i++) {
@@ -145,6 +111,9 @@ public class Util {
             socket.receive(packet);
             socket.close();
             return new String(packet.getData());*/
+        } catch(SocketTimeoutException e1){
+            e1.printStackTrace();
+            return "";
         } catch (IOException e) {
             e.printStackTrace();
             return "";

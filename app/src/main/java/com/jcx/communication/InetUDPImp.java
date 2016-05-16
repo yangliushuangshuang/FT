@@ -1,5 +1,6 @@
 package com.jcx.communication;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -20,7 +21,7 @@ import java.net.ServerSocket;
 import java.net.SocketException;
 
 
-public class InetUDPImp extends Transmission {
+public abstract class InetUDPImp extends Transmission {
 	private String inetAddr;
 	private String rmInetAddr;
 	private int rmPort;
@@ -74,9 +75,8 @@ public class InetUDPImp extends Transmission {
 		}
 	}
 
-	@Override
-	public Bitmap getQRCode(int heigth , int width) {
-		String content = inetAddr + Util.SPLITER + new Configuration().getP2PPort();
+	public static Bitmap getQRCode(int heigth , int width,String localAddr) {
+		String content = localAddr + Util.SPLITER + new Configuration().getP2PPort();
 		return QRcodeUtil.encode(content,width, heigth);
 	}
 
@@ -155,4 +155,8 @@ public class InetUDPImp extends Transmission {
 	public long getLength(){
 		return length;
 	}
+	public abstract void onConnect();
+	public abstract void onSendBegin();
+	public abstract void onRcvBegin(String fileName,long length);
+	public abstract void onUpdate(int index);
 }

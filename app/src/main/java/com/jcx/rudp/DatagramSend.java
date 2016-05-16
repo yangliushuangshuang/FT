@@ -4,6 +4,7 @@ package com.jcx.rudp;
  * Created by lenovo on 2016/4/6.
  */
 
+import com.jcx.communication.InetUDPImp;
 import com.jcx.communication.Transmission;
 import com.jcx.util.Util;
 
@@ -32,17 +33,17 @@ public class DatagramSend {
     private DatagramSocket dSender; //发送的Socket对象
     private SocketAddress destAddr; //目标地址
     private File file;
-    private Transmission trans;
+    private InetUDPImp inetUDPImp;
     //本地缓存已发送的消息Map  key为消息ID  value为消息对象本身
     Map<Integer,NetJavaMsg> msgQueue=new ConcurrentHashMap();
 
 
-    public DatagramSend(File file,String localIp,String rmIp,int localPort,int rmPort,Transmission trans) throws Exception{
+    public DatagramSend(File file,String localIp,String rmIp,int localPort,int rmPort,InetUDPImp inetUDPImp) throws Exception{
         localAddr=new InetSocketAddress(localIp, localPort);
         dSender=new DatagramSocket(localAddr);
         destAddr=new InetSocketAddress(rmIp,rmPort);
         this.file = file;
-        this.trans = trans;
+        this.inetUDPImp = inetUDPImp;
         //启动三个线程
         startSendThread();
         startRecvResponseThread();
@@ -102,7 +103,7 @@ public class DatagramSend {
 
             msgQueue.put(id, sendMsg);
             System.out.println("客户端-数据已发送" + sendMsg);
-            trans.sendIndex = id;
+            inetUDPImp.onUpdate(id);
             //Thread.sleep(1000);
         }
     }
@@ -138,6 +139,7 @@ public class DatagramSend {
             NetJavaRespMsg resp=new NetJavaRespMsg(recvPacket.getData());
 
             int respID=resp.getRepId();
+            //inetUDPImp.onUpdate(respID);
             NetJavaMsg msg=msgQueue.get(new Integer(respID));
 
             if(msg!=null){

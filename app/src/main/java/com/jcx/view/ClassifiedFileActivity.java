@@ -26,6 +26,7 @@ import com.jcx.R;
 import com.jcx.communication.HotSpotImp;
 import com.jcx.communication.InetUDPImp;
 import com.jcx.communication.TransBasic;
+import com.jcx.hotspot.WifiManageUtils;
 import com.jcx.util.FileClassification;
 import com.jcx.util.NetworkDetect;
 import com.jcx.util.Util;
@@ -36,11 +37,14 @@ import com.jcx.view.myListView.SwipeMenuCreator;
 import com.jcx.view.myListView.SwipeMenuItem;
 import com.jcx.view.myListView.SwipeMenuListView;
 import com.jcx.view.task.HotSpotRcvTask;
+import com.jcx.view.task.HotSpotSendTask;
 import com.jcx.view.task.UdpRcvTask;
+import com.jcx.view.task.UdpSendTask;
 import com.zxing.activity.CaptureActivity;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Cui on 16-4-28.
@@ -49,23 +53,20 @@ public class ClassifiedFileActivity extends AppCompatActivity {
     private List<FileClassification.MyFile> filesList;
 
     private ClassifiedFileAdapter adapter;
-    private HotSpotImp hotSpotImp;
-    private InetUDPImp inetUDPImp;
-
     private SwipeMenuListView myListView;
     private LinearLayout ll_waiting;
     private TextView tv_apk_package_not_found;
     private TextView tv_title;
-    private LinearLayout ll_classifiedFile_waiting;
 
     private int FLAG=-1;
     private int resultTypeOfScan=-1;
     private String flag=null;//mainActivity与CreatQRCodeActivity通信的标志
     private CharSequence[] items;//发送选择菜单和编辑方式选择菜单的列表集合
     private String filePath_WillBeSend;
-    private String srcFilePath=null;
-    private String zipFilePath_WillBeSend;
+    //private String srcFilePath=null;
+    //private String zipFilePath_WillBeSend;
     private ProgressDialog progressDialog;
+    private String localAddr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,11 +75,9 @@ public class ClassifiedFileActivity extends AppCompatActivity {
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
         FLAG=bundle.getInt("flag");
+        localAddr = "127.0.0.1";
         String netType = NetworkDetect.getCurrentNetType(this);
-        String localAddr = netType=="2g"||netType=="3g"||netType=="4g"?NetworkDetect.getLocalIpAddress():NetworkDetect.getNetIp();
-        hotSpotImp=new HotSpotImp(this);
-        inetUDPImp=new InetUDPImp(localAddr);
-
+        localAddr = netType.endsWith("2g")|| netType.equals("3g") ||netType.equals("4g")?NetworkDetect.getLocalIpAddress():NetworkDetect.getNetIp();
         initCustomActionBar();
         initView();
     }
@@ -121,7 +120,7 @@ public class ClassifiedFileActivity extends AppCompatActivity {
     private void initView() {
         ll_waiting= (LinearLayout) findViewById(R.id.ll_progressbar_waiting);
         ll_waiting.setVisibility(View.VISIBLE);
-        ll_classifiedFile_waiting= (LinearLayout) findViewById(R.id.ll_classificed_main_waiting);
+        LinearLayout ll_classifiedFile_waiting = (LinearLayout) findViewById(R.id.ll_classificed_main_waiting);
         myListView= (SwipeMenuListView) findViewById(R.id.lv_allapks_list);
         asyncLoadList();
         createSwipeMenu();
@@ -181,7 +180,7 @@ public class ClassifiedFileActivity extends AppCompatActivity {
                             View  view=(LinearLayout) getLayoutInflater().inflate(R.layout.dialog_view,null);
                             AlertDialog.Builder builder =new AlertDialog.Builder(ClassifiedFileActivity.this);
                             ImageView iv_qrcode= (ImageView) view.findViewById(R.id.dialog_QRCode_image);
-                            iv_qrcode.setImageBitmap(hotSpotImp.getQRCode(500,500));
+                            iv_qrcode.setImageBitmap(HotSpotImp.getQRCode(500,500,ClassifiedFileActivity.this));
                             builder.setView(view);
                             builder.create();
                             final AlertDialog qrcodeDialog=builder.show();
@@ -189,18 +188,36 @@ public class ClassifiedFileActivity extends AppCompatActivity {
                             if (progressDialog == null) {
                                 progressDialog = new ProgressDialog(ClassifiedFileActivity.this);
                             }
+                            progressDialog.setProgress(0);
                             progressDialog.setTitle(getString(R.string.accepting_dialog_title));
                             progressDialog.setCancelable(true);//不允许退出
 
-                            new HotSpotRcvTask(progressDialog,ClassifiedFileActivity.this).execute();
+                            new HotSpotRcvTask(progressDialog,ClassifiedFileActivity.this,qrcodeDialog).execute();
                         } else if (select_item.equals(getString(R.string.fileAccept_network))) {
+                            View  view=(LinearLayout) getLayoutInflater().inflate(R.layout.dialog_view,null);
+                            AlertDialog.Builder builder =new AlertDialog.Builder(ClassifiedFileActivity.this);
+                            ImageView iv_qrcode= (ImageView) view.findViewById(R.id.dialog_QRCode_image);
+                            iv_qrcode.setImageBitmap(InetUDPImp.getQRCode(500, 500, localAddr));
+                            builder.setView(view);
+                            builder.create();
+                            final AlertDialog qrcodeDialog=builder.show();
+                            final UdpRcvTask udpRcvTask = new UdpRcvTask(progressDialog,localAddr,qrcodeDialog);
+
+                            qrcodeDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                    progressDialog.cancel();
+                                    udpRcvTask.cancel(true);
+                                }
+                            });
                             //TODO--------->通过网络接收文件
                             if (progressDialog == null) {
                                 progressDialog = new ProgressDialog(ClassifiedFileActivity.this);
                             }
+                            progressDialog.setProgress(0);
                             progressDialog.setTitle(getString(R.string.accepting_dialog_title));
-                            progressDialog.setCancelable(true);//不允许退出
-                            new UdpRcvTask(progressDialog,inetUDPImp.getLoaclAddr()).execute();
+                            progressDialog.setCancelable(false);//不允许退出
+                            udpRcvTask.execute();
                         }
                     }
                 });
@@ -379,23 +396,30 @@ public class ClassifiedFileActivity extends AppCompatActivity {
                     resultTypeOfScan = -1;
                     break;
                 case 1: //TODO 通过热点发送文件
+                    if (progressDialog == null) {
+                        progressDialog = new ProgressDialog(ClassifiedFileActivity.this);
+                    }
+                    progressDialog.setProgress(0);
+                    progressDialog.setTitle(getString(R.string.sending_dialog_title));
+                    progressDialog.setCancelable(true);//不允许退出
+                    long len = new File(filePath_WillBeSend).length();
+                    if(len<Util.BLOCK_SIZE){
+                        len = 1;
+                    }else len = (long)Math.ceil(len/Util.BLOCK_SIZE);
+                    progressDialog.setMax((int) len);
+
+                    new HotSpotSendTask(progressDialog,ClassifiedFileActivity.this).execute(result, filePath_WillBeSend);
                     resultTypeOfScan = -1;
                     break;
                 case 2:
-                    new AsyncTask<Void, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(Void... params) { //TODO 通过网络传输文件
-                            if (inetUDPImp.connect(result) == TransBasic.CONNECT_OK) {
-                                if (filePath_WillBeSend != null) {
-                                    File file = new File(filePath_WillBeSend);
-                                    if (inetUDPImp.transFile(file) == TransBasic.TRANS_OK) {
-                                        Toast.makeText(ClassifiedFileActivity.this, "网络传输文件成功", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                            return null;
-                        }
-                    }.execute();
+                    if (progressDialog == null) {
+                        progressDialog = new ProgressDialog(ClassifiedFileActivity.this);
+                    }
+                    progressDialog.setProgress(0);
+                    progressDialog.setTitle(getString(R.string.accepting_dialog_title));
+                    progressDialog.setCancelable(true);//不允许退出
+                    progressDialog.setMax((int) Math.ceil(new File(filePath_WillBeSend).length() / Util.BLOCK_SIZE));
+                    new UdpSendTask(progressDialog,localAddr).execute(result,filePath_WillBeSend);
                     resultTypeOfScan = -1;
                     break;
                 case 3:

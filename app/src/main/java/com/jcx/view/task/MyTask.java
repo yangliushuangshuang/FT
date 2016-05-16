@@ -1,5 +1,6 @@
 package com.jcx.view.task;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
@@ -10,7 +11,7 @@ import com.jcx.util.Util;
  * Created by churongShaw on 2016/5/11.
  */
 public abstract class MyTask extends AsyncTask<String,Integer,String> {
-    ProgressDialog progressDialog=null;
+    protected ProgressDialog progressDialog=null;
     public MyTask(ProgressDialog progressDialog){
         this.progressDialog = progressDialog;
     }
@@ -21,8 +22,8 @@ public abstract class MyTask extends AsyncTask<String,Integer,String> {
     }
     @Override
     protected void onPostExecute(String b){
-        if(!progressDialog.isShowing())progressDialog.show();
         progressDialog.setTitle(b);
+        progressDialog.show();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -32,11 +33,13 @@ public abstract class MyTask extends AsyncTask<String,Integer,String> {
     }
     @Override
     protected void onProgressUpdate(Integer... param){
-        if(param[0]==-1){
-            progressDialog.setMax(param[1]);
-            if(!progressDialog.isShowing())progressDialog.show();
-        }else if(param[0]>0){
-            progressDialog.setProgress(param[0]);
-        }
+        if(param[0]<0){
+            switch (param[0]){
+                case -1 :progressDialog.setTitle("连接成功！等待响应");break;
+                case -2 :progressDialog.setTitle("开始发送...");break;
+                case -3 :progressDialog.setTitle("开始接收文件");progressDialog.setMax(param[1]);break;
+            }
+            progressDialog.show();
+        }else progressDialog.setProgress(param[0]);
     }
 }

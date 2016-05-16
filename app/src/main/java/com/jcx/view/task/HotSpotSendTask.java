@@ -1,6 +1,7 @@
 package com.jcx.view.task;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 
 import com.jcx.communication.HotSpotImp;
@@ -14,14 +15,15 @@ import java.io.File;
  */
 public class HotSpotSendTask extends MyTask{
     private HotSpotImp hotSpotImp;
+    private Activity activity;
     /**
      * 传进来的progressDiaglog不需要调用show()
      * @param progressDialog
      * @param activity
      */
-    public HotSpotSendTask(ProgressDialog progressDialog,Activity activity) {
+    public HotSpotSendTask(final ProgressDialog progressDialog,Activity activity) {
         super(progressDialog);
-        hotSpotImp = new HotSpotImp(activity);
+        this.activity = activity;
     }
 
     /**
@@ -33,42 +35,32 @@ public class HotSpotSendTask extends MyTask{
     protected String doInBackground(String... params) {
         final String fileName = params[1];
         final String content = params[0];
-        final int[] transRes = new int[1];
-        Thread connect = new Thread(){
+        hotSpotImp = new HotSpotImp(activity) {
             @Override
-            public void run(){
-                transRes[0] = hotSpotImp.connect(content);
+            public void onConnect() {
+                publishProgress(-1);
+            }
+
+            @Override
+            public void onUpdate(int index) {
+                publishProgress(index);
+            }
+
+            @Override
+            public void onSendBegin() {
+                publishProgress(-2);
+            }
+
+            @Override
+            public void onRcvBegin(String fileName, long length) {
             }
         };
-        connect.start();
-        try {
-            connect.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            transRes[0] = TransBasic.CONNECT_FAIL;
-        }
-        if(transRes[0] == TransBasic.CONNECT_FAIL)return "连接失败";
+        if(hotSpotImp.connect(content) == TransBasic.CONNECT_FAIL)return "连接失败";
 
-        Thread thread = new Thread(){
-            @Override
-            public void run(){
-                transRes[0] = hotSpotImp.transFile(new File(fileName));
-            }
-        };
-        thread.start();
-        int currentIndex;
-        do {
-            currentIndex = hotSpotImp.sendIndex;
-            publishProgress(currentIndex);
-        }while (currentIndex<progressDialog.getMax());
+        int res = hotSpotImp.transFile(new File(fileName));
 
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         hotSpotImp.disconnect();
-        return transRes[0]==TransBasic.TRANS_OK?"发送成功":"发送失败";
+        return res==TransBasic.TRANS_OK?"发送成功":"发送失败";
     }
 
 

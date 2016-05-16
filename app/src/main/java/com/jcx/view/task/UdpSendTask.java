@@ -30,21 +30,28 @@ public class UdpSendTask extends MyTask{
         final String content = params[0];
         final int[] transRes = new int[1];
 
-        inetUDPImp = new InetUDPImp(localAddr);
-        Thread connect = new Thread(){
+        inetUDPImp = new InetUDPImp(localAddr) {
             @Override
-            public void run(){
-                transRes[0] = inetUDPImp.connect(content);
+            public void onConnect() {
+                publishProgress(-1);
+            }
+
+            @Override
+            public void onSendBegin() {
+                publishProgress(-2);
+            }
+
+            @Override
+            public void onRcvBegin(String fileName, long length) {
+            }
+
+            @Override
+            public void onUpdate(int index) {
+                publishProgress(index);
             }
         };
-        connect.start();
-        try {
-            connect.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            transRes[0] = TransBasic.CONNECT_FAIL;
-        }
-        if(transRes[0] == TransBasic.CONNECT_FAIL)return "连接失败";
+
+        if(inetUDPImp.connect(content) == TransBasic.CONNECT_FAIL)return "连接失败";
 
         Thread thread = new Thread(){
             @Override
@@ -53,11 +60,6 @@ public class UdpSendTask extends MyTask{
             }
         };
         thread.start();
-        int currentIndex;
-        do {
-            currentIndex = inetUDPImp.sendIndex;
-            publishProgress(currentIndex);
-        }while (currentIndex<progressDialog.getMax());
 
         try {
             thread.join();

@@ -1,4 +1,5 @@
 package com.jcx.communication;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
@@ -36,11 +37,7 @@ public interface TransBasic {
 	 * @return 连接成功则返回CONNECT_OK，反之则CONNECT_FAIL
 	 */
 	public int connect(Drawable qrCode);
-	/**
-	 * 根据连接方式获得连接标识信息生成二维码。
-	 * @return 具有连接信息的二维码。
-	 */
-	public Bitmap getQRCode(int heigth,int width);
+
 
 	/**
 	 * 断开连接后的善后
